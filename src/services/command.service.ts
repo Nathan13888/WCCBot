@@ -16,12 +16,14 @@ export class CommandService {
             msg.reply('pong');
             break;
         case 'announce':
+            const title = 'Lorum Ipsum';
+            const message = 'lorum ipsum';
             const embed = new Discord.MessageEmbed()
-                .setAuthor(msg.author.tag)
+                // .setAuthor()
                 .setColor(0xd62320)
-                .setTitle('A slick little embed')
-                .setDescription('Hello, this is a slick embed!')
-                .setFooter('Footer', msg.author.avatarURL());
+                .setTitle(title)
+                .setDescription(message)
+                .setFooter(msg.author.tag, msg.author.avatarURL());
             msg.channel.send(embed);
             break;
         case 'restart':
