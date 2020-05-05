@@ -12,17 +12,17 @@ export namespace Bot {
   else throw new Error('Environment variable "DISCORD_TOKEN" is missing.');
   commandService = new CommandService();
 
+  api.login(discordToken);
+
   api.once("ready", () => {
     Logger.log("WCC Bot has started!");
     Logger.log(`Connected as ${api.user.tag}`);
     api.user.setActivity("Chess and w!", { type: "PLAYING" });
   });
 
-  api.on("message", (msg) => {
+  api.on("message", msg => {
     if (msg.author.bot) return;
     if (msg.content.substring(0, 2) == "w!") commandService.parseCommand(msg);
   });
-
-  api.login(discordToken);
 }
 
