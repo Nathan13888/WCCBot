@@ -24,7 +24,7 @@ export class Bot {
         });
         
         this.api.on('message', evt => { 
-            if (evt.content.substring(0, 2) == '//') {
+            if (evt.content.substring(0, 2) == 'w!') {
                 const cmd = evt.content.substring(2).trim().toLowerCase();
                 const args = cmd.split(' ');
             }
