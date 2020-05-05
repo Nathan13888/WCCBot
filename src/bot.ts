@@ -22,9 +22,9 @@ export class Bot {
             this.log(`Connected as ${this.api.user.tag}`);
         });
         
-        this.api.on('message', evt => {
-            if(evt.author.bot) return;
-            if (evt.content.substring(0, 2) == 'w!') parseCommand(evt);
+        this.api.on('message', msg => {
+            if(msg.author.bot) return;
+            if (msg.content.substring(0, 2) == 'w!') parseCommand(msg);
         });
     }
 
