@@ -14,3 +14,4 @@ The official Woodlands Chess Club Discord Server Bot.
 - Twitch Streaming (Chess TV)
 - Smart Logging
 - ExpressJS Control Endpoints
+- Smart Deployment

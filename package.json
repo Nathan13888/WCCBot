@@ -5,6 +5,17 @@
   "private": true,
   "license": "APGL-3.0",
   "main": "index.js",
+  "engines": {
+    "node": "12.x"
+  },
+  "scripts": {
+    "start": "npm run build && node .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "git push heroku master",
+    "local": "heroku local web"
+  },
   "dependencies": {
     "cron": "^1.8.2",
     "discord.js": "^12.2.0",
@@ -17,12 +28,6 @@
     "@typescript-eslint/parser": "^2.31.0",
     "eslint": "^6.8.0",
     "eslint-config-google": "^0.14.0"
-  },
-  "scripts": {
-    "start": "npm run build && node .",
-    "build": "tsc",
-    "build:watch": "tsc --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
