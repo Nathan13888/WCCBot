@@ -5,6 +5,9 @@
   "private": true,
   "license": "APGL-3.0",
   "main": "index.js",
+  "engines": {
+    "node": "12.x"
+  },
   "dependencies": {
     "cron": "^1.8.2",
     "discord.js": "^12.2.0",
@@ -22,7 +25,8 @@
     "start": "npm run build && node .",
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "git push heroku master"
   },
   "repository": {
     "type": "git",
