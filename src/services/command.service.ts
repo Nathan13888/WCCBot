@@ -24,6 +24,11 @@ export class CommandService {
                 .setFooter('Footer', msg.author.avatarURL());
             msg.channel.send(embed);
             break;
+        case 'restart':
+            Logger.log('Restarting Bot.');
+            msg.client.destroy();
+            // msg.client.
+            break;
         default:
             msg.reply('Invalid command. Please specify a command.');
         }
