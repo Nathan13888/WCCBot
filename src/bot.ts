@@ -10,13 +10,18 @@ export class Bot {
         else throw new Error('Discord token needed.');
 
         this.init();
+
+        this.client.login(this.discordToken);
     }
 
     async init() {
         this.client.on('ready', () => {
             console.log('WCC Bot has started!');
         });
-        
-        this.client.login(this.discordToken);
+
+        this.client.on('message', message => {
+            if(message.author.bot) return;
+        });
+
     }
 }
