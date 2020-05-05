@@ -1,0 +1,37 @@
+{
+  "name": "wccbot",
+  "version": "1.0.0",
+  "description": "The official WCC Discord Bot",
+  "private": true,
+  "main": "bot.js",
+  "dependencies": {
+    "discord.js": "^12.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nathan13888/WCCBot.git"
+  },
+  "contributors": [
+    {
+      "name": "Justin Chung"
+    },
+    {
+      "name": "Nathan Chung"
+    }
+  ],
+  "keywords": [
+    "bot",
+    "discord.js",
+    "woodlands",
+    "chess",
+    "club"
+  ],
+  "bugs": {
+    "url": "https://github.com/Nathan13888/WCCBot/issues"
+  },
+  "homepage": "https://github.com/Nathan13888/WCCBot#readme"
+}
