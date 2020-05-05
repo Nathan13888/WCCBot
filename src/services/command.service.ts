@@ -4,8 +4,7 @@ import { Logger } from '../utils/logger';
 export class CommandService {
     parseCommand(msg: Discord.Message) {
         Logger.log(
-            `${msg.author.tag}
-            (COMMAND): ${msg.content}`);
+            `${msg.author.tag} executed '${msg.content}'`);
         const cmd = msg.content.substring(2).toLowerCase();
         const args = cmd.split(/ +/);
 
@@ -26,7 +25,7 @@ export class CommandService {
                 process.exit();
                 break;
             default:
-                msg.channel.send('Invalid command. Please specify a command.');
+                msg.channel.send('Command not found');
         }
     }
 }
