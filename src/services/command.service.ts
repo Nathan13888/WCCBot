@@ -15,13 +15,18 @@ export class CommandService {
             case 'alive':
                 msg.react('👍');
                 break;
-            case 'announce':
-                Logger.log('Announcing...');
-                // TODO: FINISH
-                break;
             case 'shutdown':
                 Logger.log('Shutting down');
                 process.exit();
+                break;
+            case 'announce':
+                const embed = new Discord.MessageEmbed()
+                    .setAuthor(msg.author.tag)
+                    .setColor(0xd62320)
+                    .setTitle('A slick little embed')
+                    .setDescription('Hello, this is a slick embed!')
+                    .setFooter('Footer', msg.author.avatarURL());
+                msg.channel.send(embed);
                 break;
             default:
                 msg.channel.send('Command not found');
