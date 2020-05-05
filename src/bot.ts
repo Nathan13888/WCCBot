@@ -12,7 +12,7 @@ export class Bot {
 
         this.init();
 
-        this.client.login(this.discordToken);
+        this.api.login(this.discordToken);
     }
 
     async init() {
