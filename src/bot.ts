@@ -11,7 +11,7 @@ export class Bot {
         this.api = new Discord.Client();
         if (process.env.DISCORD_TOKEN)
             this.discordToken = process.env.DISCORD_TOKEN;
-        else throw new Error('Discord token needed.'); // TODO: Hook to Logger
+        else throw new Error('Environment variable "DISCORD_TOKEN" is missing.');
         this.commandService = new CommandService();
 
         this.init();
@@ -20,7 +20,7 @@ export class Bot {
     init() {
         this.api.login(this.discordToken);
 
-        this.api.user.setActivity('Chess Club', {type: 'PLAYING'} );
+        // this.api.user.setActivity('Chess Club', {type: 'PLAYING'} );
 
         this.api.on('ready', () => {
             Logger.log('WCC Bot has started!');
@@ -33,3 +33,5 @@ export class Bot {
         });
     }
 }
+
+export const bot = new Bot();
