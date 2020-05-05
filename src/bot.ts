@@ -16,6 +16,8 @@ export class Bot {
     init() {
         this.api.login(this.discordToken);
 
+        this.api.user.setActivity('Chess Club', {type: 'PLAYING'} );
+
         this.api.on('ready', () => {
             this.log('WCC Bot has started!');
             this.log(`Connected as ${this.api.user.tag}`);
