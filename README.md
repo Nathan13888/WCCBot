@@ -11,6 +11,6 @@ The official Woodlands Chess Club Discord Server Bot.
 - Logging Function
 - Google Calendar Support
 - Scheduled Announcements
-- Twitch Streaming
-
--
+- Twitch Streaming (Chess TV)
+- Smart Logging
+- ExpressJS Control Endpoints
