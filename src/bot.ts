@@ -1,4 +1,5 @@
 import * as Discord from 'discord.js';
+import { parseCommand } from './utils/commands';
 
 export class Bot {
     api: Discord.Client;
@@ -23,11 +24,9 @@ export class Bot {
             this.log(`Connected as ${this.api.user.tag}`);
         });
         
-        this.api.on('message', msg => { 
-            if (msg.content.substring(0, 2) == 'w!') {
-                const cmd = msg.content.substring(2).trim().toLowerCase();
-                const args = cmd.split(' ');
-            }
+        this.api.on('message', msg => {
+            if(msg.author.bot) return;
+            if (msg.content.substring(0, 2) == 'w!') parseCommand(msg);
         });
     }
 
