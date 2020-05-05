@@ -4,7 +4,7 @@ import { Logger } from '../utils/logger';
 export class CommandService {
     parseCommand(msg: Discord.Message) {
         Logger.log(
-            `${msg.author.username}#${msg.author.discriminator}
+            `${msg.author.tag}
             (COMMAND): ${msg.content}`);
         const cmd = msg.content.substring(2).toLowerCase();
         const args = cmd.split(/ +/);
@@ -13,20 +13,20 @@ export class CommandService {
 
         // TODO: check if user has permission
         switch (args[0]) {
-            case 'ping':
-                msg.reply("pong");
+            case 'alive':
+                let timeout = 3000;
+                msg.react('👍');
                 break;
             case 'announce':
                 Logger.log('Announcing...');
                 // TODO: FINISH
                 break;
-            case 'restart':
+            case 'shutdown':
                 Logger.log('Restarting Bot.');
-                msg.client.destroy();
-                msg.client.
+                process.exit();
                 break;
             default:
-                msg.author.send('Invalid command. Please specify a command.');
+                msg.channel.send('Invalid command. Please specify a command.');
         }
     }
 }
