@@ -13,7 +13,6 @@ export class CommandService {
         // TODO: check if user has permission
         switch (args[0]) {
             case 'alive':
-                let timeout = 3000;
                 msg.react('👍');
                 break;
             case 'announce':
@@ -21,7 +20,7 @@ export class CommandService {
                 // TODO: FINISH
                 break;
             case 'shutdown':
-                Logger.log('Restarting Bot.');
+                Logger.log('Shutting down');
                 process.exit();
                 break;
             default:
