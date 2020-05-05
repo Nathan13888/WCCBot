@@ -21,9 +21,9 @@ export class Bot {
             this.log(`Connected as ${this.api.user.tag}`);
         });
         
-        this.api.on('message', evt => { 
-            if (evt.content.substring(0, 2) == 'w!') {
-                const cmd = evt.content.substring(2).trim().toLowerCase();
+        this.api.on('message', msg => { 
+            if (msg.content.substring(0, 2) == 'w!') {
+                const cmd = msg.content.substring(2).trim().toLowerCase();
                 const args = cmd.split(' ');
             }
         });
