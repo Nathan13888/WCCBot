@@ -11,8 +11,6 @@ export class Bot {
         else throw new Error('Discord token needed.');
 
         this.init();
-
-        this.client.login(this.discordToken);
     }
 
     async init() {
