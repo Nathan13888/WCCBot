@@ -17,6 +17,8 @@ export namespace Bot {
   api.once("ready", () => {
     Logger.log("WCC Bot has started!");
     Logger.log(`Connected as ${api.user.tag}`);
+    api.user.setUsername("𝖂𝕮𝕮𝕭");
+    api.user.setAFK(false);
     api.user.setActivity("Chess and w!help", { type: "PLAYING" });
   });
 

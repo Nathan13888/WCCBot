@@ -3,8 +3,11 @@ import { Logger } from '../utils/logger';
 export class CommandService {
     parseCommand(msg: Discord.Message) {
         const cmd = msg.content.substring(2).toLowerCase();
-        const args = cmd.split(' ');
+        const args = cmd.split(/ +/);
 
+        switch (args[0]) { }
+
+        // TODO: check if user has permission
         switch (args[0]) {
             case 'ping':
                 msg.reply("pong");
@@ -12,7 +15,6 @@ export class CommandService {
                 Logger.log('Announcing...');
                 // TODO: FINISH
                 break;
-
             default:
                 msg.author.send('Invalid command. Please specify a command.');
         }
