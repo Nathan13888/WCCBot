@@ -11,14 +11,9 @@ export class Bot {
         else throw new Error('Discord token needed.');
 
         this.init();
-<<<<<<< HEAD
-=======
-
-        this.api.login(this.discordToken);
->>>>>>> 4f0bf11112de97e34f742fff8a134048430b61fc
     }
 
-    async init() {
+    init() {
         this.api.login(this.discordToken);
 
         this.api.on('ready', () => {
