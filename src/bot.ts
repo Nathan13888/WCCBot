@@ -1,38 +1,28 @@
 import * as Discord from "discord.js";
 import { CommandService } from "./services/command.service";
 import { Logger } from "./utils/logger";
+export namespace Bot {
+  export let api: Discord.Client;
+  let embed: Discord.MessageEmbed;
+  let discordToken: string;
+  let commandService: CommandService;
 
-let api: Discord.Client;
-export class Bot {
-  embed: Discord.MessageEmbed;
+  api = new Discord.Client();
+  if (process.env.DISCORD_TOKEN) discordToken = process.env.DISCORD_TOKEN;
+  else throw new Error('Environment variable "DISCORD_TOKEN" is missing.');
+  commandService = new CommandService();
 
-  discordToken: string;
-  commandService: CommandService;
+  api.once("ready", () => {
+    Logger.log("WCC Bot has started!");
+    Logger.log(`Connected as ${api.user.tag}`);
+    api.user.setActivity("Chess and w!", { type: "PLAYING" });
+  });
 
-  constructor() {
-    api = new Discord.Client();
-    if (process.env.DISCORD_TOKEN)
-      this.discordToken = process.env.DISCORD_TOKEN;
-    else throw new Error('Environment variable "DISCORD_TOKEN" is missing.');
-    this.commandService = new CommandService();
+  api.on("message", (msg) => {
+    if (msg.author.bot) return;
+    if (msg.content.substring(0, 2) == "w!") commandService.parseCommand(msg);
+  });
 
-    this.init();
-    api.login(this.discordToken);
-  }
-
-  init() {
-    api.once("ready", () => {
-      Logger.log("WCC Bot has started!");
-      Logger.log(`Connected as ${this.api.user.tag}`);
-      this.api.user.setActivity("Chess and w!", { type: "PLAYING" });
-    });
-
-    api.on("message", (msg) => {
-      if (msg.author.bot) return;
-      if (msg.content.substring(0, 2) == "w!")
-        this.commandService.parseCommand(msg);
-    });
-  }
+  api.login(discordToken);
 }
 
-export const bot = new Bot();

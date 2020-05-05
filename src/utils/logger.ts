@@ -1,6 +1,8 @@
+
 export namespace Logger {
     export function log(msg: string) {
         console.log(msg);
-        this.api.channels.get(process.env.LOG).send();
+        // const channel = Bot.api.channels.fetch(process.env.LOG);
+        // channel.final
     }
 }
