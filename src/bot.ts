@@ -3,6 +3,7 @@ import { parseCommand } from './utils/commands';
 
 export class Bot {
     api: Discord.Client;
+    embed: Discord.MessageEmbed;
     private discordToken: string;
 
     constructor() {
@@ -12,16 +13,15 @@ export class Bot {
         else throw new Error('Discord token needed.');
 
         this.init();
+        this.api.login(this.discordToken);
     }
 
     init() {
-        this.api.login(this.discordToken);
 
-        this.api.user.setActivity('Chess Club', {type: 'PLAYING'} );
-
-        this.api.on('ready', () => {
+        this.api.once('ready', () => {
             this.log('WCC Bot has started!');
             this.log(`Connected as ${this.api.user.tag}`);
+            this.api.user.setActivity('Chess and w!', {type: 'PLAYING'} );
         });
         
         this.api.on('message', msg => {
