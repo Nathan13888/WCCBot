@@ -15,9 +15,15 @@ export class CommandService {
         switch (args[0]) {
             case 'ping':
                 msg.reply("pong");
+                break;
             case 'announce':
                 Logger.log('Announcing...');
                 // TODO: FINISH
+                break;
+            case 'restart':
+                Logger.log('Restarting Bot.');
+                msg.client.destroy();
+                msg.client.
                 break;
             default:
                 msg.author.send('Invalid command. Please specify a command.');

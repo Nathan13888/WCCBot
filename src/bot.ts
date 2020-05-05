@@ -14,7 +14,7 @@ export namespace Bot {
 
   api.login(discordToken);
 
-  api.once("ready", () => {
+  api.on("ready", () => {
     Logger.log("WCC Bot has started!");
     Logger.log(`Connected as ${api.user.tag}`);
     api.user.setUsername("𝖂𝕮𝕮𝕭");
