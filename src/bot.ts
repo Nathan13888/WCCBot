@@ -1,10 +1,11 @@
 import * as Discord from 'discord.js';
 
 export class Bot {
-    client: Discord.Client;
+    api: Discord.Client;
     private discordToken: string;
+
     constructor() {
-        this.client = new Discord.Client();
+        this.api = new Discord.Client();
         if (process.env.DISCORD_TOKEN)
             this.discordToken = process.env.DISCORD_TOKEN;
         else throw new Error('Discord token needed.');
@@ -13,10 +14,23 @@ export class Bot {
     }
 
     async init() {
-        this.client.on('ready', () => {
-            console.log('WCC Bot has started!');
+        this.api.login(this.discordToken);
+
+        this.api.on('ready', () => {
+            this.log('WCC Bot has started!');
+            this.log(`Connected as ${this.api.user.tag}`);
         });
         
-        this.client.login(this.discordToken);
+        this.api.on('message', evt => { 
+            if (evt.content.substring(0, 2) == '//') {
+                const cmd = evt.content.substring(2).trim().toLowerCase;
+                const args = cmd.split(' ');
+            }
+        });
+    }
+
+    log(msg: string) {
+        console.log(msg);
+        // TODO: log to #bot-log
     }
 }
