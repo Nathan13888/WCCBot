@@ -6,7 +6,11 @@ export class CommandService {
         Logger.log(
             `${msg.author.tag} (COMMAND): ${msg.content}`);
         const cmd = msg.content.substring(2).toLowerCase();
-        const args = cmd.split(' ');
+        const args = cmd.split(/ +/);
+
+        switch (args[0]) { }
+
+        // TODO: check if user has permission
         switch (args[0]) {
         case 'ping':
             msg.reply('pong');
