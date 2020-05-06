@@ -3,6 +3,8 @@ import {Logger} from './utils/logger';
 import {CommandService} from './services/command.service';
 export namespace Bot {
   export let api: Discord.Client;
+  export let announcementChannel: Discord.TextChannel
+    | Discord.DMChannel | Discord.NewsChannel;
   // let embed: Discord.MessageEmbed;
   let discordToken: string;
 
@@ -18,8 +20,9 @@ export namespace Bot {
       api.user.setUsername('𝖂𝕮𝕮𝕭');
       api.user.setAFK(false);
       api.user.setActivity('of Chess and w!help', {type: 'PLAYING'});
+      announcementChannel = Bot.api.channels.cache.get(
+          process.env.ANN) as Discord.TextChannel;
+      CommandService.registerCommands();
   });
-
-  CommandService.registerCommands();
 }
 

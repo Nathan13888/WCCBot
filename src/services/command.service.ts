@@ -1,27 +1,25 @@
 import {TextChannel, DMChannel, NewsChannel,
     Message, MessageEmbed, User, MessageAdditions,
-    APIMessage, StringResolvable} from 'discord.js';
+    APIMessage, StringResolvable, MessageOptions} from 'discord.js';
 import {Bot} from '../bot';
 import {Logger} from '../utils/logger';
-import {MessageOptions} from 'child_process';
 export namespace CommandService {
-    export function registerCommands() {
+    export async function registerCommands() {
         Bot.api.on('message', async (msg) => {
             if (msg.author.bot) return;
-            if (msg.content.substring(0, 2) == 'w!') {
+            if (msg.content.substring(0, 2) === 'w!') {
                 parseCommand(msg);
             }
         });
     }
 
-    export async function parseCommand(msg: Message) {
+    async function parseCommand(msg: Message) {
         Logger.log(
             `${msg.author.tag} executed '${msg.content}'`);
         // TODO: Improve regex to support single and double quotes.
         const args = msg.content.slice(2).split(/ +/);
         const cmd = args.shift().toLowerCase();
 
-        // TODO: check if user has permission
         switch (cmd) {
         case 'alive':
             msg.react('👍');
@@ -72,8 +70,7 @@ export namespace CommandService {
                         );
                         break;
                     }
-                    // TODO: Connect to announcement channel
-                    msg.channel.send(embed);
+                    Bot.announcementChannel.send(embed);
                     break;
                 default:
                     msg.channel.send('Command not found');
