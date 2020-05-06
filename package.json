@@ -16,7 +16,9 @@
     "lint": "eslint \"**/*.ts\" \"**/*.js\"",
     "lint:fix": "npm run lint -- --fix",
     "deploy": "git push heroku master",
-    "local": "heroku local web"
+    "local": "heroku local web",
+    "main:on": "heroku maintenance:on",
+    "main:off": "heroku maintenance:off"
   },
   "dependencies": {
     "cron": "^1.8.2",
