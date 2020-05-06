@@ -1,7 +1,9 @@
 import {TextChannel, DMChannel, NewsChannel,
-    Message, MessageEmbed, User} from 'discord.js';
+    Message, MessageEmbed, User, MessageAdditions,
+    APIMessage, StringResolvable} from 'discord.js';
 import {Bot} from '../bot';
 import {Logger} from '../utils/logger';
+import {MessageOptions} from 'child_process';
 export namespace CommandService {
     export function registerCommands() {
         Bot.api.on('message', async (msg) => {
@@ -83,7 +85,9 @@ export namespace CommandService {
     }
 
     async function promptInput(
-        question: string, // TODO: Add more types
+        question: StringResolvable | MessageOptions
+            | (MessageOptions & { split?: false })
+            | MessageAdditions | APIMessage,
         channel: TextChannel | DMChannel | NewsChannel,
         user: User,
         timeLimit?: number,
