@@ -12,17 +12,12 @@ export namespace CommandService {
         });
     }
 
-    export function parseCommand(msg: Discord.Message) {
+    export async function parseCommand(msg: Discord.Message) {
         Logger.log(
             `${msg.author.tag} executed '${msg.content}'`);
-        const args = msg.content.slice(2).split(/\s+/);
+        // TODO: Improve regex to support single and double quotes.
+        const args = msg.content.slice(2).split(/ +/);
         const cmd = args.shift().toLowerCase();
-        console.log(cmd);
-        console.log(args);
-        // const cmd = msg.content.substring(2).toLowerCase();
-        // const args = cmd.split(/ +/);
-
-        switch (args[0]) { }
 
         // TODO: check if user has permission
         switch (cmd) {
@@ -34,22 +29,56 @@ export namespace CommandService {
             process.exit();
             break;
         case 'announce':
-            if (args.length!==2) {
-                msg.channel.send('Invalid number of arguments.');
+            const title = await promptInput(
+                'Please tell me the title.',
+                msg.channel, msg.author);
+            if (!title) {
+                msg.channel.send('Timed out. Please try again.');
                 break;
             }
-            const title = 'Lorum Ipsum';
-            const message = 'lorum ipsum';
-            const embed = new Discord.MessageEmbed()
+            const message = await promptInput(
+                'Please tell me the message.',
+                msg.channel, msg.author, 120000);
+            if (!message) {
+                msg.channel.send('Timed out. Please try again.');
+                break;
+            }
+            msg.channel.send(new Discord.MessageEmbed()
                 // .setAuthor()
                 .setColor(0xd62320)
                 .setTitle(title)
                 .setDescription(message)
-                .setFooter(msg.author.tag, msg.author.avatarURL());
-            msg.channel.send(embed);
+                .setFooter(msg.author.tag, msg.author.avatarURL()),
+            );
             break;
         default:
             msg.channel.send('Command not found');
         }
+    }
+
+    async function promptInput(
+        question: string,
+        channel: Discord.TextChannel | Discord.DMChannel | Discord.NewsChannel,
+        user: Discord.User,
+        timeLimit?: number,
+    ) {
+        let input: string | undefined;
+        await channel.send(question).then(async () => {
+            if (!timeLimit) timeLimit=60000;
+            const filter = (msg) => user.id===msg.author.id;
+            await channel.awaitMessages(filter, {
+                time: timeLimit, max: 1, errors: ['time'],
+            })
+                .then((messages) => {
+                    input = messages.first().content;
+                    channel.send(
+                        `You've entered: ${input}`,
+                    );
+                })
+                .catch(() => {
+                    channel.send('You did not enter any input!');
+                });
+        });
+        return input;
     }
 }
