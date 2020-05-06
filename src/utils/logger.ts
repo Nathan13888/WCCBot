@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import {TextChannel} from 'discord.js';
 import {Bot} from '../bot';
 
