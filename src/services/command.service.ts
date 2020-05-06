@@ -72,8 +72,6 @@ export namespace CommandService {
                     }
                     Bot.announcementChannel.send(embed);
                     break;
-                default:
-                    msg.channel.send('Command not found');
                 }
             } else {
                 msg.channel.send('Command not found');
@@ -91,8 +89,8 @@ export namespace CommandService {
     ) {
         let input: string;
         await channel.send(question).then(async () => {
-            if (!timeLimit) timeLimit=60000;
-            const filter = (msg) => user.id===msg.author.id;
+            if (!timeLimit) timeLimit = 60000;
+            const filter = (msg) => user.id === msg.author.id;
             await channel.awaitMessages(filter, {
                 time: timeLimit, max: 1, errors: ['time'],
             })
