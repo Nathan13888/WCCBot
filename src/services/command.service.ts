@@ -5,6 +5,10 @@ import {Bot} from '../bot';
 import {Logger} from '../utils/logger';
 import {ReminderService} from './reminder.service';
 export namespace CommandService {
+  export const dateRegex = new RegExp([
+    '(\\d{1,4}) +(0\\d|1[0-2]) +(0\\d|[12]\\d|3[01]) +',
+    '([01]\\d|2[0-3]) +([0-5]\\d)( +[0-5]\\d)?',
+  ].join(''));
     export async function registerCommands() {
       Bot.api.on('message', async (msg) => {
         if (msg.author.bot) return;
@@ -46,7 +50,6 @@ export namespace CommandService {
               process.exit();
               // break;
             case 'remind':
-              console.log(args);
               if (args&&args.length) {
                 if (args.length>1) {
                   msg.channel.send('Too many arguments!');
@@ -79,15 +82,15 @@ export namespace CommandService {
                   msg.channel.send('Timed out. Please try again.');
                   return;
                 }
-                // TODO: Use more flexible regex
-                if (/\d\d\d\d \d\d \d\d \d\d \d\d \d\d/.test(date)) {
+                const match = dateRegex.exec(date);
+                if (match) {
                   const dateObj = new Date(
-                    parseInt(date.substr(0, 4)),
-                    parseInt(date.substr(5, 2))-1,
-                    parseInt(date.substr(8, 2)),
-                    parseInt(date.substr(11, 2)),
-                    parseInt(date.substr(14, 2)),
-                    parseInt(date.substr(17, 2)),
+                    parseInt(match[1]),
+                    parseInt(match[2])-1,
+                    parseInt(match[3]),
+                    parseInt(match[4]),
+                    parseInt(match[5]),
+                    match[6]?parseInt(match[6]):0,
                   );
                   ReminderService.setReminder(dateObj, content, msg.author);
                   msg.channel.send('Reminder is set.');
