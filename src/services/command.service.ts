@@ -38,7 +38,7 @@ export namespace CommandService {
         break;
       default:
         if (msg.channel instanceof DMChannel) {
-          msg.channel.send('Certain commands are not supported in DM');
+          msg.channel.send('Certain commands are not supported in DM.');
           break;
         } else {
           if (msg.member.roles.cache.some(
@@ -129,11 +129,11 @@ export namespace CommandService {
                 msg.channel.send(
                   'Your announcement has been cancelled.',
                 );
-                return;
+                break;
               }
               Bot.announcementChannel.send(embed);
             }
-            return;
+            break;
           }
         }
         msg.channel.send('Command not found');
