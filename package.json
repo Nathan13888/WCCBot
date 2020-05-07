@@ -9,7 +9,7 @@
     "node": "12.x"
   },
   "scripts": {
-    "start": "npm run build && node .",
+    "start": "npm run build && node -r source-map-support/register .",
     "build": "tsc",
     "build:watch": "tsc --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -32,7 +32,8 @@
     "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^2.31.0",
     "eslint": "^6.8.0",
-    "eslint-config-google": "^0.14.0"
+    "eslint-config-google": "^0.14.0",
+    "source-map-support": "^0.5.19"
   },
   "repository": {
     "type": "git",
