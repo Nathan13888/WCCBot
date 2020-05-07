@@ -1,2 +1,3 @@
 require('dotenv').config();
-require('./dist/bot');
+const bot = require('./dist/bot').Bot;
+bot.start();
