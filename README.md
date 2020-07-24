@@ -1,4 +1,4 @@
-# WCCBot
+# WCC Bot
 
 The official Woodlands Chess Club Discord Server Bot.
 
@@ -6,12 +6,10 @@ The official Woodlands Chess Club Discord Server Bot.
 
 ## Features
 
-- Status and Ping Health Check
+- Daily Puzzles
 - Announcements
+- Status and Ping Health Check
 - Logging Function
-- Google Calendar Support
 - Scheduled Announcements
 - Twitch Streaming (Chess TV)
-- Smart Logging
 - ExpressJS Control Endpoints
-- Smart Deployment
