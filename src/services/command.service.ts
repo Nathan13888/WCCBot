@@ -36,10 +36,10 @@ export namespace CommandService {
         msg.react('👍');
         break;
       case 'help':
-        // msg.react(':regional_indicator_w:');
-        // msg.react(':regional_indicator_i:');
-        // msg.react(':regional_indicator_p:');
-        msg.channel.send('W.I.P');
+        msg.react('👎');
+        msg.react('🇼');
+        msg.react('🇮');
+        msg.react('🇵');
         break;
       default:
         if (msg.channel instanceof DMChannel) {
