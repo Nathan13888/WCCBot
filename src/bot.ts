@@ -16,12 +16,22 @@ export namespace Bot {
 
     api.login(discordToken);
 
+    const publicIp = require('public-ip');
+
+    
     api.on('ready', async () => {
       Logger.log('WCC Bot has started!');
       Logger.log(`Connected as ${api.user.tag}`);
+      
+      Logger.log('Setting up other config');
+      
+      (async () => {
+        Logger.log('Public IP is ' + await publicIp.v4());
+      })();
+      
       api.user.setUsername('𝖂𝕮𝕮𝕭');
       api.user.setAFK(false);
-      api.user.setActivity('Chess and ::help', {type: 'PLAYING'});
+      api.user.setActivity('Chess and ::help', { type: 'PLAYING' });
       announcementChannel = Bot.api.channels.cache.get(
         process.env.ANN) as Discord.TextChannel;
       // TODO: Allow different announcement and reminder channels
