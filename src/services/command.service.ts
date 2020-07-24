@@ -1,9 +1,14 @@
-import {TextChannel, DMChannel, NewsChannel,
-  Message, MessageEmbed, User, MessageAdditions,
-  APIMessage, StringResolvable, MessageOptions} from 'discord.js';
-import {Bot} from '../bot';
-import {Logger} from '../utils/logger';
-import {ReminderService} from './reminder.service';
+import {
+  APIMessage, DMChannel,
+  Message, MessageAdditions, MessageEmbed,
+  MessageOptions, NewsChannel,
+
+  StringResolvable, TextChannel,
+  User
+} from 'discord.js';
+import { Bot } from '../bot';
+import { Logger } from '../utils/logger';
+import { ReminderService } from './reminder.service';
 export namespace CommandService {
   export const dateRegex = new RegExp([
     '(\\d{1,4}) +(0\\d|1[0-2]) +(0\\d|[12]\\d|3[01]) +',
@@ -12,7 +17,7 @@ export namespace CommandService {
     export async function registerCommands() {
       Bot.api.on('message', async (msg) => {
         if (msg.author.bot) return;
-        if (msg.content.substring(0, 2) === 'w!') {
+        if (msg.content.substring(0, 2) === '::') {
           parseCommand(msg);
         }
       });
