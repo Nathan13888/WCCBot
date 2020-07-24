@@ -26,7 +26,7 @@ export namespace CommandService {
     // TODO: Use reply to make more clear replies to incorrect command usages
     async function parseCommand(msg: Message) {
       Logger.log(
-        `${msg.author.tag} executed '${msg.content}'`);
+        `${msg.author.tag} executed \`${msg.content}\``);
       // TODO: Improve regex to support single and double quotes.
       const args = msg.content.slice(2).split(/ +/);
       const cmd = args.shift().toLowerCase();
