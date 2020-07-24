@@ -6,7 +6,8 @@
   "license": "APGL-3.0",
   "main": "index.js",
   "engines": {
-    "node": "12.x"
+    "node": "12.x",
+    "npm": "6.x"
   },
   "scripts": {
     "start": "npm run build && node -r source-map-support/register .",
