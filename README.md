@@ -4,7 +4,7 @@
 
 The official Woodlands Chess Club Discord Server Bot.
 
-**Current Version**: `1.0`
+**Current Version**: `1.1`
 
 ## Features
 
