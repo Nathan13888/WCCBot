@@ -1,4 +1,5 @@
 import * as Discord from 'discord.js';
+import * as publicIp from 'public-ip';
 import { CommandService } from './services/command.service';
 import { Logger } from './utils/logger';
 export namespace Bot {
@@ -15,8 +16,6 @@ export namespace Bot {
     else throw new Error('Environment variable "DISCORD_TOKEN" is missing.');
 
     api.login(discordToken);
-
-    const publicIp = require('public-ip');
 
     api.on('ready', async () => {
       Logger.log('WCC Bot has started!');
