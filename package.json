@@ -11,6 +11,7 @@
   },
   "scripts": {
     "start": "npm run build && node -r source-map-support/register .",
+    "dev": "nodemon -r source-map-support/register .",
     "build": "tsc",
     "build:watch": "tsc --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
