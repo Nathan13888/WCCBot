@@ -1,4 +1,5 @@
 import * as Discord from 'discord.js';
+import * as fetch from 'node-fetch';
 import * as publicIp from 'public-ip';
 import { CommandService } from './services/command.service';
 import { Logger } from './utils/logger';
@@ -9,6 +10,16 @@ export namespace Bot {
   export let reminderChannel: Discord.TextChannel
     | Discord.DMChannel | Discord.NewsChannel;
   let discordToken: string;
+
+  export interface Permit {
+    permitted: Array<string>
+  }
+
+  let permit: Permit = null;
+
+  export function getPermit(): Permit {
+    return permit;
+  }
 
   export async function start() {
     api = new Discord.Client();
@@ -37,6 +48,7 @@ export namespace Bot {
         process.env.ANN) as Discord.TextChannel;
       // TODO: Allow different announcement and reminder channels
       reminderChannel = announcementChannel;
+      fetch(process.env.PERMIT, { method: "Get" }).then(res => res.json()).then(json => { permit = json; });
       CommandService.registerCommands();
     });
   }

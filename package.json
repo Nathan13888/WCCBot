@@ -26,6 +26,7 @@
     "cron": "^1.8.2",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
+    "node-fetch": "^2.6.0",
     "nodemon": "^2.0.4",
     "public-ip": "^4.0.2",
     "source-map-support": "^0.5.19",
