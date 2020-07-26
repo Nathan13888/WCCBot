@@ -18,17 +18,19 @@ export namespace Bot {
 
     const publicIp = require('public-ip');
 
-    
     api.on('ready', async () => {
       Logger.log('WCC Bot has started!');
       Logger.log(`Connected as ${api.user.tag}`);
-      
+
       Logger.log('Setting up other config');
-      
-      (async () => {
-        Logger.log('Public IP is ' + await publicIp.v4());
-      })();
-      
+
+      if (process.env.IP == "true") {
+        Logger.log("IP logging is enabled.");
+        (async () => {
+          Logger.log('Public IP is ' + await publicIp.v4());
+        })();
+      } else Logger.log("IP logging is disabled.");
+
       api.user.setUsername('𝖂𝕮𝕮𝕭');
       api.user.setAFK(false);
       api.user.setActivity('Chess and ::help', { type: 'PLAYING' });
