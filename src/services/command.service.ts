@@ -41,7 +41,7 @@ export namespace CommandService {
           break;
         case 'randomopening':
           let url = 'https://www.365chess.com/eco/';
-          url += Utils.getRandCode();
+          url += Utils.getRandECO();
           msg.reply('Here\'s a random opening: \n' + url);
           break;
         case 'testopening':

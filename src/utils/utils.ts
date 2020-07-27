@@ -1,7 +1,7 @@
 import { MessageEmbed, TextChannel } from 'discord.js';
 import { Bot } from '../bot';
 export namespace Utils {
-    export function getRandCode(): string {
+    export function getRandECO(): string {
         let code: string = ''; const LETTERS = 'ABCDE';
         code += LETTERS.charAt(Math.floor(Math.random() * LETTERS.length));
         const num = Math.floor(Math.random() * 99) + 1;
@@ -12,7 +12,7 @@ export namespace Utils {
     }
     export function postOpening() {
         let url = 'https://www.365chess.com/eco/';
-        const code = getRandCode();
+        const code = getRandECO();
         const name = '';
         const desc = '';
         url += code;
