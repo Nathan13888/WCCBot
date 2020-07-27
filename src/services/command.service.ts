@@ -4,12 +4,12 @@ import {
   MessageOptions, NewsChannel,
 
   StringResolvable, TextChannel,
-  User
+  User,
 } from 'discord.js';
-import { Bot } from '../bot';
-import { Logger } from '../utils/logger';
-import { Utils } from '../utils/utils';
-import { ReminderService } from './reminder.service';
+import {Bot} from '../bot';
+import {Logger} from '../utils/logger';
+import {Utils} from '../utils/utils';
+import {ReminderService} from './reminder.service';
 export namespace CommandService {
   export const dateRegex = new RegExp([
     '(\\d{1,4}) +(0\\d|1[0-2]) +(0\\d|[12]\\d|3[01]) +',
@@ -32,136 +32,136 @@ export namespace CommandService {
     const args = msg.content.slice(2).split(/ +/);
     const cmd = args.shift().toLowerCase();
 
-    let permit: Bot.Permit = Bot.getPermit();
+    const permit: Bot.Permit = Bot.getPermit();
 
-    if (permit.permitted.includes(msg.author.id))
+    if (permit.permitted.includes(msg.author.id)) {
       switch (cmd) {
-        case 'alive':
-          msg.react('👍');
+      case 'alive':
+        msg.react('👍');
+        break;
+      case 'randomopening':
+        let url = 'https://www.365chess.com/eco/';
+        url += Utils.getRandECO();
+        msg.reply('Here\'s a random opening: \n' + url);
+        break;
+      case 'testopening':
+        Utils.postOpening();
+        break;
+      case 'test':
+        Utils.testChannel(process.env.ANN, 'Announcement');
+        Utils.testChannel(process.env.OPEN, 'Daily Openings');
+        Utils.testChannel(process.env.PUZZ, 'Puzzles');
+        Utils.testChannel(process.env.LOG, 'Logging');
+        break;
+      case 'help':
+        msg.react('👎');
+        msg.react('🇼');
+        msg.react('🇮');
+        msg.react('🇵');
+        break;
+      default:
+        if (msg.channel instanceof DMChannel) {
+          msg.channel.send('Certain commands are not supported in DM.');
           break;
-        case 'randomopening':
-          let url = 'https://www.365chess.com/eco/';
-          url += Utils.getRandECO();
-          msg.reply('Here\'s a random opening: \n' + url);
-          break;
-        case 'testopening':
-          Utils.postOpening();
-          break;
-        case 'test':
-          Utils.testChannel(process.env.ANN, 'Announcement');
-          Utils.testChannel(process.env.OPEN, 'Daily Openings');
-          Utils.testChannel(process.env.PUZZ, 'Puzzles');
-          Utils.testChannel(process.env.LOG, 'Logging');
-          break;
-        case 'help':
-          msg.react('👎');
-          msg.react('🇼');
-          msg.react('🇮');
-          msg.react('🇵');
-          break;
-        default:
-          if (msg.channel instanceof DMChannel) {
-            msg.channel.send('Certain commands are not supported in DM.');
-            break;
-          } else {
-            if (msg.member.roles.cache.some(
-              (role) => role.name.toLowerCase().startsWith('bot'),
-            )/* ||msg.channel.id*/) {
-              switch (cmd) {
-                case 'shutdown':
-                  Logger.log('Shutting down');
-                  process.exit();
-                // break;
-                case 'remind':
-                  if (args && args.length) {
-                    if (args.length > 1) {
-                      msg.channel.send('Too many arguments!');
-                      return;
-                    }
-                    if (args[0].toLowerCase() === 'now') {
-                      const content = await promptInput(
-                        'What is the message of the reminder?',
-                        msg.channel, msg.author);
-                      if (!content) {
-                        msg.channel.send('Timed out. Please try again.');
-                        return;
-                      }
-                      ReminderService.sendReminder(content, msg.author);
-                    } else {
-                      msg.channel.send('Invalid time argument.');
-                    }
-                  } else {
-                    const content = await promptInput(
-                      'What is the message of the reminder?',
-                      msg.channel, msg.author);
-                    if (!content) {
-                      msg.channel.send('Timed out. Please try again.');
-                      return;
-                    }
-                    const date = await promptInput(
-                      'Enter the date (YYYY MM DD hh mm ss)',
-                      msg.channel, msg.author);
-                    if (!date) {
-                      msg.channel.send('Timed out. Please try again.');
-                      return;
-                    }
-                    const match = dateRegex.exec(date);
-                    if (match) {
-                      const dateObj = new Date(
-                        parseInt(match[1]),
-                        parseInt(match[2]) - 1,
-                        parseInt(match[3]),
-                        parseInt(match[4]),
-                        parseInt(match[5]),
-                        match[6] ? parseInt(match[6]) : 0,
-                      );
-                      ReminderService.setReminder(dateObj, content, msg.author);
-                      msg.channel.send('Reminder is set.');
-                    } else {
-                      msg.channel.send('Invalid date format.');
-                      return;
-                    }
-                  }
-                  break;
-                case 'announce':
-                  const title = await promptInput(
-                    'Please tell me the title.',
+        } else {
+          if (msg.member.roles.cache.some(
+            (role) => role.name.toLowerCase().startsWith('bot'),
+          )/* ||msg.channel.id*/) {
+            switch (cmd) {
+            case 'shutdown':
+              Logger.log('Shutting down');
+              process.exit();
+            // break;
+            case 'remind':
+              if (args && args.length) {
+                if (args.length > 1) {
+                  msg.channel.send('Too many arguments!');
+                  return;
+                }
+                if (args[0].toLowerCase() === 'now') {
+                  const content = await promptInput(
+                    'What is the message of the reminder?',
                     msg.channel, msg.author);
-                  if (!title) {
+                  if (!content) {
                     msg.channel.send('Timed out. Please try again.');
                     return;
                   }
-                  const message = await promptInput(
-                    'Please tell me the message.',
-                    msg.channel, msg.author, 120000);
-                  if (!message) {
-                    msg.channel.send('Timed out. Please try again.');
-                    return;
-                  }
-                  const embed = new MessageEmbed()
-                    // .setAuthor()
-                    .setColor(0xd62320)
-                    .setTitle(title)
-                    .setDescription(message)
-                    .setFooter(msg.author.tag, msg.author.avatarURL());
-
-                  const confirmation = await promptInput(
-                    'Please confirm the announcement. (Yes/no)',
-                    msg.channel, msg.author, 30000);
-                  if (!(confirmation && confirmation.toLowerCase() === 'yes')) {
-                    msg.channel.send(
-                      'Your announcement has been cancelled.',
-                    );
-                    break;
-                  }
-                  Bot.announcementChannel.send(embed);
+                  ReminderService.sendReminder(content, msg.author);
+                } else {
+                  msg.channel.send('Invalid time argument.');
+                }
+              } else {
+                const content = await promptInput(
+                  'What is the message of the reminder?',
+                  msg.channel, msg.author);
+                if (!content) {
+                  msg.channel.send('Timed out. Please try again.');
+                  return;
+                }
+                const date = await promptInput(
+                  'Enter the date (YYYY MM DD hh mm ss)',
+                  msg.channel, msg.author);
+                if (!date) {
+                  msg.channel.send('Timed out. Please try again.');
+                  return;
+                }
+                const match = dateRegex.exec(date);
+                if (match) {
+                  const dateObj = new Date(
+                    parseInt(match[1]),
+                    parseInt(match[2]) - 1,
+                    parseInt(match[3]),
+                    parseInt(match[4]),
+                    parseInt(match[5]),
+                    match[6] ? parseInt(match[6]) : 0,
+                  );
+                  ReminderService.setReminder(dateObj, content, msg.author);
+                  msg.channel.send('Reminder is set.');
+                } else {
+                  msg.channel.send('Invalid date format.');
+                  return;
+                }
               }
               break;
+            case 'announce':
+              const title = await promptInput(
+                'Please tell me the title.',
+                msg.channel, msg.author);
+              if (!title) {
+                msg.channel.send('Timed out. Please try again.');
+                return;
+              }
+              const message = await promptInput(
+                'Please tell me the message.',
+                msg.channel, msg.author, 120000);
+              if (!message) {
+                msg.channel.send('Timed out. Please try again.');
+                return;
+              }
+              const embed = new MessageEmbed()
+              // .setAuthor()
+                .setColor(0xd62320)
+                .setTitle(title)
+                .setDescription(message)
+                .setFooter(msg.author.tag, msg.author.avatarURL());
+
+              const confirmation = await promptInput(
+                'Please confirm the announcement. (Yes/no)',
+                msg.channel, msg.author, 30000);
+              if (!(confirmation && confirmation.toLowerCase() === 'yes')) {
+                msg.channel.send(
+                  'Your announcement has been cancelled.',
+                );
+                break;
+              }
+              Bot.announcementChannel.send(embed);
             }
+            break;
           }
-          msg.channel.send('Command not found');
+        }
+        msg.channel.send('Command not found');
       }
-    else console.log('Permission denied from ID: ' + msg.author.id);
+    } else console.log('Permission denied from ID: ' + msg.author.id);
   }
 
   async function promptInput(

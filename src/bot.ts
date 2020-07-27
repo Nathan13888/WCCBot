@@ -1,8 +1,8 @@
 import * as Discord from 'discord.js';
 import * as fetch from 'node-fetch';
 import * as publicIp from 'public-ip';
-import { CommandService } from './services/command.service';
-import { Logger } from './utils/logger';
+import {CommandService} from './services/command.service';
+import {Logger} from './utils/logger';
 export namespace Bot {
   export let api: Discord.Client;
   export let announcementChannel: Discord.TextChannel
@@ -43,12 +43,15 @@ export namespace Bot {
 
       api.user.setUsername('𝖂𝕮𝕮𝕭');
       api.user.setAFK(false);
-      api.user.setActivity('Chess and ::help', { type: 'PLAYING' });
+      api.user.setActivity('Chess and ::help', {type: 'PLAYING'});
       announcementChannel = Bot.api.channels.cache.get(
         process.env.ANN) as Discord.TextChannel;
       // TODO: Allow different announcement and reminder channels
       reminderChannel = announcementChannel;
-      fetch(process.env.PERMIT, { method: 'Get' }).then(res => res.json()).then(json => { permit = json; });
+      fetch(process.env.PERMIT, {method: 'Get'}).then((res) => res.json())
+        .then((json) => {
+          permit = json;
+        });
       CommandService.registerCommands();
     });
   }

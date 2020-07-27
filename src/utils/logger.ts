@@ -1,5 +1,5 @@
-import { TextChannel } from 'discord.js';
-import { Bot } from '../bot';
+import {TextChannel} from 'discord.js';
+import {Bot} from '../bot';
 
 export namespace Logger {
     export async function log(msg: string) {
