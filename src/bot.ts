@@ -34,12 +34,12 @@ export namespace Bot {
 
       Logger.log('Setting up other config');
 
-      if (process.env.IP == "true") {
-        Logger.log("IP logging is enabled.");
+      if (process.env.IP == 'true') {
+        Logger.log('IP logging is enabled.');
         (async () => {
           Logger.log('Public IP is ' + await publicIp.v4());
         })();
-      } else Logger.log("IP logging is disabled.");
+      } else Logger.log('IP logging is disabled.');
 
       api.user.setUsername('𝖂𝕮𝕮𝕭');
       api.user.setAFK(false);
@@ -48,7 +48,7 @@ export namespace Bot {
         process.env.ANN) as Discord.TextChannel;
       // TODO: Allow different announcement and reminder channels
       reminderChannel = announcementChannel;
-      fetch(process.env.PERMIT, { method: "Get" }).then(res => res.json()).then(json => { permit = json; });
+      fetch(process.env.PERMIT, { method: 'Get' }).then(res => res.json()).then(json => { permit = json; });
       CommandService.registerCommands();
     });
   }

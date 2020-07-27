@@ -48,10 +48,10 @@ export namespace CommandService {
           Utils.postOpening();
           break;
         case 'test':
-          Utils.testChannel(process.env.ANN, "Announcement");
-          Utils.testChannel(process.env.OPEN, "Daily Openings");
-          Utils.testChannel(process.env.PUZZ, "Puzzles");
-          Utils.testChannel(process.env.LOG, "Logging");
+          Utils.testChannel(process.env.ANN, 'Announcement');
+          Utils.testChannel(process.env.OPEN, 'Daily Openings');
+          Utils.testChannel(process.env.PUZZ, 'Puzzles');
+          Utils.testChannel(process.env.LOG, 'Logging');
           break;
         case 'help':
           msg.react('👎');
@@ -161,7 +161,7 @@ export namespace CommandService {
           }
           msg.channel.send('Command not found');
       }
-    else console.log("Permission denied from ID: " + msg.author.id);
+    else console.log('Permission denied from ID: ' + msg.author.id);
   }
 
   async function promptInput(
