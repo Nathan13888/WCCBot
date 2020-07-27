@@ -45,15 +45,10 @@ export namespace CommandService {
           msg.reply('Here\'s a random opening: \n' + url);
           break;
         case 'test':
-          const timeout: number = 5000;
-          const LOG = Bot.api.channels.cache.get(process.env.LOG);
-          if (LOG.type == 'text') {
-            (LOG as TextChannel).send("**TEST**: Logging Channel").then(msg => msg.delete({ timeout }));
-          }
-          const ANN = Bot.api.channels.cache.get(process.env.ANN);
-          if (ANN.type == 'text') {
-            (ANN as TextChannel).send("**TEST**: Announcement Channel").then(msg => msg.delete({ timeout }));
-          }
+          Utils.testChannel(process.env.ANN,"Announcement");
+          Utils.testChannel(process.env.OPEN,"Daily Openings");
+          Utils.testChannel(process.env.PUZZ, "Puzzles");
+          Utils.testChannel(process.env.LOG, "Logging");
           break;
         case 'help':
           msg.react('👎');
