@@ -44,9 +44,12 @@ export namespace CommandService {
           url += Utils.getRandCode();
           msg.reply('Here\'s a random opening: \n' + url);
           break;
+        case 'testopening':
+          Utils.postOpening();
+          break;
         case 'test':
-          Utils.testChannel(process.env.ANN,"Announcement");
-          Utils.testChannel(process.env.OPEN,"Daily Openings");
+          Utils.testChannel(process.env.ANN, "Announcement");
+          Utils.testChannel(process.env.OPEN, "Daily Openings");
           Utils.testChannel(process.env.PUZZ, "Puzzles");
           Utils.testChannel(process.env.LOG, "Logging");
           break;
