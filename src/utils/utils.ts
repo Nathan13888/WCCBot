@@ -7,11 +7,20 @@ export namespace Utils {
         code += Math.floor(Math.random() * 100) + 1;
         return code;
     }
-    export function testChannel(id: string, name: string) {
-        const timeout: number = 5000;
+    export function postOpening() {
+        let url = 'https://www.365chess.com/eco/';
+        url += getRandCode();
+    }
+    // Sends message to channel
+    // TODO: make `cb` parameter strict
+    export function sendMessage(msg: string, id: string, cb: Function) {
         const chan = Bot.api.channels.cache.get(id);
         if (chan.type == 'text') {
-            (chan as TextChannel).send('**TEST**: ' + name + ' Channel').then(msg => msg.delete({ timeout }));
+            (chan as TextChannel).send(msg).then(msg => cb(msg));
         }
+    }
+    export function testChannel(id: string, name: string) {
+        const timeout: number = 5000;
+        sendMessage('**TEST**: ' + name + ' Channel', id, msg => msg.delete({ timeout }));
     }
 }
