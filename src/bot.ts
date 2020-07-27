@@ -15,7 +15,7 @@ export namespace Bot {
     permitted: Array<string>
   }
 
-  let permit: Permit = null;
+  let permit: Permit = undefined;
 
   export function getPermit(): Permit {
     return permit;
