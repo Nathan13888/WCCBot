@@ -4,7 +4,10 @@ export namespace Utils {
     export function getRandCode(): string {
         let code: string = ''; const LETTERS = 'ABCDE';
         code += LETTERS.charAt(Math.floor(Math.random() * LETTERS.length));
-        code += Math.floor(Math.random() * 100) + 1;
+        const num = Math.floor(Math.random() * 99) + 1;
+        if (num < 10)
+            code += "0";
+        code += num;
         return code;
     }
     export function postOpening() {
