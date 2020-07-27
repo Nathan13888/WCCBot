@@ -10,6 +10,9 @@ export namespace Utils {
         code += num;
         return code;
     }
+    export function searchOpening() {
+        
+    }
     export function postOpening() {
         let url = 'https://www.365chess.com/eco/';
         const code = getRandECO();
@@ -25,7 +28,7 @@ export namespace Utils {
             .setDescription(desc)
             // .setThumbnail(logo)
             .addFields(
-                { name: name, value: url },
+                { name: code + name, value: url },
                 // { name: '\u200B', value: '\u200B' },
                 // { name: 'Inline field title', value: 'Some value here', inline: true },
             )
