@@ -8,6 +8,7 @@ import {
 } from 'discord.js';
 import { Bot } from '../bot';
 import { Logger } from '../utils/logger';
+import { Utils } from '../utils/utils';
 import { ReminderService } from './reminder.service';
 export namespace CommandService {
   export const dateRegex = new RegExp([
@@ -39,10 +40,8 @@ export namespace CommandService {
           msg.react('👍');
           break;
         case 'randomopening':
-          var url = 'https://www.365chess.com/eco/';
-          const LETTERS = "ABCDE";
-          url += LETTERS.charAt(Math.floor(Math.random() * LETTERS.length));
-          url += Math.floor(Math.random() * 100) + 1;
+          let url = 'https://www.365chess.com/eco/';
+          url += Utils.getRandCode();
           msg.reply('Here\'s a random opening: \n' + url);
           break;
         case 'test':
