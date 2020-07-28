@@ -1,5 +1,6 @@
 import {MessageEmbed, TextChannel} from 'discord.js';
 import {Bot} from '../bot';
+// import * as pack from '../../package.json';
 export namespace Utils {
   export function getRandECO(): string {
     let code: string = ''; const LETTERS = 'ABCDE';
@@ -53,5 +54,12 @@ export namespace Utils {
     const timeout: number = 5000;
     sendMessage('**TEST**: ' + name + ' Channel', id,
       (msg) => msg.delete({timeout}));
+  }
+
+  // let version: string;
+  export function getVersion(): string {
+    return '1.1.0';
+    // version = pack.version;
+    // return version;
   }
 }

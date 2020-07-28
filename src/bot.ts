@@ -3,6 +3,7 @@ import * as fetch from 'node-fetch';
 import * as publicIp from 'public-ip';
 import {CommandService} from './services/command.service';
 import {Logger} from './utils/logger';
+import {Utils} from './utils/utils';
 export namespace Bot {
   export let api: Discord.Client;
   export let announcementChannel: Discord.TextChannel
@@ -31,6 +32,7 @@ export namespace Bot {
     api.on('ready', async () => {
       Logger.log('WCC Bot has started!');
       Logger.log(`Connected as ${api.user.tag}`);
+      Logger.log('Current version: ' + Utils.getVersion());
 
       Logger.log('Setting up other config');
 

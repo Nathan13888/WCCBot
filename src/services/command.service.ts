@@ -39,6 +39,9 @@ export namespace CommandService {
       case 'alive':
         msg.react('👍');
         break;
+      case 'version':
+        msg.react('The current version is ' + Utils.getVersion());
+        break;
       case 'randomopening':
         let url = 'https://www.365chess.com/eco/';
         url += Utils.getRandECO();
@@ -71,7 +74,7 @@ export namespace CommandService {
             case 'shutdown':
               Logger.log('Shutting down');
               process.exit();
-            // break;
+              // break;
             case 'remind':
               if (args && args.length) {
                 if (args.length > 1) {
