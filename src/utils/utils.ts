@@ -57,8 +57,9 @@ export namespace Utils {
   }
 
   // let version: string;
+  const version = require('../../package.json').version;
   export function getVersion(): string {
-    return '1.1.0';
+    return version;
     // version = pack.version;
     // return version;
   }
