@@ -10,6 +10,7 @@ import {Bot} from '../bot';
 import {Logger} from '../utils/logger';
 import {Utils} from '../utils/utils';
 import {ReminderService} from './reminder.service';
+import {ClearChat} from '../utils/clearchat';
 export namespace CommandService {
   export const dateRegex = new RegExp([
     '(\\d{1,4}) +(0\\d|1[0-2]) +(0\\d|[12]\\d|3[01]) +',
@@ -32,6 +33,10 @@ export namespace CommandService {
     const args = msg.content.slice(2).split(/ +/);
     const cmd = args.shift().toLowerCase();
 
+    for (let i = 0; i<args.length; i++) {
+      args[i]=args[i].toLowerCase();
+    }
+
     const permit: Bot.Permit = Bot.getPermit();
 
     if (permit.permitted.includes(msg.author.id)) {
@@ -50,6 +55,13 @@ export namespace CommandService {
         break;
       case 'testopening':
         Utils.postOpening();
+        break;
+      case 'clear':
+        msg.delete();
+        if (args[0]=='all') {
+          ClearChat.clearAll(msg.channel.id);
+        }
+        msg.channel.send('Cleared messages! Am I first?');
         break;
       case 'test':
         Utils.testChannel(process.env.ANN, 'Announcement');
