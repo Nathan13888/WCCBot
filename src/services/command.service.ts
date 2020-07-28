@@ -40,7 +40,8 @@ export namespace CommandService {
         msg.react('👍');
         break;
       case 'version':
-        msg.channel.send('The current version is ' + Utils.getVersion()).then((msg)=>msg.delete({timeout: 5000}));
+        msg.channel.send('The current version is ' +
+        Utils.getVersion()).then((msg)=>msg.delete({timeout: 5000}));
         break;
       case 'randomopening':
         let url = 'https://www.365chess.com/eco/';
