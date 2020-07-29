@@ -181,6 +181,8 @@ export namespace CommandService {
           }
           Bot.announcementChannel.send(embed);
           break;
+        default:
+          msg.react('❌');
         }
         msg.delete({timeout: 2000});
         return;
