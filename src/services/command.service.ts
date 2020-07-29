@@ -181,11 +181,12 @@ export namespace CommandService {
               break;
             }
             Bot.announcementChannel.send(embed);
+            break;
           }
-          break;
+          msg.delete({timeout: 2000});
         } else console.log('Permission denied from ID: ' + msg.author.id);
       }
-      msg.channel.send('Command not found');
+      msg.reply('Command not found');
     }
   }
 
