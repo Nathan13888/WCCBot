@@ -66,9 +66,6 @@ export namespace CommandService {
         break;
       } else if (permit.permitted.includes(msg.author.id)) {
         switch (cmd) {
-        case 'testopening':
-          Utils.postOpening();
-          break;
         case 'clear':
           msg.delete();
           if (args[0]=='all') {
@@ -88,10 +85,14 @@ export namespace CommandService {
           msg.reply('Done.');
           break;
         case 'test':
-          Utils.testChannel(process.env.ANN, 'Announcement');
-          Utils.testChannel(process.env.OPEN, 'Daily Openings');
-          Utils.testChannel(process.env.PUZZ, 'Puzzles');
-          Utils.testChannel(process.env.LOG, 'Logging');
+          if (args[0]=='channels') {
+            Utils.testChannel(process.env.ANN, 'Announcement');
+            Utils.testChannel(process.env.OPEN, 'Daily Openings');
+            Utils.testChannel(process.env.PUZZ, 'Puzzles');
+            Utils.testChannel(process.env.LOG, 'Logging');
+          } else if (args[0]=='opening') {
+            Utils.postOpening();
+          }
           break;
         case 'shutdown':
           Logger.log('Shutting down');
