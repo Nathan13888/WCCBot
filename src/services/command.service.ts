@@ -70,8 +70,8 @@ export namespace CommandService {
           msg.delete();
           if (args[0]=='all') {
             ClearChat.clearAll(msg.channel.id);
+            msg.channel.send('Cleared messages! Am I first?');
           }
-          msg.channel.send('Cleared messages! Am I first?');
           break;
         case 'checkroles':
           msg.reply('Checking roles...');
