@@ -24,7 +24,7 @@ export namespace Utils {
     url += code;
     const logo = 'https://woodlandschessclub.netlify.app/assets/img/logo-gold-black-512.png';
 
-    const embed = new MessageEmbed().setColor('#00FA9A') // chess green
+    const embed = new MessageEmbed().setColor(Bot.primaryColour)
       .setTitle('Daily Opening')
       .setURL(url)
       .setAuthor('WCCB', logo)

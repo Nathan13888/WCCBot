@@ -12,6 +12,7 @@ import {Logger} from '../utils/logger';
 import {Utils} from '../utils/utils';
 import {ReminderService} from './reminder.service';
 import {ClearChat} from '../utils/clearchat';
+import {PollService} from './poll.service';
 export namespace CommandService {
   export const dateRegex = new RegExp([
     '(\\d{1,4}) +(0\\d|1[0-2]) +(0\\d|[12]\\d|3[01]) +',
@@ -73,6 +74,11 @@ export namespace CommandService {
             msg.channel.send('Cleared messages! Am I first?');
           }
           break;
+        case 'poll':
+          if (args[0]=='create') {
+            PollService.createPollPrompt(msg);
+          }
+          break;
         case 'checkroles':
           msg.reply('Checking roles...');
           const changed: Array<GuildMember> =
@@ -92,6 +98,9 @@ export namespace CommandService {
             Utils.testChannel(process.env.LOG, 'Logging');
           } else if (args[0]=='opening') {
             Utils.postOpening();
+          } else if (args[0]=='poll') {
+            PollService.createPoll(msg, 'Test Poll',
+              'This is the description of the poll. React to cast your vote.');
           }
           break;
         case 'shutdown':
@@ -193,16 +202,26 @@ export namespace CommandService {
     }
   }
 
-  async function promptInput(
+  // TODO: prompt confirmation
+  export async function promptConfirm(msg: string,
+    channel: TextChannel | DMChannel | NewsChannel,
+    user: User): Promise<boolean> {
+    const res = await promptInput('Please confirm ' + msg.toLowerCase() +
+    ' (yes/no)', channel, user, 30000);
+    return (res && res.toLowerCase() === 'yes' ? true : false);
+  }
+
+  // TODO: auto timeout message
+  export async function promptInput(
     question: StringResolvable | MessageOptions
       | (MessageOptions & { split?: false })
       | MessageAdditions | APIMessage,
     channel: TextChannel | DMChannel | NewsChannel,
     user: User,
     timeLimit?: number,
-  ) {
+  ): Promise<string> {
     let input: string;
-    await channel.send(question).then(async () => {
+    await user.lastMessage.reply(question).then(async () => {
       if (!timeLimit) timeLimit = 60000;
       const filter = (msg) => user.id === msg.author.id;
       await channel.awaitMessages(filter, {

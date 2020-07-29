@@ -12,6 +12,8 @@ export namespace Bot {
     | Discord.DMChannel | Discord.NewsChannel;
   let discordToken: string;
 
+  export const primaryColour = '#00FA9A'; // chess green
+
   export interface Permit {
     permitted: Array<string>
   }
