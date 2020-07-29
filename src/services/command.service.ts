@@ -5,6 +5,7 @@ import {
 
   StringResolvable, TextChannel,
   User,
+  GuildMember,
 } from 'discord.js';
 import {Bot} from '../bot';
 import {Logger} from '../utils/logger';
@@ -62,6 +63,16 @@ export namespace CommandService {
           ClearChat.clearAll(msg.channel.id);
         }
         msg.channel.send('Cleared messages! Am I first?');
+        break;
+      case 'checkroles':
+        msg.reply('Checking roles...');
+        const changed: Array<GuildMember> = Utils.checkMinRole(msg.guild.id);
+        changed.forEach((member) => {
+          const s = `${member.user.tag} has been given the default role`;
+          msg.reply(s);
+          Logger.log('[Check Roles] ' + s);
+        });
+        msg.reply('Done.');
         break;
       case 'test':
         Utils.testChannel(process.env.ANN, 'Announcement');
