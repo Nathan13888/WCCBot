@@ -16,7 +16,7 @@ export namespace Utils {
   export function searchOpening() {
 
   }
-  export function postOpening() {
+  export function postOpening(): void {
     let url = 'https://www.365chess.com/eco/';
     const code = getRandECO();
     const name = '';
@@ -53,11 +53,11 @@ export namespace Utils {
   }
   // Sends message to channel
   // TODO: make `cb` parameter strict
-  export function sendMessage(msg: string, id: string, cb: Function) {
+  export function sendMessage(msg: string, id: string, cb: Function): void {
     const chan = getTextChannel(id);
     chan.send(msg).then((msg) => cb(msg));
   }
-  export function testChannel(id: string, name: string) {
+  export function testChannel(id: string, name: string): void {
     const timeout: number = 5000;
     sendMessage('**TEST**: ' + name + ' Channel', id,
       (msg) => msg.delete({timeout}));
@@ -76,11 +76,8 @@ export namespace Utils {
     });
     return changed;
   }
-  // let version: string;
   const version = require('../../package.json').version;
   export function getVersion(): string {
     return version;
-    // version = pack.version;
-    // return version;
   }
 }
