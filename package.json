@@ -19,9 +19,11 @@
     "lint": "eslint \"**/*.ts\" \"**/*.js\"",
     "lint:fix": "npm run lint -- --fix",
     "deploy": "git push heroku master",
-    "local": "heroku local web",
+    "local": "heroku local worker",
     "main:on": "heroku maintenance:on",
-    "main:off": "heroku maintenance:off"
+    "main:off": "heroku maintenance:off",
+    "h:restart": "heroku ps:restart worker",
+    "h:stop": "heroku ps:stop worker"
   },
   "dependencies": {
     "countapi-js": "^1.0.1",
