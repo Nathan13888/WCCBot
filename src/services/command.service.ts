@@ -27,10 +27,12 @@ export namespace CommandService {
     });
   }
 
+  let processedCommands: number = 0;
   // TODO: Use reply to make more clear replies to incorrect command usages
   async function parseCommand(msg: Message) {
     Logger.log(
       `${msg.author.tag} executed \`${msg.content}\``);
+    processedCommands++;
     // TODO: Improve regex to support single and double quotes.
     const args = msg.content.slice(2).split(/ +/);
     const cmd = args.shift().toLowerCase();
@@ -39,8 +41,24 @@ export namespace CommandService {
 
     switch (cmd) {
     case 'alive':
-      // TODO: add uptime
+    case 'status':
+    case 'uptime':
+    case 'info':
       msg.react('👍');
+      const embed = new MessageEmbed()
+        .setColor(Bot.primaryColour)
+        .setTitle(`${Bot.api.user.tag} Status`)
+        .setDescription('Version ' + Utils.getVersion())
+        .setThumbnail(Bot.api.user.displayAvatarURL())
+        .addFields(
+          {name: 'Commands Processed (since start)', value: processedCommands},
+          // {name: '\u200B', value: '\u200B'},
+          {name: 'Uptime', value: Utils.getUptime(), inline: true},
+          {name: 'Guilds', value: Bot.api.guilds.cache.size, inline: true},
+        )
+        .setTimestamp()
+        .setFooter(Bot.api.user.tag, Bot.api.user.displayAvatarURL());
+      msg.channel.send(embed);
       break;
     case 'version':
       msg.channel.send('The current version is ' +
