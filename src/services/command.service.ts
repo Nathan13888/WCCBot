@@ -35,15 +35,12 @@ export namespace CommandService {
     const args = msg.content.slice(2).split(/ +/);
     const cmd = args.shift().toLowerCase();
 
-    for (let i = 0; i<args.length; i++) {
-      args[i]=args[i].toLowerCase();
-    }
-
     const permit: Bot.Permit = Bot.getPermit();
 
 
     switch (cmd) {
     case 'alive':
+      // TODO: add uptime
       msg.react('👍');
       break;
     case 'version':
