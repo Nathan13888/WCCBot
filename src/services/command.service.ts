@@ -41,7 +41,7 @@ export namespace CommandService {
     switch (cmd) {
     case 'alive':
     case 'uptime':
-      msg.react(':thumbsup:');
+      msg.react('👍');
       msg.reply('I have been active for ' + Utils.getUptime());
       break;
     case 'server':
@@ -102,6 +102,22 @@ export namespace CommandService {
             Utils.testChannel(process.env.OPEN, 'Daily Openings');
             Utils.testChannel(process.env.PUZZ, 'Puzzles');
             Utils.testChannel(process.env.LOG, 'Logging');
+          } else if (args[0]=='puzzle') {
+            // Utils.postPuzzle();
+            msg.reply('');
+            const randnum : Number = Math.floor(Math.random() *
+              Math.floor(125000));
+            const thumbnail : string = 'https://lichess.org/training/export/gif/thumbnail/' +
+             randnum + '.gif';
+            const url: string = 'https://lichess.org/training/' + randnum;
+            const embed = new MessageEmbed()
+              .setColor(Bot.primaryColour)
+              .setTitle('Here is your random puzzle')
+              .setDescription(url)
+              .setImage(thumbnail)
+              .setTimestamp()
+              .setFooter(Bot.api.user.tag, Bot.api.user.displayAvatarURL());
+            msg.channel.send(embed);
           } else if (args[0]=='opening') {
             Utils.postOpening();
           } else if (args[0]=='poll') {

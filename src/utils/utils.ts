@@ -18,6 +18,9 @@ export namespace Utils {
   export function searchOpening() {
 
   }
+  export function postPuzzle(): void {
+
+  }
   export function postOpening(): void {
     let url = 'https://www.365chess.com/eco/';
     const code = getRandECO();
@@ -98,6 +101,7 @@ export namespace Utils {
         {name: 'version', value: '*the current version of the bot*'},
         {name: 'alive', value: '*tells you if the bot is active*'},
         {name: 'status', value: '*the current status of the bot*'},
+        {name: 'server', value: '*information about the server*'},
         // {name: 'uptime', value: 'How long the bot has been running'},
         // {name: 'info', value: 'General information about the bot'},
       )
