@@ -39,6 +39,9 @@ export namespace CommandService {
     const permit: Bot.Permit = Bot.getPermit();
 
     switch (cmd) {
+    case 'invite':
+      msg.reply(Utils.inviteLink);
+      break;
     case 'alive':
     case 'uptime':
       msg.react('👍');

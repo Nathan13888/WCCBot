@@ -1,5 +1,5 @@
 import {MessageEmbed, TextChannel, GuildMember,
-  Role, Guild, User, MessageAttachment} from 'discord.js';
+  Role, Guild, User, MessageAttachment, Invite} from 'discord.js';
 import {Bot} from '../bot';
 import {Logger} from './logger';
 import countapi from 'countapi-js';
@@ -108,7 +108,8 @@ export namespace Utils {
       .setDescription('Here\'s a list of the available commands')
       .setThumbnail(Bot.api.user.displayAvatarURL())
       .addFields(
-        {name: 'help', value: '*returns this message lmao*'},
+        {name: 'help', value: '*returns this message*'},
+        {name: 'invite', value: '*gives you an invite to this server*'},
         {name: 'randomopening', value: '*gives you a random opening*'},
         {name: 'randompuzzle', value: '*gives you a random puzzle*'},
         {name: 'version', value: '*the current version of the bot*'},
@@ -161,6 +162,7 @@ export namespace Utils {
     }
     return portions.join(' ');
   }
+  export const inviteLink: string = 'https://discord.gg/tctG7mA';
   const version = require('../../package.json').version;
   export function getVersion(): string {
     return version;
