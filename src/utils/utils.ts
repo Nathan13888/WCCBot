@@ -1,6 +1,7 @@
 import {MessageEmbed, TextChannel, GuildMember, Role, Guild} from 'discord.js';
 import {Bot} from '../bot';
 import {Logger} from './logger';
+import countapi from 'countapi-js';
 // import * as pack from '../../package.json';
 export namespace Utils {
   export function getRandECO(): string {
@@ -100,5 +101,30 @@ export namespace Utils {
   const version = require('../../package.json').version;
   export function getVersion(): string {
     return version;
+  }
+  export namespace Counter {
+    const namespace = 'wccbot1';
+    export function init(): void {
+      addStarts();
+      Logger.log(`Total Restarts: ${getStarts()}`);
+      Logger.log(`Total Commands Processed: ${getAlltime()}`);
+    }
+    export function addStarts(): void {
+      countapi.update(namespace, 'starts', 1);
+    }
+    export async function getStarts(): Promise<number> {
+      return await (countapi.get(namespace, 'starts')).value;
+    }
+    let count = 0;
+    export function addProcessed(): void {
+      count++;
+      countapi.update(namespace, 'commands', 1);
+    }
+    export function getProcessed(): number {
+      return count;
+    }
+    export async function getAlltime(): Promise<number> {
+      return countapi.get(namespace, 'commands').value;
+    }
   }
 }

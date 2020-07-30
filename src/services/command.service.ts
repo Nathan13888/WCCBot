@@ -27,12 +27,11 @@ export namespace CommandService {
     });
   }
 
-  let processedCommands: number = 0;
   // TODO: Use reply to make more clear replies to incorrect command usages
   async function parseCommand(msg: Message) {
     Logger.log(
       `${msg.author.tag} executed \`${msg.content}\``);
-    processedCommands++;
+    Utils.Counter.addProcessed();
     // TODO: Improve regex to support single and double quotes.
     const args = msg.content.slice(2).split(/ +/);
     const cmd = args.shift().toLowerCase();
@@ -51,11 +50,12 @@ export namespace CommandService {
         .setDescription('Version ' + Utils.getVersion())
         .setThumbnail(Bot.api.user.displayAvatarURL())
         .addFields(
-          {name: 'Commands Processed (since start)', value: processedCommands},
+          {name: 'Commands Processed (since start/all time)',
+            value: Utils.Counter.getProcessed()+'/'+Utils.Counter.getAlltime()},
           // {name: '\u200B', value: '\u200B'},
+          {name: 'Restarts', value: Utils.Counter.getStarts(), inline: true},
           {name: 'Uptime', value: Utils.getUptime(), inline: true},
-          {name: 'Guilds', value: Bot.api.guilds.cache.size, inline: true},
-        )
+          {name: 'Guilds', value: Bot.api.guilds.cache.size, inline: true})
         .setTimestamp()
         .setFooter(Bot.api.user.tag, Bot.api.user.displayAvatarURL());
       msg.channel.send(embed);

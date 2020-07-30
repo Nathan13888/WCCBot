@@ -23,6 +23,7 @@
     "main:off": "heroku maintenance:off"
   },
   "dependencies": {
+    "countapi-js": "^1.0.1",
     "cron": "^1.8.2",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",

@@ -44,6 +44,7 @@ export namespace Bot {
           Logger.log('Public IP is ' + await publicIp.v4());
         })();
       } else Logger.log('IP logging is disabled.');
+      Utils.Counter.init();
 
       api.user.setUsername('𝖂𝕮𝕮𝕭');
       api.user.setAFK(false);
