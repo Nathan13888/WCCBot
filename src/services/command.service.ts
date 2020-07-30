@@ -69,7 +69,9 @@ export namespace CommandService {
     case 'help':
       msg.react('👌');
       if (args[0] == 'quick') {
-        msg.channel.send(Utils.getHelpEmbed());
+        msg.channel.send(Utils.getHelpEmbed()).then(
+          (msg)=>msg.delete({timeout: 5000}),
+        );
       } else {
         msg.reply('Read your DMs').then((msg)=>msg.delete({timeout: 3000}));
         Utils.sendDM(Utils.getHelpEmbed(), msg.author);
