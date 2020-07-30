@@ -168,28 +168,44 @@ export namespace Utils {
     return version;
   }
   export namespace Counter {
+    interface Result {
+      status: number,
+      path: string,
+      value: number
+    };
     const namespace = 'wccbot1';
+    let starts = 0;
+    let commands = 0;
+    let alltime = 0;
     export function init(): void {
       addStarts();
+      try {
+        countapi.get(namespace, 'starts')
+          .then((res: Result) => starts = res.value);
+        countapi.get(namespace, 'commands')
+          .then((res: Result) => alltime = res.value);
+      } catch (err) {
+        Logger.log('Encountered a problem with CountAPI');
+      }
       Logger.log(`Total Restarts: ${getStarts()}`);
       Logger.log(`Total Commands Processed: ${getAlltime()}`);
     }
     export function addStarts(): void {
-      countapi.update(namespace, 'starts', 1);
+      countapi.hit(namespace, 'starts');
     }
-    export async function getStarts(): Promise<number> {
-      return await (countapi.get(namespace, 'starts')).value;
-    }
-    let count = 0;
     export function addProcessed(): void {
-      count++;
-      countapi.update(namespace, 'commands', 1);
+      commands++;
+      alltime++;
+      countapi.hit(namespace, 'commands');
+    }
+    export function getStarts(): number {
+      return starts;
     }
     export function getProcessed(): number {
-      return count;
+      return commands;
     }
-    export async function getAlltime(): Promise<number> {
-      return countapi.get(namespace, 'commands').value;
+    export function getAlltime(): number {
+      return alltime;
     }
   }
 }
