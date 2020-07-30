@@ -113,6 +113,7 @@ export namespace CommandService {
             Utils.sendDM('This is a test DM', msg.author);
           }
           break;
+        case 'reboot':
         case 'shutdown':
           Logger.log('Shutting down');
           process.exit();
