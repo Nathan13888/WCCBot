@@ -124,6 +124,8 @@ export namespace CommandService {
                 msg.author, 30000);
               PollService.react(evt, custom);
             });
+          } else if (args[0]=='dm') {
+            Utils.sendDM('This is a test DM', msg.author);
           }
           break;
         case 'shutdown':

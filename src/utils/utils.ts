@@ -1,4 +1,4 @@
-import {MessageEmbed, TextChannel, GuildMember, Role, Guild} from 'discord.js';
+import {MessageEmbed, TextChannel, GuildMember, Role, Guild, User, MessageAttachment} from 'discord.js';
 import {Bot} from '../bot';
 import {Logger} from './logger';
 import countapi from 'countapi-js';
@@ -57,6 +57,14 @@ export namespace Utils {
   export function sendMessage(msg: string, id: string, cb: Function): void {
     const chan = getTextChannel(id);
     chan.send(msg).then((msg) => cb(msg));
+  }
+  export function sendDM(msg: string | MessageEmbed |
+    MessageAttachment, user: User): void {
+    try {
+      user.send(msg);
+    } catch {
+      Logger.log('An ERROR occured when trying to send a message to '+user.tag);
+    }
   }
   export function testChannel(id: string, name: string): void {
     const timeout: number = 5000;
