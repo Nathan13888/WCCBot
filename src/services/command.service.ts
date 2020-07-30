@@ -44,21 +44,7 @@ export namespace CommandService {
     case 'uptime':
     case 'info':
       msg.react('👍');
-      const embed = new MessageEmbed()
-        .setColor(Bot.primaryColour)
-        .setTitle(`${Bot.api.user.tag} Status`)
-        .setDescription('Version ' + Utils.getVersion())
-        .setThumbnail(Bot.api.user.displayAvatarURL())
-        .addFields(
-          {name: 'Commands Processed (since start/all time)',
-            value: Utils.Counter.getProcessed()+'/'+Utils.Counter.getAlltime()},
-          // {name: '\u200B', value: '\u200B'},
-          {name: 'Restarts', value: Utils.Counter.getStarts(), inline: true},
-          {name: 'Uptime', value: Utils.getUptime(), inline: true},
-          {name: 'Guilds', value: Bot.api.guilds.cache.size, inline: true})
-        .setTimestamp()
-        .setFooter(Bot.api.user.tag, Bot.api.user.displayAvatarURL());
-      msg.channel.send(embed);
+      msg.channel.send(Utils.getStatusEmbed());
       break;
     case 'version':
       msg.channel.send('The current version is ' +

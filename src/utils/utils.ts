@@ -1,4 +1,5 @@
-import {MessageEmbed, TextChannel, GuildMember, Role, Guild, User, MessageAttachment} from 'discord.js';
+import {MessageEmbed, TextChannel, GuildMember,
+  Role, Guild, User, MessageAttachment} from 'discord.js';
 import {Bot} from '../bot';
 import {Logger} from './logger';
 import countapi from 'countapi-js';
@@ -84,6 +85,23 @@ export namespace Utils {
       }
     });
     return changed;
+  }
+  export function getStatusEmbed(): MessageEmbed {
+    const embed = new MessageEmbed()
+      .setColor(Bot.primaryColour)
+      .setTitle(`${Bot.api.user.tag} Status`)
+      .setDescription('Version ' + getVersion())
+      .setThumbnail(Bot.api.user.displayAvatarURL())
+      .addFields(
+        {name: 'Commands Processed (since start/all time)',
+          value: Counter.getProcessed()+'/'+Counter.getAlltime()},
+        // {name: '\u200B', value: '\u200B'},
+        {name: 'Restarts', value: Counter.getStarts(), inline: true},
+        {name: 'Uptime', value: getUptime(), inline: true},
+        {name: 'Guilds', value: Bot.api.guilds.cache.size, inline: true})
+      .setTimestamp()
+      .setFooter(Bot.api.user.tag, Bot.api.user.displayAvatarURL());
+    return embed;
   }
   export function getUptime(): string {
     let duration: number = Bot.api.uptime;
