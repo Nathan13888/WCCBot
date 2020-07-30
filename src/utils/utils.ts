@@ -18,8 +18,20 @@ export namespace Utils {
   export function searchOpening() {
 
   }
-  export function postPuzzle(): void {
-
+  export function getPuzzle(): MessageEmbed {
+    const randnum : Number = Math.floor(Math.random() *
+    Math.floor(125000));
+    const thumbnail : string = 'https://lichess.org/training/export/gif/thumbnail/' +
+   randnum + '.gif';
+    const url: string = 'https://lichess.org/training/' + randnum;
+    const embed = new MessageEmbed()
+      .setColor(Bot.primaryColour)
+      .setTitle('Here is your random puzzle')
+      .setDescription(url)
+      .setImage(thumbnail)
+      .setTimestamp()
+      .setFooter(Bot.api.user.tag, Bot.api.user.displayAvatarURL());
+    return embed;
   }
   export function postOpening(): void {
     let url = 'https://www.365chess.com/eco/';
@@ -98,6 +110,7 @@ export namespace Utils {
       .addFields(
         {name: 'help', value: '*returns this message lmao*'},
         {name: 'randomopening', value: '*gives you a random opening*'},
+        {name: 'randompuzzle', value: '*gives you a random puzzles*'},
         {name: 'version', value: '*the current version of the bot*'},
         {name: 'alive', value: '*tells you if the bot is active*'},
         {name: 'status', value: '*the current status of the bot*'},
@@ -106,7 +119,7 @@ export namespace Utils {
         // {name: 'info', value: 'General information about the bot'},
       )
       .setTimestamp()
-      .setFooter('Written by the papa Bruce');
+      .setFooter('Written by papa Bruce and Nathan');
       // .setFooter(Bot.api.user.tag, Bot.api.user.displayAvatarURL());
     return embed;
   }

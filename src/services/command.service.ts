@@ -62,6 +62,10 @@ export namespace CommandService {
       url += Utils.getRandECO();
       msg.reply('Here\'s a random opening: \n' + url);
       break;
+    case 'randompuzzle':
+      msg.reply('');
+      msg.channel.send(Utils.getPuzzle());
+      break;
     case 'help':
       msg.react('👌');
       msg.reply('Read your DMs').then((msg)=>msg.delete({timeout: 3000}));
@@ -102,22 +106,6 @@ export namespace CommandService {
             Utils.testChannel(process.env.OPEN, 'Daily Openings');
             Utils.testChannel(process.env.PUZZ, 'Puzzles');
             Utils.testChannel(process.env.LOG, 'Logging');
-          } else if (args[0]=='puzzle') {
-            // Utils.postPuzzle();
-            msg.reply('');
-            const randnum : Number = Math.floor(Math.random() *
-              Math.floor(125000));
-            const thumbnail : string = 'https://lichess.org/training/export/gif/thumbnail/' +
-             randnum + '.gif';
-            const url: string = 'https://lichess.org/training/' + randnum;
-            const embed = new MessageEmbed()
-              .setColor(Bot.primaryColour)
-              .setTitle('Here is your random puzzle')
-              .setDescription(url)
-              .setImage(thumbnail)
-              .setTimestamp()
-              .setFooter(Bot.api.user.tag, Bot.api.user.displayAvatarURL());
-            msg.channel.send(embed);
           } else if (args[0]=='opening') {
             Utils.postOpening();
           } else if (args[0]=='poll') {
