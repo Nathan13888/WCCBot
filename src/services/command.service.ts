@@ -68,8 +68,12 @@ export namespace CommandService {
       break;
     case 'help':
       msg.react('👌');
-      msg.reply('Read your DMs').then((msg)=>msg.delete({timeout: 3000}));
-      Utils.sendDM(Utils.getHelpEmbed(), msg.author);
+      if (args[0] == 'quick') {
+        msg.channel.send(Utils.getHelpEmbed());
+      } else {
+        msg.reply('Read your DMs').then((msg)=>msg.delete({timeout: 3000}));
+        Utils.sendDM(Utils.getHelpEmbed(), msg.author);
+      }
       break;
     default:
       if (msg.channel instanceof DMChannel) {
