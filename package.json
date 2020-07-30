@@ -23,7 +23,8 @@
     "main:on": "heroku maintenance:on",
     "main:off": "heroku maintenance:off",
     "h:restart": "heroku ps:restart worker",
-    "h:stop": "heroku ps:stop worker"
+    "h:start": "npm run main:off && heroku ps:scale worker=1 && npm run h:restart",
+    "h:stop": "npm run main:on && heroku ps:scale worker=0"
   },
   "dependencies": {
     "countapi-js": "^1.0.1",
