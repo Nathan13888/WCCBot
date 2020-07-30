@@ -37,7 +37,6 @@ export namespace CommandService {
 
     const permit: Bot.Permit = Bot.getPermit();
 
-
     switch (cmd) {
     case 'alive':
       // TODO: add uptime

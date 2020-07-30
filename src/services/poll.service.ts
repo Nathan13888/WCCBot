@@ -2,6 +2,7 @@ import {Message, MessageEmbed} from 'discord.js';
 import {Bot} from '../bot';
 import {Utils} from '../utils/utils';
 import {CommandService} from './command.service';
+import {Logger} from '../utils/logger';
 
 export namespace PollService {
     // creates a poll in the announcements channel
@@ -46,16 +47,33 @@ export namespace PollService {
       }
       return embed;
     }
+    // TODO: fix emoji lookup
     export function react(msg: Message, custom?: string): void {
       if (!custom) {
         msg.react('🔥');
         msg.react('👍');
         msg.react('👎');
       } else {
-        const args = custom.slice(2).split(/ +/);
+        const args: string[] = custom.split(/ +/);
         for (const x of args) {
-          msg.react(x);
+          Logger.log(x);
+          const emoji = findEmoji(x);
+          // if (!emoji) {
+          //   continue;
+          // }
+          try {
+            if (emoji) {
+              msg.react(emoji);
+            } else {
+              msg.channel.send(`Emoji with the name '${x}' was not found.`);
+            }
+          } catch (error) {
+            Logger.log(error);
+          }
         }
       }
+    }
+    function findEmoji(x: string) {
+      return Bot.api.emojis.cache.find((e) => e.name === x);
     }
 }
