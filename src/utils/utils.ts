@@ -23,7 +23,7 @@ export namespace Utils {
     const name = '';
     const desc = '';
     url += code;
-    const logo = 'https://woodlandschessclub.netlify.app/assets/img/logo-gold-black-512.png';
+    const logo = Bot.api.user.displayAvatarURL();
 
     const embed = new MessageEmbed().setColor(Bot.primaryColour)
       .setTitle('Daily Opening')
