@@ -46,9 +46,16 @@ export namespace PollService {
       }
       return embed;
     }
-    function react(msg: Message) {
-      msg.react('🔥');
-      msg.react('👍');
-      msg.react('👎');
+    export function react(msg: Message, custom?: string): void {
+      if (!custom) {
+        msg.react('🔥');
+        msg.react('👍');
+        msg.react('👎');
+      } else {
+        const args = custom.slice(2).split(/ +/);
+        for (const x of args) {
+          msg.react(x);
+        }
+      }
     }
 }

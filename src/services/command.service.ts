@@ -101,6 +101,15 @@ export namespace CommandService {
           } else if (args[0]=='poll') {
             PollService.createPoll(msg, 'Test Poll',
               'This is the description of the poll. React to cast your vote.');
+          } else if (args[0]=='reactions') {
+            msg.reply('These are the default reactions.')
+              .then((msg) => PollService.react(msg));
+            msg.reply('').then(async (evt) => {
+              const custom = await promptInput(
+                'Enter a list of emojis to react with.', msg.channel,
+                msg.author, 30000);
+              PollService.react(evt, custom);
+            });
           }
           break;
         case 'shutdown':
@@ -221,7 +230,7 @@ export namespace CommandService {
     timeLimit?: number,
   ): Promise<string> {
     let input: string;
-    await user.lastMessage.reply(question).then(async () => {
+    await channel.send(question).then(async () => {
       if (!timeLimit) timeLimit = 60000;
       const filter = (msg) => user.id === msg.author.id;
       await channel.awaitMessages(filter, {
