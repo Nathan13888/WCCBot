@@ -10,7 +10,7 @@
     "npm": "6.x"
   },
   "scripts": {
-    "start": "npm run build && pm2 start --source-map-support . --name \"WCCBOT\" && pm2 monit WCCBOT",
+    "start": "npm run build && pm2 start --source-map-support . --name \"WCCBOT\"",
     "dev": "pm2 start --source-map-support . --watch --name \"WCCBOT\" && pm2 monit WCCBOT",
     "nodemon": "nodemon -r source-map-support/register .",
     "build": "tsc",
