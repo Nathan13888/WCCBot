@@ -40,11 +40,15 @@ export namespace CommandService {
 
     switch (cmd) {
     case 'alive':
+    case 'uptime':
       msg.react(':thumbsup:');
       msg.reply('I have been active for ' + Utils.getUptime());
       break;
+    case 'server':
+      const count = msg.guild.memberCount;
+      msg.reply(`The server currently has ${count} members`);
+      break;
     case 'status':
-    case 'uptime':
     case 'info':
       msg.react('👍');
       msg.channel.send(Utils.getStatusEmbed());
