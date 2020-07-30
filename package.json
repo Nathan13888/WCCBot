@@ -10,8 +10,9 @@
     "npm": "6.x"
   },
   "scripts": {
-    "start": "npm run build && node -r source-map-support/register .",
-    "dev": "nodemon -r source-map-support/register .",
+    "start": "npm run build && pm2 start --source-map-support . --name \"WCCBOT\"",
+    "dev": "pm2 start --source-map-support . --watch --name \"WCCBOT\" && pm2 monit WCCBOT",
+    "nodemon": "nodemon -r source-map-support/register .",
     "build": "tsc",
     "build:watch": "tsc --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -29,6 +30,7 @@
     "dotenv": "^8.2.0",
     "node-fetch": "^2.6.0",
     "nodemon": "^2.0.4",
+    "pm2": "^4.4.0",
     "public-ip": "^4.0.2",
     "puppeteer": "^5.2.1",
     "source-map-support": "^0.5.19",
