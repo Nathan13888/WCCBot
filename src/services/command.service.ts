@@ -56,10 +56,9 @@ export namespace CommandService {
       msg.reply('Here\'s a random opening: \n' + url);
       break;
     case 'help':
-      msg.react('👎');
-      msg.react('🇼');
-      msg.react('🇮');
-      msg.react('🇵');
+      msg.react('👌');
+      msg.reply('Read your DMs').then((msg)=>msg.delete({timeout: 3000}));
+      Utils.sendDM(Utils.getHelpEmbed(), msg.author);
       break;
     default:
       if (msg.channel instanceof DMChannel) {

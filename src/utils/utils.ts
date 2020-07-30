@@ -86,6 +86,26 @@ export namespace Utils {
     });
     return changed;
   }
+  export function getHelpEmbed(): MessageEmbed {
+    const embed = new MessageEmbed()
+      .setColor(Bot.primaryColour)
+      .setTitle(Bot.api.user.username + ' Commands')
+      .setDescription('Here\'s a list of the available commands')
+      .setThumbnail(Bot.api.user.displayAvatarURL())
+      .addFields(
+        {name: 'help', value: '*returns this message lmao*'},
+        {name: 'randomopening', value: '*gives you a random opening*'},
+        {name: 'version', value: '*The current version of the bot*'},
+        // {name: 'alive', value: 'tells you if the bot is active'},
+        {name: 'status', value: '*The current status of the bot*'},
+        // {name: 'uptime', value: 'How long the bot has been running'},
+        // {name: 'info', value: 'General information about the bot'},
+      )
+      .setTimestamp()
+      .setFooter('Written by the papa Bruce');
+      // .setFooter(Bot.api.user.tag, Bot.api.user.displayAvatarURL());
+    return embed;
+  }
   export function getStatusEmbed(): MessageEmbed {
     const embed = new MessageEmbed()
       .setColor(Bot.primaryColour)
