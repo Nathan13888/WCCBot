@@ -95,9 +95,9 @@ export namespace Utils {
       .addFields(
         {name: 'help', value: '*returns this message lmao*'},
         {name: 'randomopening', value: '*gives you a random opening*'},
-        {name: 'version', value: '*The current version of the bot*'},
-        // {name: 'alive', value: 'tells you if the bot is active'},
-        {name: 'status', value: '*The current status of the bot*'},
+        {name: 'version', value: '*the current version of the bot*'},
+        {name: 'alive', value: '*tells you if the bot is active*'},
+        {name: 'status', value: '*the current status of the bot*'},
         // {name: 'uptime', value: 'How long the bot has been running'},
         // {name: 'info', value: 'General information about the bot'},
       )

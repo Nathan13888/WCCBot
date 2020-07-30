@@ -40,6 +40,9 @@ export namespace CommandService {
 
     switch (cmd) {
     case 'alive':
+      msg.react(':thumbsup:');
+      msg.reply('I have been active for ' + Utils.getUptime());
+      break;
     case 'status':
     case 'uptime':
     case 'info':
