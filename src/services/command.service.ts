@@ -57,6 +57,14 @@ export namespace CommandService {
       msg.channel.send('The current version is ' +
         Utils.getVersion()).then((msg)=>msg.delete({timeout: 5000}));
       break;
+    case 'jerome':
+      msg.react('🤦‍♀️');
+      msg.react('🤦‍♀️');
+      msg.react('🤦‍♀️');
+      msg.reply('"Ok boomer" ||from bruce||');
+      msg.reply('http://jeromegambit.blogspot.com/');
+      msg.reply('https://www.youtube.com/watch?v=N3AsRny3bpk');
+      break;
     case 'randomopening':
       let url = 'https://www.365chess.com/eco/';
       url += Utils.getRandECO();
