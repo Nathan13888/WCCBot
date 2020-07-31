@@ -10,7 +10,7 @@ import {
 import {Bot} from '../bot';
 import {Logger} from '../utils/logger';
 import {Utils} from '../utils/utils';
-import {ReminderService} from './reminder.service';
+import {CronService} from './cron.service';
 import {ClearChat} from '../utils/clearchat';
 import {PollService} from './poll.service';
 export namespace CommandService {
@@ -162,7 +162,7 @@ export namespace CommandService {
                 msg.channel.send('Timed out. Please try again.');
                 return;
               }
-              ReminderService.sendReminder(content, msg.author);
+              CronService.sendReminder(content, msg.author);
             } else {
               msg.channel.send('Invalid time argument.');
             }
@@ -191,7 +191,7 @@ export namespace CommandService {
                 parseInt(match[5]),
                 match[6] ? parseInt(match[6]) : 0,
               );
-              ReminderService.setReminder(dateObj, content, msg.author);
+              CronService.setReminder(dateObj, content, msg.author);
               msg.channel.send('Reminder is set.');
             } else {
               msg.channel.send('Invalid date format.');
