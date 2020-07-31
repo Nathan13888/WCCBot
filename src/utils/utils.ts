@@ -22,6 +22,10 @@ export namespace Utils {
     const embed = getPuzzle('Daily Puzzle');
     Logger.log('Posting Puzzle');
     getTextChannel(process.env.PUZZ).send(embed).then((msg)=>{
+      msg.react('👍');
+      msg.react('❓');
+      msg.react('👎');
+      msg.react('😠');
       if (test) {
         msg.delete({timeout: 10000});
       }
