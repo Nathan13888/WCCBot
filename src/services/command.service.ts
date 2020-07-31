@@ -20,14 +20,14 @@ export namespace CommandService {
   ].join(''));
   export async function registerCommands() {
     Bot.api.on('message', async (msg) => {
-      if (msg.author.bot) return;
-      if (msg.channel instanceof TextChannel) {
-        if (msg.guild.id===process.env.GUILD) {
-          if (msg.content.substring(0, 2) === '::') {
+      if (msg.guild && msg.guild.id===process.env.GUILD) {
+        if (msg.content.substring(0, 2) === '::') {
+          if (msg.author.bot) return;
+          if (msg.channel instanceof TextChannel) {
             parseCommand(msg);
+          } else {
+            msg.reply('Commands are only allowed in server Text Channels');
           }
-        } else {
-          msg.reply('Commands are only allowed in server Text Channels');
         }
       }
     });
