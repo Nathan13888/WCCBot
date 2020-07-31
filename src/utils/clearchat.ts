@@ -5,9 +5,9 @@ import {Logger} from './logger';
 // import * as pack from '../../package.json';
 export namespace ClearChat {
     export function clearAll(id:string): void {
-      for (let i=0; i<10; i++) {
-        Utils.getTextChannel(id).bulkDelete(100);
-      }
+      // for (let i=0; i<10; i++) {
+      Utils.getTextChannel(id).bulkDelete(100);
+      // }
       log('ALL', id);
     }
 

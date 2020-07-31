@@ -20,6 +20,7 @@ export namespace Utils {
   }
   export function postPuzzle(test: boolean = false): void {
     const embed = getPuzzle('Daily Puzzle');
+    Logger.log('Posting Puzzle');
     getTextChannel(process.env.PUZZ).send(embed).then((msg)=>{
       if (test) {
         msg.delete({timeout: 10000});

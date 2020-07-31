@@ -98,7 +98,9 @@ export namespace CommandService {
           msg.delete();
           if (args[0]=='all') {
             ClearChat.clearAll(msg.channel.id);
-            msg.channel.send('Cleared messages! Am I first?');
+            if (args[1]!=='silent') {
+              msg.channel.send('Cleared messages! Am I first?');
+            }
           }
           break;
         case 'poll':
@@ -124,7 +126,11 @@ export namespace CommandService {
             Utils.testChannel(process.env.PUZZ, 'Puzzles');
             Utils.testChannel(process.env.LOG, 'Logging');
           } else if (args[0]=='puzzle') {
-            Utils.postPuzzle(true);
+            if (args[1]=='real') {
+              Utils.postPuzzle();
+            } else {
+              Utils.postPuzzle(true);
+            }
           } else if (args[0]=='opening') {
             Utils.postOpening();
           } else if (args[0]=='poll') {
