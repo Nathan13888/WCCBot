@@ -204,8 +204,8 @@ export namespace Utils {
       } catch (err) {
         Logger.log('Encountered a problem with CountAPI');
       }
-      Logger.log(`Total Restarts: ${getStarts()}`);
-      Logger.log(`Total Commands Processed: ${getAlltime()}`);
+      // Logger.log(`Total Restarts: ${getStarts()}`);
+      // Logger.log(`Total Commands Processed: ${getAlltime()}`);
     }
     export function addStarts(): void {
       countapi.hit(namespace, 'starts');
