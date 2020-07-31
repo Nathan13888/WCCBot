@@ -123,6 +123,8 @@ export namespace CommandService {
             Utils.testChannel(process.env.OPEN, 'Daily Openings');
             Utils.testChannel(process.env.PUZZ, 'Puzzles');
             Utils.testChannel(process.env.LOG, 'Logging');
+          } else if (args[0]=='puzzle') {
+            Utils.postPuzzle(true);
           } else if (args[0]=='opening') {
             Utils.postOpening();
           } else if (args[0]=='poll') {

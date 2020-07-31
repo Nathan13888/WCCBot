@@ -1,5 +1,5 @@
 import {MessageEmbed, TextChannel, GuildMember,
-  Role, Guild, User, MessageAttachment, Invite} from 'discord.js';
+  Role, Guild, User, MessageAttachment} from 'discord.js';
 import {Bot} from '../bot';
 import {Logger} from './logger';
 import countapi from 'countapi-js';
@@ -18,7 +18,19 @@ export namespace Utils {
   export function searchOpening() {
 
   }
-  export function getPuzzle(): MessageEmbed {
+  export function postPuzzle(test: boolean = false): void {
+    const embed = getPuzzle('Daily Puzzle');
+    getTextChannel(process.env.PUZZ).send(embed).then((msg)=>{
+      if (test) {
+        msg.delete({timeout: 10000});
+      }
+    });
+  }
+  export function getPuzzle(title?: string): MessageEmbed {
+    let t = 'Here is your random puzzle';
+    if (title) {
+      t = title;
+    }
     const randnum : Number = Math.floor(Math.random() *
     Math.floor(125000));
     const thumbnail : string = 'https://lichess.org/training/export/gif/thumbnail/' +
@@ -26,7 +38,7 @@ export namespace Utils {
     const url: string = 'https://lichess.org/training/' + randnum;
     const embed = new MessageEmbed()
       .setColor(Bot.primaryColour)
-      .setTitle('Here is your random puzzle')
+      .setTitle(t)
       .setDescription(url)
       .setImage(thumbnail)
       .setTimestamp()
