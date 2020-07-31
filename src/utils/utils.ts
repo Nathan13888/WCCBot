@@ -182,7 +182,7 @@ export namespace Utils {
   export const inviteLink: string = 'https://discord.gg/tctG7mA';
   const version = require('../../package.json').version;
   export function getVersion(): string {
-    return version;
+    return `${version} (${process.env.NODE_ENV})`;
   }
   export namespace Counter {
     interface Result {
