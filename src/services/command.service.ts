@@ -233,7 +233,7 @@ export namespace CommandService {
         default:
           msg.react('❌');
         }
-        msg.delete({timeout: 2000});
+        // msg.delete({timeout: 2000});
         return;
       } else console.log('Permission denied from ID: ' + msg.author.id);
       msg.react('❌');
