@@ -22,7 +22,9 @@ export namespace CommandService {
     Bot.api.on('message', async (msg) => {
       if (msg.author.bot) return;
       if (msg.content.substring(0, 2) === '::') {
-        parseCommand(msg);
+        if (msg.guild.id===process.env.GUILD) {
+          parseCommand(msg);
+        }
       }
     });
   }
