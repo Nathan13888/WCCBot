@@ -23,7 +23,7 @@ export namespace CommandService {
       if (msg.author.bot) return;
       if (!msg.guild || !(msg.channel instanceof TextChannel)) {
         msg.reply('Commands are only allowed in server Text Channels');
-      } else if (msg.content.substring(0, 2) === '::') {
+      } else if (msg.content.substring(0, 2) === Bot.PREFIX) {
         if (msg.guild.id===process.env.GUILD) {
           parseCommand(msg);
         }

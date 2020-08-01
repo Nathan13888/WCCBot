@@ -12,6 +12,13 @@ export namespace Bot {
     | Discord.DMChannel | Discord.NewsChannel;
   let discordToken: string;
 
+  // set prefix
+  export let PREFIX: string;
+  if (process.env.NODE_ENV==='production') {
+    PREFIX = '::';
+  } else {
+    PREFIX = '""';
+  }
   export const primaryColour = '#00FA9A'; // chess green
 
   export interface Permit {
@@ -48,7 +55,7 @@ export namespace Bot {
 
       api.user.setUsername('𝖂𝕮𝕮𝕭');
       api.user.setAFK(false);
-      api.user.setActivity('Chess and ::help', {type: 'PLAYING'});
+      api.user.setActivity(`Chess and ${Bot.PREFIX}help`, {type: 'PLAYING'});
       announcementChannel = Bot.api.channels.cache.get(
         process.env.ANN) as Discord.TextChannel;
       // TODO: Allow different announcement and reminder channels
