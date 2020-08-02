@@ -10,7 +10,7 @@ import {
 import {Bot} from '../bot';
 import {Logger} from '../utils/logger';
 import {Utils} from '../utils/utils';
-import {ReminderService} from './reminder.service';
+import {CronService} from './cron.service';
 import {ClearChat} from '../utils/clearchat';
 import {PollService} from './poll.service';
 export namespace CommandService {
@@ -21,8 +21,12 @@ export namespace CommandService {
   export async function registerCommands() {
     Bot.api.on('message', async (msg) => {
       if (msg.author.bot) return;
-      if (msg.content.substring(0, 2) === '::') {
-        parseCommand(msg);
+      if (!msg.guild || !(msg.channel instanceof TextChannel)) {
+        msg.reply('Commands are only allowed in server Text Channels');
+      } else if (msg.content.substring(0, 2) === '::') {
+        if (msg.guild.id===process.env.GUILD) {
+          parseCommand(msg);
+        }
       }
     });
   }
@@ -31,6 +35,7 @@ export namespace CommandService {
   async function parseCommand(msg: Message) {
     Logger.log(
       `${msg.author.tag} executed \`${msg.content}\``);
+    Utils.Counter.addProcessed();
     // TODO: Improve regex to support single and double quotes.
     const args = msg.content.slice(2).split(/ +/);
     const cmd = args.shift().toLowerCase();
@@ -38,24 +43,54 @@ export namespace CommandService {
     const permit: Bot.Permit = Bot.getPermit();
 
     switch (cmd) {
+    case 'invite':
+      msg.reply(Utils.inviteLink);
+      break;
     case 'alive':
-      // TODO: add uptime
+    case 'uptime':
       msg.react('👍');
+      msg.reply('I have been active for ' + Utils.getUptime());
+      break;
+    case 'server':
+      const count = msg.guild.memberCount;
+      msg.reply(`The server currently has ${count} members`);
+      break;
+    case 'status':
+    case 'info':
+      msg.react('👍');
+      msg.channel.send(Utils.getStatusEmbed());
       break;
     case 'version':
       msg.channel.send('The current version is ' +
         Utils.getVersion()).then((msg)=>msg.delete({timeout: 5000}));
+      break;
+    case 'jerome':
+      msg.react('🤦‍♀️');
+      msg.react('🤦‍♀️');
+      msg.react('🤦‍♀️');
+      msg.reply('"Ok boomer" ||from bruce||');
+      msg.reply('http://jeromegambit.blogspot.com/');
+      msg.reply('https://www.youtube.com/watch?v=N3AsRny3bpk');
       break;
     case 'randomopening':
       let url = 'https://www.365chess.com/eco/';
       url += Utils.getRandECO();
       msg.reply('Here\'s a random opening: \n' + url);
       break;
+    case 'randompuzzle':
+      msg.reply('');
+      msg.channel.send(Utils.getPuzzle());
+      break;
     case 'help':
-      msg.react('👎');
-      msg.react('🇼');
-      msg.react('🇮');
-      msg.react('🇵');
+      msg.react('👌');
+      if (args[0] == 'quick') {
+        msg.channel.send(Utils.getHelpEmbed()).then(
+          (msg)=>msg.delete({timeout: 5000}),
+        );
+      } else {
+        msg.reply('Read your DMs').then((msg)=>msg.delete({timeout: 3000}));
+        Utils.sendDM(Utils.getHelpEmbed(), msg.author);
+      }
       break;
     default:
       if (msg.channel instanceof DMChannel) {
@@ -67,7 +102,9 @@ export namespace CommandService {
           msg.delete();
           if (args[0]=='all') {
             ClearChat.clearAll(msg.channel.id);
-            msg.channel.send('Cleared messages! Am I first?');
+            if (args[1]!=='silent') {
+              msg.channel.send('Cleared messages! Am I first?');
+            }
           }
           break;
         case 'poll':
@@ -92,6 +129,12 @@ export namespace CommandService {
             Utils.testChannel(process.env.OPEN, 'Daily Openings');
             Utils.testChannel(process.env.PUZZ, 'Puzzles');
             Utils.testChannel(process.env.LOG, 'Logging');
+          } else if (args[0]=='puzzle') {
+            if (args[1]=='real') {
+              Utils.postPuzzle();
+            } else {
+              Utils.postPuzzle(true);
+            }
           } else if (args[0]=='opening') {
             Utils.postOpening();
           } else if (args[0]=='poll') {
@@ -106,8 +149,11 @@ export namespace CommandService {
                 msg.author, 30000);
               PollService.react(evt, custom);
             });
+          } else if (args[0]=='dm') {
+            Utils.sendDM('This is a test DM', msg.author);
           }
           break;
+        case 'reboot':
         case 'shutdown':
           Logger.log('Shutting down');
           process.exit();
@@ -126,7 +172,7 @@ export namespace CommandService {
                 msg.channel.send('Timed out. Please try again.');
                 return;
               }
-              ReminderService.sendReminder(content, msg.author);
+              CronService.sendReminder(content, msg.author);
             } else {
               msg.channel.send('Invalid time argument.');
             }
@@ -155,7 +201,7 @@ export namespace CommandService {
                 parseInt(match[5]),
                 match[6] ? parseInt(match[6]) : 0,
               );
-              ReminderService.setReminder(dateObj, content, msg.author);
+              CronService.setReminder(dateObj, content, msg.author);
               msg.channel.send('Reminder is set.');
             } else {
               msg.channel.send('Invalid date format.');
@@ -199,7 +245,7 @@ export namespace CommandService {
         default:
           msg.react('❌');
         }
-        msg.delete({timeout: 2000});
+        // msg.delete({timeout: 2000});
         return;
       } else console.log('Permission denied from ID: ' + msg.author.id);
       msg.react('❌');
