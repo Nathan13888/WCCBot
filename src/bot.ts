@@ -68,6 +68,9 @@ export namespace Bot {
     api.on('guildMemberRemove', (member) => {
       Logger.log(`${member.user.tag} has left the server`);
     });
+    api.on('messageDelete', (msg)=>{
+      console.log(`A message by ${msg.author.tag} was deleted.`);
+    });
   }
 }
 
