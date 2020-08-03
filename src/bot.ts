@@ -20,6 +20,7 @@ export namespace Bot {
   } else {
     PREFIX = '""';
   }
+  export const useDB = (process.env.USEDB == 'true');
   export const primaryColour = '#00FA9A'; // chess green
 
   export interface Permit {
@@ -40,7 +41,9 @@ export namespace Bot {
     api.login(discordToken);
 
     api.on('ready', async () => {
-      DB.init();
+      if (useDB) {
+        DB.init();
+      }
       Logger.log('WCC Bot has started!');
       Logger.log(`Connected as ${api.user.tag}`);
       Logger.log('Current version: ' + Utils.getVersion());
@@ -53,6 +56,7 @@ export namespace Bot {
           Logger.log('Public IP is ' + await publicIp.v4());
         })();
       } else Logger.log('IP logging is disabled.');
+      Logger.log(`USEDB=${process.env.USEDB}`);
       Utils.Counter.init();
 
       api.user.setUsername('𝖂𝕮𝕮𝕭');
@@ -78,7 +82,9 @@ export namespace Bot {
       Logger.log(`${member.user.tag} has left the server`);
     });
     api.on('disconnect', () => {
-      DB.disconnect();
+      if (useDB) {
+        DB.disconnect();
+      }
     });
   }
 }
