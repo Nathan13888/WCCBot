@@ -27,21 +27,25 @@
     "h:stop": "npm run main:on && heroku ps:scale worker=0"
   },
   "dependencies": {
+    "@typegoose/typegoose": "^7.3.1",
+    "@types/cron": "^1.7.2",
+    "@types/mongoose": "^5.7.34",
+    "@types/node": "^13.13.4",
     "countapi-js": "^1.0.1",
     "cron": "^1.8.2",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
+    "mongoose": "^5.9.27",
     "node-fetch": "^2.6.0",
-    "nodemon": "^2.0.4",
     "pm2": "^4.4.0",
     "public-ip": "^4.0.2",
     "puppeteer": "^5.2.1",
+    "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.19",
-    "@types/cron": "^1.7.2",
-    "@types/node": "^13.13.4",
     "typescript": "^3.8.3"
   },
   "devDependencies": {
+    "nodemon": "^2.0.4",
     "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^2.31.0",
     "eslint": "^6.8.0",

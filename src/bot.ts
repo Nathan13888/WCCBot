@@ -4,6 +4,7 @@ import * as publicIp from 'public-ip';
 import {CommandService} from './services/command.service';
 import {Logger} from './utils/logger';
 import {Utils} from './utils/utils';
+import {DB} from './services/db.service';
 export namespace Bot {
   export let api: Discord.Client;
   export let announcementChannel: Discord.TextChannel
@@ -39,6 +40,7 @@ export namespace Bot {
     api.login(discordToken);
 
     api.on('ready', async () => {
+      DB.init();
       Logger.log('WCC Bot has started!');
       Logger.log(`Connected as ${api.user.tag}`);
       Logger.log('Current version: ' + Utils.getVersion());
@@ -74,6 +76,9 @@ export namespace Bot {
     });
     api.on('guildMemberRemove', (member) => {
       Logger.log(`${member.user.tag} has left the server`);
+    });
+    api.on('disconnect', () => {
+      DB.disconnect();
     });
   }
 }
