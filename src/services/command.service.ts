@@ -109,7 +109,16 @@ export namespace CommandService {
           break;
         case 'poll':
           if (args[0]=='create') {
-            PollService.createPollPrompt(msg);
+            const cleanup: boolean = (args[1]=='cleanup');
+            // channel is undefined if either args[1] is null or
+            // if the text channel is not found
+            let channel: string;
+            if (cleanup) {
+              msg.delete();
+            } else if (args[1] && Utils.getTextChannel(args[1])) {
+              channel = args[1];
+            }
+            PollService.createPollPrompt(msg, cleanup, channel);
           }
           break;
         case 'checkroles':
@@ -256,9 +265,9 @@ export namespace CommandService {
   // TODO: prompt confirmation
   export async function promptConfirm(msg: string,
     channel: TextChannel | DMChannel | NewsChannel,
-    user: User): Promise<boolean> {
+    user: User, cleanup: boolean = false): Promise<boolean> {
     const res = await promptInput('Please confirm ' + msg.toLowerCase() +
-    ' (yes/no)', channel, user, 30000);
+    ' (yes/no)', channel, user, 30000, cleanup);
     return (res && res.toLowerCase() === 'yes' ? true : false);
   }
 
@@ -270,23 +279,28 @@ export namespace CommandService {
     channel: TextChannel | DMChannel | NewsChannel,
     user: User,
     timeLimit?: number,
+    cleanup: boolean = false,
   ): Promise<string> {
     let input: string;
-    await channel.send(question).then(async () => {
+    await channel.send(question).then(async (evt) => {
       if (!timeLimit) timeLimit = 60000;
       const filter = (msg) => user.id === msg.author.id;
       await channel.awaitMessages(filter, {
         time: timeLimit, max: 1, errors: ['time'],
-      })
-        .then((messages) => {
-          input = messages.first().content;
-          channel.send(
-            `You've entered: ${input}`,
-          );
-        })
-        .catch(() => {
-          channel.send('You did not enter any input!');
+      }).then((messages) => {
+        input = messages.first().content;
+        if (cleanup) messages.first().delete({timeout: 1000});
+        channel.send(
+          `You've entered: ${input}`,
+        ).then((msg) => {
+          if (cleanup) msg.delete({timeout: 1000});
         });
+      }) .catch(() => {
+        channel.send('You did not enter any input!').then((msg) => {
+          if (cleanup) msg.delete({timeout: 1000});
+        });
+      });
+      if (cleanup) evt.delete({timeout: 1000});
     });
     return input;
   }

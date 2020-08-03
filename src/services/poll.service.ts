@@ -6,19 +6,28 @@ import {Logger} from '../utils/logger';
 
 export namespace PollService {
     // creates a poll in the announcements channel
-    export async function createPollPrompt(msg: Message):
-      Promise<MessageEmbed> {
+    export async function createPollPrompt(msg: Message,
+      cleanup: boolean = false, channel?: string): Promise<MessageEmbed> {
+      if (channel) {
+        cleanup = true;
+      } else { // channel == undefined
+        channel = process.env.POLL;
+      }
       const title: string = await CommandService.promptInput(
-        'Enter title.', msg.channel, msg.author, 60000);
+        'Enter title.', msg.channel, msg.author, 60000, cleanup);
       const desc: string = await CommandService.promptInput(
-        'Enter description.', msg.channel, msg.author, 60000);
+        'Enter description.', msg.channel, msg.author, 60000, cleanup);
       const embed = createPoll(msg, title, desc, false);
-      msg.reply('This is how it will look like.');
-      msg.channel.send(embed);
+      msg.reply('This is how it will look like.').then((msg) => {
+        msg.delete({timeout: 1000});
+      });
+      msg.channel.send(embed).then((msg)=>{
+        msg.delete({timeout: 1000});
+      });
       const confirm = await CommandService.promptConfirm(
-        'this poll message', msg.channel, msg.author);
+        'this poll message', msg.channel, msg.author, cleanup);
       if (confirm) {
-        Utils.getTextChannel(process.env.POLL).send(embed).then((msg)=> {
+        Utils.getTextChannel(channel).send(embed).then((msg)=> {
           react(msg);
         });
       }
