@@ -73,8 +73,22 @@ export namespace Utils {
 
     getTextChannel(process.env.OPEN).send(embed);
   }
+  export function textChannelExists(id: string): boolean {
+    const chan = Bot.api.channels.cache.get(id);
+    if (!chan) {
+      return false;
+    }
+    if (chan.type == 'text') {
+      return true;
+    } else {
+      return false;
+    }
+  }
   export function getTextChannel(id: string): TextChannel {
     const chan = Bot.api.channels.cache.get(id);
+    if (!chan) {
+      return undefined;
+    }
     if (chan.type == 'text') {
       return (chan as TextChannel);
     } else return undefined;
