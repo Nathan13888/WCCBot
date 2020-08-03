@@ -69,5 +69,8 @@ export namespace DB {
   export function getEvents() {
 
   }
+  export function addExample(): void {
+
+  }
   // TODO: edit --> removes and adds a new version
 }
