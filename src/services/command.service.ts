@@ -115,8 +115,13 @@ export namespace CommandService {
             let channel: string;
             if (cleanup) {
               msg.delete();
-            } else if (args[1] && Utils.getTextChannel(args[1])) {
-              channel = args[1];
+            } else if (args[1]) {
+              if (Utils.textChannelExists(args[1])) {
+                channel = args[1];
+                msg.delete();
+              } else {
+                msg.reply('Text Channel was not found');
+              }
             }
             PollService.createPollPrompt(msg, cleanup, channel);
           }
