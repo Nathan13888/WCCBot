@@ -14,4 +14,7 @@ export namespace Logger {
         console.log('LOGGING CHANNEL NOT FOUND');
       }
     }
+    export async function err(msg: string) {
+      console.error(msg);
+    }
 }
