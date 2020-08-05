@@ -1,8 +1,9 @@
 import {MessageEmbed, TextChannel, GuildMember,
-  Role, Guild, User, MessageAttachment} from 'discord.js';
+  Role, Guild, User, MessageAttachment, EmbedFieldData} from 'discord.js';
 import {Bot} from '../bot';
 import {Logger} from './logger';
 import countapi from 'countapi-js';
+import {DB} from '../services/db.service';
 // import * as pack from '../../package.json';
 export namespace Utils {
   export function getRandECO(): string {
@@ -168,6 +169,26 @@ export namespace Utils {
         {name: 'Restarts', value: Counter.getStarts(), inline: true},
         {name: 'Uptime', value: getUptime(), inline: true},
         {name: 'Guilds', value: Bot.api.guilds.cache.size, inline: true})
+      .setTimestamp()
+      .setFooter(Bot.api.user.tag, Bot.api.user.displayAvatarURL());
+    return embed;
+  }
+  export async function getEventsEmbed(): Promise<MessageEmbed> {
+    let data: EmbedFieldData[];
+    for (const evt of await DB.Event.find()) {
+      const e = (evt as DB.EventClass);
+      if (!e.deleted) {
+        data.push({
+          name: e.title,
+          value: e.date,
+        });
+      }
+    }
+    const embed = new MessageEmbed()
+      .setColor(Bot.primaryColour)
+      .setTitle(`Events`)
+      .setDescription('Upcoming Events...')
+      .addFields(data)
       .setTimestamp()
       .setFooter(Bot.api.user.tag, Bot.api.user.displayAvatarURL());
     return embed;

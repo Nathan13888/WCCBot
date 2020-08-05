@@ -81,6 +81,9 @@ export namespace CommandService {
       msg.reply('');
       msg.channel.send(Utils.getPuzzle());
       break;
+    case 'events':
+      Utils.getEventsEmbed();
+      break;
     case 'help':
       msg.react('👌');
       if (args[0] == 'quick') {
@@ -105,6 +108,12 @@ export namespace CommandService {
             if (args[1]!=='silent') {
               msg.channel.send('Cleared messages! Am I first?');
             }
+          }
+          break;
+        case 'event':
+          switch (args[0]) {
+          case 'create':
+          case 'remove':
           }
           break;
         case 'poll':

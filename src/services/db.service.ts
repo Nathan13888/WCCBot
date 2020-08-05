@@ -61,16 +61,17 @@ export namespace DB {
       author: author,
       date: date,
     } as EventClass);
-    event.save();
+    event.save((err, event) => {
+      if (err) Logger.err(err);
+      Logger.log('[DB] Saved event with _id:' + event._id);
+    });
   }
   // export function removeEvent(_id: string): void {
 
   // }
-  export function getEvents() {
-
-  }
   export function addExample(): void {
-
+    addEvent('Example Event', 'This is the description.',
+      'somediscordIDhere', new Date(new Date().getTime() + (1000*60*60*24)));
   }
   // TODO: edit --> removes and adds a new version
 }
