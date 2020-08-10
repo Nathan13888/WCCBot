@@ -76,7 +76,9 @@ export namespace Bot {
     api.on('guildMemberAdd', (member) => {
       Logger.log(`${member.user.tag} has joined the server`);
       // TODO: guilds filtering
-      member.roles.add(process.env.DEFROLE);
+      if (!member.user.bot) {
+        member.roles.add(process.env.DEFROLE);
+      }
     });
     api.on('guildMemberRemove', (member) => {
       Logger.log(`${member.user.tag} has left the server`);
