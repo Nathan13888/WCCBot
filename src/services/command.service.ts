@@ -18,8 +18,10 @@ export namespace CommandService {
     '(\\d{1,4}) +(0\\d|1[0-2]) +(0\\d|[12]\\d|3[01]) +',
     '([01]\\d|2[0-3]) +([0-5]\\d)( +[0-5]\\d)?',
   ].join(''));
+  // TODO: move API async message function to bot.ts
   export async function registerCommands() {
     Bot.api.on('message', async (msg) => {
+      Utils.reactRedditor(msg);
       if (msg.author.bot) return;
       if (!msg.guild || !(msg.channel instanceof TextChannel)) {
         msg.reply('Commands are only allowed in server Text Channels');

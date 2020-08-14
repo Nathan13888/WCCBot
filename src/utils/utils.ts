@@ -1,11 +1,32 @@
 import {MessageEmbed, TextChannel, GuildMember,
-  Role, Guild, User, MessageAttachment, EmbedFieldData} from 'discord.js';
+  Role, Guild, User, MessageAttachment, EmbedFieldData,
+  Message} from 'discord.js';
 import {Bot} from '../bot';
 import {Logger} from './logger';
 import countapi from 'countapi-js';
 import {DB} from '../services/db.service';
 // import * as pack from '../../package.json';
 export namespace Utils {
+  export function reactRedditor(msg: Message): void {
+    if (msg.author.id === process.env.REDDITOR) {
+      const reactions: string[] = [
+        '😆',
+        '😂',
+        '🤣',
+        '😱',
+        '🥺',
+        '👍',
+        '👎',
+      ];
+      for (const x of reactions) {
+        try {
+          msg.react(x);
+        } catch (err) {
+          Logger.err(err);
+        }
+      }
+    }
+  }
   export function getRandECO(): string {
     let code: string = ''; const LETTERS = 'ABCDE';
     code += LETTERS.charAt(Math.floor(Math.random() * LETTERS.length));
