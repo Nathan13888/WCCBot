@@ -127,7 +127,10 @@ export namespace CommandService {
             if (cleanup) {
               msg.delete();
             } else if (args[1]) {
-              if (Utils.textChannelExists(args[1])) {
+              if (args[1]=='here') {
+                channel = msg.channel.id;
+                msg.delete();
+              } else if (Utils.textChannelExists(args[1])) {
                 channel = args[1];
                 msg.delete();
               } else {
