@@ -14,15 +14,15 @@ export namespace PollService {
         channel = process.env.POLL;
       }
       const title: string = await CommandService.promptInput(
-        'Enter title.', msg.channel, msg.author, 60000, cleanup);
+        'Enter title.', msg.channel, msg.author, 240000, cleanup);
       const desc: string = await CommandService.promptInput(
-        'Enter description.', msg.channel, msg.author, 60000, cleanup);
+        'Enter description.', msg.channel, msg.author, 240000, cleanup);
       const embed = createPoll(msg, title, desc, false);
       msg.reply('This is how it will look like.').then((msg) => {
         msg.delete({timeout: 1000});
       });
       msg.channel.send(embed).then((msg)=>{
-        msg.delete({timeout: 1000});
+        msg.delete({timeout: 20000});
       });
       const confirm = await CommandService.promptConfirm(
         'this poll message', msg.channel, msg.author, cleanup);
