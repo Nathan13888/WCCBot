@@ -13,6 +13,10 @@ export namespace PollService {
       } else { // channel == undefined
         channel = process.env.POLL;
       }
+      if (channel == process.env.POLL) {
+        // TODO: auto detect channel name based on ID
+        Utils.getTextChannel(process.env.ANN).send('A new poll has been posted at #polls');
+      }
       const title: string = await CommandService.promptInput(
         'Enter title.', msg.channel, msg.author, 240000, cleanup);
       const desc: string = await CommandService.promptInput(
