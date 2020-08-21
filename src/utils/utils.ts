@@ -11,12 +11,9 @@ export namespace Utils {
     if (msg.author.id === process.env.REDDITOR) {
       const reactions: string[] = [
         '😆',
-        '😂',
         '🤣',
         '😱',
-        '🥺',
-        '👍',
-        '👎',
+        '😠',
       ];
       for (const x of reactions) {
         try {
