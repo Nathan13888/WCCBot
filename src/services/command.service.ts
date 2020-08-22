@@ -199,10 +199,13 @@ export namespace CommandService {
                 if (danEmoji) {
                   message.react(danEmoji);
                 }
+                Utils.getTextChannel(process.env.ANN).send('Did it work?');
+              } else {
+                msg.reply('Message not found...');
               }
-              Utils.getTextChannel(process.env.ANN).send('Did it work?');
             }
           }
+          break;
         case 'remind':
           if (args && args.length) {
             if (args.length > 1) {
