@@ -186,6 +186,9 @@ export namespace CommandService {
           Logger.log('Shutting down');
           process.exit();
           // break;
+        // TODO: DM feature
+        case 'dm':
+          break;
         case 'react':
           // TODO: custom emoji selector
           if (args.length >= 2) {
@@ -200,7 +203,7 @@ export namespace CommandService {
                   }
                   Utils.getTextChannel(process.env.ANN).send('Did it work?');
                 });
-            } else {
+            } else { // TODO: fix message not found
               msg.reply('Message not found...');
             }
           }
