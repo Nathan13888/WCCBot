@@ -192,7 +192,7 @@ export namespace CommandService {
             const id = args[0];
             if (args[1]=='dandancool') { // DANDANCOOL
               const message = Utils.getTextChannel(process.env.ANN)
-                .messages.cache.find((e) => e.id === id);
+                .messages.cache.get(id);
               if (message) {
                 message.react('👍');
                 const danEmoji = Utils.findEmoji('dandancool');
