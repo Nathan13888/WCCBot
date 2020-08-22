@@ -191,18 +191,17 @@ export namespace CommandService {
           if (args.length >= 2) {
             const id = args[0];
             if (args[1]=='dandancool') { // DANDANCOOL
-              const message = Utils.getTextChannel(process.env.ANN)
-                .messages.cache.get(id);
-              if (message) {
-                message.react('👍');
-                const danEmoji = Utils.findEmoji('dandancool');
-                if (danEmoji) {
-                  message.react(danEmoji);
-                }
-                Utils.getTextChannel(process.env.ANN).send('Did it work?');
-              } else {
-                msg.reply('Message not found...');
-              }
+              Utils.getTextChannel(process.env.ANN).messages
+                .fetch(id).then((message) => {
+                  message.react('👍');
+                  const danEmoji = Utils.findEmoji('dandancool');
+                  if (danEmoji) {
+                    message.react(danEmoji);
+                  }
+                  Utils.getTextChannel(process.env.ANN).send('Did it work?');
+                });
+            } else {
+              msg.reply('Message not found...');
             }
           }
           break;
