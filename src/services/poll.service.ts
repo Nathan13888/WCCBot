@@ -71,7 +71,7 @@ export namespace PollService {
         const args: string[] = custom.split(/ +/);
         for (const x of args) {
           Logger.log(x);
-          const emoji = findEmoji(x);
+          const emoji = Utils.findEmoji(x);
           // if (!emoji) {
           //   continue;
           // }
@@ -86,8 +86,5 @@ export namespace PollService {
           }
         }
       }
-    }
-    function findEmoji(x: string) {
-      return Bot.api.emojis.cache.find((e) => e.name === x);
     }
 }

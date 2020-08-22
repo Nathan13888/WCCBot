@@ -186,6 +186,23 @@ export namespace CommandService {
           Logger.log('Shutting down');
           process.exit();
           // break;
+        case 'react':
+          // TODO: custom emoji selector
+          if (args.length >= 2) {
+            const id = args[0];
+            if (args[1]=='dandancool') { // DANDANCOOL
+              const message = Utils.getTextChannel(process.env.ANN)
+                .messages.cache.find((e) => e.id === id);
+              if (message) {
+                message.react('👍');
+                const danEmoji = Utils.findEmoji('dandancool');
+                if (danEmoji) {
+                  message.react(danEmoji);
+                }
+              }
+              Utils.getTextChannel(process.env.ANN).send('Did it work?');
+            }
+          }
         case 'remind':
           if (args && args.length) {
             if (args.length > 1) {

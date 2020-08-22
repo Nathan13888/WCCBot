@@ -34,6 +34,9 @@ export namespace Utils {
     code += num;
     return code;
   }
+  export function findEmoji(x: string) {
+    return Bot.api.emojis.cache.find((e) => e.name === x);
+  }
   export function searchOpening() {
 
   }
