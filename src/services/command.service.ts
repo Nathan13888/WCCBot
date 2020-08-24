@@ -181,8 +181,11 @@ export namespace CommandService {
             Utils.sendDM('This is a test DM', msg.author);
           }
           break;
+        case 'restart':
         case 'reboot':
         case 'shutdown':
+          msg.react('👍');
+          msg.reply('Restarting now...');
           Logger.log('Shutting down');
           process.exit();
           // break;
