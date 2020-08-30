@@ -1,6 +1,6 @@
 import {MessageEmbed, TextChannel, GuildMember,
   Role, Guild, User, MessageAttachment, EmbedFieldData,
-  Message} from 'discord.js';
+  Message, NewsChannel} from 'discord.js';
 import {Bot} from '../bot';
 import {Logger} from './logger';
 import countapi from 'countapi-js';
@@ -106,13 +106,15 @@ export namespace Utils {
       return false;
     }
   }
-  export function getTextChannel(id: string): TextChannel {
+  export function getTextChannel(id: string): TextChannel | NewsChannel {
     const chan = Bot.api.channels.cache.get(id);
     if (!chan) {
       return undefined;
     }
     if (chan.type == 'text') {
       return (chan as TextChannel);
+    } else if (chan.type == 'news') {
+      return (chan as NewsChannel);
     } else return undefined;
   }
   export function getGuild(guild: string): Guild {
