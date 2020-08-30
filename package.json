@@ -12,6 +12,7 @@
   "scripts": {
     "start": "npm run build && pm2 start --merge-logs --source-map-support . --name \"WCCBOT\" && pm2 logs WCCBOT",
     "dev": "pm2 start --merge-logs --source-map-support . --watch --name \"WCCBOT\" && pm2 monit WCCBOT",
+    "restart": "pm2 stop WCCBOT && npm run dev",
     "nodemon": "nodemon -r source-map-support/register .",
     "build": "tsc",
     "build:watch": "tsc --watch",
