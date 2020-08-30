@@ -153,10 +153,14 @@ export namespace CommandService {
           break;
         case 'test':
           if (args[0]=='channels') {
-            Utils.testChannel(process.env.ANN, 'Announcement');
-            Utils.testChannel(process.env.OPEN, 'Daily Openings');
-            Utils.testChannel(process.env.PUZZ, 'Puzzles');
-            Utils.testChannel(process.env.LOG, 'Logging');
+            if (args[1]=='list') {
+              // await const channels = Bot.api.channels.cache.
+            } else {
+              Utils.testChannel(process.env.ANN, 'Announcement');
+              Utils.testChannel(process.env.OPEN, 'Daily Openings');
+              Utils.testChannel(process.env.PUZZ, 'Puzzles');
+              Utils.testChannel(process.env.LOG, 'Logging');
+            }
           } else if (args[0]=='puzzle') {
             if (args[1]=='real') {
               Utils.postPuzzle();
