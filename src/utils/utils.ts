@@ -26,10 +26,6 @@ export namespace Utils {
   }
   export function fInChat(msg: Message): void {
     const cont = msg.content.toLowerCase();
-    // ! OLD CODE
-    // if (cont.startsWith('f ')||cont=='f') {
-    //   msg.channel.send('F');
-    // }
     // resembles `X in chat`
     if (cont.length > 80) {
       return;
@@ -43,8 +39,9 @@ export namespace Utils {
           // msg.reply(`${y} -> ${tokenized[y]}`);
           if (tokenized[y].includes('chat')) {
             // msg.reply('chat');
-            for (let z = cont.search('in')-1; z>=0; z--) {
-              const char: string = cont.charAt(z);
+            let word: string = '';
+            for (let cur = cont.search('in')-1; cur>=0; cur--) {
+              const char: string = cont.charAt(cur);
               const code: number = char.toLowerCase().charCodeAt(0);
               const lower = 'a'.charCodeAt(0);
               const upper = 'z'.charCodeAt(0);
@@ -52,14 +49,24 @@ export namespace Utils {
               // is letter
               if (lower <= code && code <= upper) {
                 // msg.reply(`found ${char}`);
-                msg.channel.send(char.toUpperCase());
+                word = char + word;
+              }
+              // if word isn't empty then...
+              // stop if there is a space or
+              // cursor is at the first letter of the message
+              if (word.length!=0 && (char == ' '||cur == 0)) {
+                if (word.length==1) {
+                  msg.channel.send(word.toUpperCase());
+                } else {
+                  msg.channel.send(word);
+                }
                 return;
               }
             }
-            break;
+            return;
           }
         }
-        break;
+        return;
       }
     }
   }
