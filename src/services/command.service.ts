@@ -27,12 +27,8 @@ export namespace CommandService {
   export async function registerCommands() {
     Bot.api.on('message', async (msg) => {
       Utils.reactRedditor(msg);
-      if (msg.author.bot) return;
-      if (!Bot.isProd) {
-        if (hasPermit(msg.author.id)) {
-          return;
-        }
-      }
+      if (msg.author.bot) return; // bots
+      if (!Bot.isProd && !hasPermit(msg.author.id)) return; // dev bot
       if (!msg.guild || !(msg.channel instanceof TextChannel)) {
         msg.reply('Commands are only allowed in server Text Channels');
       } else if (msg.content.substring(0, 2) === Bot.PREFIX) {
