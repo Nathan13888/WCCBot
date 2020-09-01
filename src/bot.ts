@@ -61,13 +61,14 @@ export namespace Bot {
 
       api.user.setUsername('𝖂𝕮𝕮𝕭');
       api.user.setAFK(false);
-      api.user.setActivity(`Chess and ${Bot.PREFIX}help`, {type: 'PLAYING'});
+      api.user.setActivity(
+        `${Bot.PREFIX}help | ${Utils.getVersion()}`, {type: 'PLAYING'});
       announcementChannel = Bot.api.channels.cache.get(
         process.env.ANN) as Discord.TextChannel;
       // TODO: Allow different announcement and reminder channels
       reminderChannel = announcementChannel;
       fetch(process.env.PERMIT, {method: 'Get'}).then((res) => res.json())
-        .then((json) => {
+        .then((json) => { // TODO: add Type representation of Permit
           permit = json;
         });
       CommandService.registerCommands();
