@@ -26,13 +26,26 @@ export namespace Bot {
   export const useDB = (process.env.USEDB == 'true');
   export const primaryColour = '#00FA9A'; // chess green
 
+  // TODO: Move permissions stuff to permit.service.ts
   export interface Permit {
     permitted: Array<string>,
   }
 
+  const defPermit: Permit = {
+    'permitted': [
+      '259464008262746113',
+      '269220748730695681',
+    ],
+  };
   let permit: Permit = undefined;
 
   export function getPermit(): Permit {
+    if (permit == undefined) {
+      const message = 'PERMIT IS MISSING ! ! !';
+      Logger.log(message);
+      // throw new Error(message);
+      return defPermit;
+    }
     return permit;
   }
 
