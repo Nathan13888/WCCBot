@@ -50,6 +50,7 @@ export namespace Utils {
               if (lower <= code && code <= upper) {
                 // msg.reply(`found ${char}`);
                 msg.channel.send(char.toUpperCase());
+                return;
               }
             }
             break;
