@@ -62,7 +62,7 @@ export namespace Bot {
       api.user.setUsername('𝖂𝕮𝕮𝕭');
       api.user.setAFK(false);
       api.user.setActivity(
-        `${Bot.PREFIX}help | ${Utils.getVersion()}`, {type: 'PLAYING'});
+        `${Bot.PREFIX}help | v${Utils.getVersion()}`, {type: 'PLAYING'});
       announcementChannel = Bot.api.channels.cache.get(
         process.env.ANN) as Discord.TextChannel;
       // TODO: Allow different announcement and reminder channels
