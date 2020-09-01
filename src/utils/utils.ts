@@ -31,6 +31,9 @@ export namespace Utils {
     //   msg.channel.send('F');
     // }
     // resembles `X in chat`
+    if (cont.length > 80) {
+      return;
+    }
     const tokenized: string[] = cont.split(/ +/);
     for (let x = 0; x<tokenized.length; x++) {
       // msg.reply(`${x} -> ${tokenized[x]}`);
