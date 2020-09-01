@@ -25,12 +25,13 @@ export namespace Utils {
     }
   }
   export function fInChat(msg: Message): void {
-    const cont = msg.content.toLowerCase();
+    const cont = msg.content;
+    const contL = cont.toLowerCase();
     // resembles `X in chat`
     if (cont.length > 80) {
       return;
     }
-    const tokenized: string[] = cont.split(/ +/);
+    const tokenized: string[] = contL.split(/ +/);
     for (let x = 0; x<tokenized.length; x++) {
       // msg.reply(`${x} -> ${tokenized[x]}`);
       if (tokenized[x].includes('in')) {
@@ -40,7 +41,7 @@ export namespace Utils {
           if (tokenized[y].includes('chat')) {
             // msg.reply('chat');
             let word: string = '';
-            for (let cur = cont.search('in')-1; cur>=0; cur--) {
+            for (let cur = contL.search('in')-1; cur>=0; cur--) {
               const char: string = cont.charAt(cur);
               const code: number = char.toLowerCase().charCodeAt(0);
               const lower = 'a'.charCodeAt(0);
