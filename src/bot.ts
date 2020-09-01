@@ -13,9 +13,12 @@ export namespace Bot {
     | Discord.DMChannel | Discord.NewsChannel;
   let discordToken: string;
 
+  export const isProd: boolean = process.env.NODE_ENV==='production';
+  // set name
+  const NAME = (isProd ?'𝖂𝕮𝕮𝕭':'𝖂𝕮𝕮𝕭 𝕯𝕰𝖁');
   // set prefix
   export let PREFIX: string;
-  if (process.env.NODE_ENV==='production') {
+  if (isProd) {
     PREFIX = '::';
   } else {
     PREFIX = '""';
@@ -24,7 +27,7 @@ export namespace Bot {
   export const primaryColour = '#00FA9A'; // chess green
 
   export interface Permit {
-    permitted: Array<string>
+    permitted: Array<string>,
   }
 
   let permit: Permit = undefined;
@@ -59,7 +62,7 @@ export namespace Bot {
       Logger.log(`USEDB=${process.env.USEDB}`);
       Utils.Counter.init();
 
-      api.user.setUsername('𝖂𝕮𝕮𝕭');
+      api.user.setUsername(NAME);
       api.user.setAFK(false);
       api.user.setActivity(
         `${Bot.PREFIX}help | v${Utils.getVersion()}`, {type: 'PLAYING'});
@@ -67,8 +70,9 @@ export namespace Bot {
         process.env.ANN) as Discord.TextChannel;
       // TODO: Allow different announcement and reminder channels
       reminderChannel = announcementChannel;
-      fetch(process.env.PERMIT, {method: 'Get'}).then((res) => res.json())
-        .then((json) => { // TODO: add Type representation of Permit
+      // TODO: improve fetching mechanism
+      fetch(process.env.PERMIT, {method: 'Get'}).then((res: any) => res.json())
+        .then((json: Permit) => {
           permit = json;
         });
       CommandService.registerCommands();

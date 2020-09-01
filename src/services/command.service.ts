@@ -14,6 +14,11 @@ import {CronService} from './cron.service';
 import {ClearChat} from '../utils/clearchat';
 import {PollService} from './poll.service';
 export namespace CommandService {
+  function hasPermit(id: string): boolean {
+    const permit: Bot.Permit = Bot.getPermit();
+    return permit.permitted.includes(id);
+  }
+
   export const dateRegex = new RegExp([
     '(\\d{1,4}) +(0\\d|1[0-2]) +(0\\d|[12]\\d|3[01]) +',
     '([01]\\d|2[0-3]) +([0-5]\\d)( +[0-5]\\d)?',
@@ -23,6 +28,11 @@ export namespace CommandService {
     Bot.api.on('message', async (msg) => {
       Utils.reactRedditor(msg);
       if (msg.author.bot) return;
+      if (!Bot.isProd) {
+        if (hasPermit(msg.author.id)) {
+          return;
+        }
+      }
       if (!msg.guild || !(msg.channel instanceof TextChannel)) {
         msg.reply('Commands are only allowed in server Text Channels');
       } else if (msg.content.substring(0, 2) === Bot.PREFIX) {
@@ -43,8 +53,6 @@ export namespace CommandService {
     // TODO: Improve regex to support single and double quotes.
     const args = msg.content.slice(2).split(/ +/);
     const cmd = args.shift().toLowerCase();
-
-    const permit: Bot.Permit = Bot.getPermit();
 
     switch (cmd) {
     case 'invite':
@@ -103,7 +111,7 @@ export namespace CommandService {
       if (msg.channel instanceof DMChannel) {
         msg.channel.send('Certain commands are not supported in DM.');
         break;
-      } else if (permit.permitted.includes(msg.author.id)) {
+      } else if (hasPermit(msg.author.id)) {
         switch (cmd) {
         case 'clear':
           msg.delete();
