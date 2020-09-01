@@ -29,6 +29,8 @@ export namespace CommandService {
         if (msg.guild.id===process.env.GUILD) {
           parseCommand(msg);
         }
+      } else {
+        Utils.fInChat(msg);
       }
     });
   }

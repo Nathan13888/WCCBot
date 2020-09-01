@@ -24,6 +24,41 @@ export namespace Utils {
       }
     }
   }
+  export function fInChat(msg: Message): void {
+    const cont = msg.content.toLowerCase();
+    // ! OLD CODE
+    // if (cont.startsWith('f ')||cont=='f') {
+    //   msg.channel.send('F');
+    // }
+    // resembles `X in chat`
+    const tokenized: string[] = cont.split(/ +/);
+    for (let x = 0; x<tokenized.length; x++) {
+      // msg.reply(`${x} -> ${tokenized[x]}`);
+      if (tokenized[x].includes('in')) {
+        // msg.reply('in');
+        for (let y = x; y<tokenized.length; y++) {
+          // msg.reply(`${y} -> ${tokenized[y]}`);
+          if (tokenized[y].includes('chat')) {
+            // msg.reply('chat');
+            for (let z = cont.search('in')-1; z>=0; z--) {
+              const char: string = cont.charAt(z);
+              const code: number = char.toLowerCase().charCodeAt(0);
+              const lower = 'a'.charCodeAt(0);
+              const upper = 'z'.charCodeAt(0);
+              // msg.reply(char);
+              // is letter
+              if (lower <= code && code <= upper) {
+                // msg.reply(`found ${char}`);
+                msg.channel.send(char.toUpperCase());
+              }
+            }
+            break;
+          }
+        }
+        break;
+      }
+    }
+  }
   export function getRandECO(): string {
     let code: string = ''; const LETTERS = 'ABCDE';
     code += LETTERS.charAt(Math.floor(Math.random() * LETTERS.length));
