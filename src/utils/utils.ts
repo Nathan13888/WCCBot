@@ -14,6 +14,7 @@ export namespace Utils {
         '🤣',
         '😱',
         '😠',
+        '🤔',
       ];
       for (const x of reactions) {
         try {

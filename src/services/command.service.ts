@@ -23,6 +23,7 @@ export namespace CommandService {
     '(\\d{1,4}) +(0\\d|1[0-2]) +(0\\d|[12]\\d|3[01]) +',
     '([01]\\d|2[0-3]) +([0-5]\\d)( +[0-5]\\d)?',
   ].join(''));
+  const commandChannels: string[] = [process.env.DEFCC];
   // TODO: move API async message function to bot.ts
   export async function registerCommands() {
     Bot.api.on('message', async (msg) => {
@@ -33,7 +34,20 @@ export namespace CommandService {
         msg.reply('Commands are only allowed in server Text Channels');
       } else if (msg.content.substring(0, 2) === Bot.PREFIX) {
         if (msg.guild.id===process.env.GUILD) {
-          parseCommand(msg);
+          if (commandChannels.includes(msg.channel.id) ||
+            hasPermit(msg.author.id)) {
+            parseCommand(msg);
+          } else {
+            // TODO: fix this weird thing
+            msg.react('❌');
+            msg.reply('WCCB commands are only allowed at ' +
+              'the relevant bot commands channels. ' +
+              'Please contact <@!259464008262746113> ' +
+              'if you believe this is an error.')
+              .then((msg)=>{
+                msg.delete({timeout: 5000});
+              });
+          }
         }
       } else {
         Utils.fInChat(msg);
@@ -109,6 +123,12 @@ export namespace CommandService {
         break;
       } else if (hasPermit(msg.author.id)) {
         switch (cmd) {
+        case 'addcc':
+          commandChannels.push(msg.channel.id);
+          // TODO: fix this weird thing as well
+          msg.reply('This channel has been added to the list of ' +
+            'channels accepting commands.');
+          break;
         case 'clear':
           msg.delete();
           if (args[0]=='all') {
