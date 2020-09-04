@@ -13,6 +13,8 @@ import {Utils} from '../utils/utils';
 import {CronService} from './cron.service';
 import {ClearChat} from '../utils/clearchat';
 import {PollService} from './poll.service';
+import {Command} from '../commands/command';
+import {Test} from '../commands/test';
 export namespace CommandService {
   function hasPermit(id: string): boolean {
     const permit: Bot.Permit = Bot.getPermit();
@@ -23,6 +25,9 @@ export namespace CommandService {
     '(\\d{1,4}) +(0\\d|1[0-2]) +(0\\d|[12]\\d|3[01]) +',
     '([01]\\d|2[0-3]) +([0-5]\\d)( +[0-5]\\d)?',
   ].join(''));
+
+  export const commands: Array<Command> = [];
+
   let commandChannels: string[] = [process.env.DEFCC];
   // TODO: move API async message function to bot.ts
   export async function registerCommands() {
@@ -53,6 +58,7 @@ export namespace CommandService {
         Utils.fInChat(msg);
       }
     });
+    commands.push(new Test());
   }
 
   // TODO: Use reply to make more clear replies to incorrect command usages
@@ -63,6 +69,24 @@ export namespace CommandService {
     // TODO: Improve regex to support single and double quotes.
     const args = msg.content.slice(2).split(/ +/);
     const cmd = args.shift().toLowerCase();
+
+    // forEach is too much of a bitch
+    // commands.forEach((com) => {
+    const foundCommand = false;
+    for (const com of commands) {
+      if (com.getAliases().includes(cmd)) {
+        if (com.needsPermit() && hasPermit(msg.author.id)) break;
+        const res: boolean = com.exec(msg, args);
+        if (!res) {
+          // incorrect usage
+          msg.react('❌');
+        }
+        // exit after parsing command
+        break;
+      }
+    }
+    // });
+    if (!foundCommand) msg.react('❌');
 
     switch (cmd) {
     case 'invite':
