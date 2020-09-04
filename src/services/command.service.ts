@@ -23,7 +23,7 @@ export namespace CommandService {
     '(\\d{1,4}) +(0\\d|1[0-2]) +(0\\d|[12]\\d|3[01]) +',
     '([01]\\d|2[0-3]) +([0-5]\\d)( +[0-5]\\d)?',
   ].join(''));
-  const commandChannels: string[] = [process.env.DEFCC];
+  let commandChannels: string[] = [process.env.DEFCC];
   // TODO: move API async message function to bot.ts
   export async function registerCommands() {
     Bot.api.on('message', async (msg) => {
@@ -123,11 +123,27 @@ export namespace CommandService {
         break;
       } else if (hasPermit(msg.author.id)) {
         switch (cmd) {
-        case 'addcc':
-          commandChannels.push(msg.channel.id);
-          // TODO: fix this weird thing as well
-          msg.reply('This channel has been added to the list of ' +
+        case 'cc':
+          if (args[0] == 'add') {
+            commandChannels.push(msg.channel.id);
+            // TODO: fix this weird thing as well
+            msg.reply('This channel has been added to the list of ' +
             'channels accepting commands.');
+          } else if (args[0] == 'reset') {
+            if (commandChannels.includes(msg.channel.id)) {
+              msg.reply('Reseting list of Command Channels');
+              commandChannels = [process.env.DEFCC];
+            }
+          } else if (args[0] == 'remove') {
+            // TODO: check if ID exists, remove ID from list
+          } else if (args[0] == 'list') {
+            let message: string = '';
+            for (const cc of commandChannels) {
+              message += cc;
+              message += ' ';
+            }
+            msg.reply(message);
+          }
           break;
         case 'clear':
           msg.delete();
