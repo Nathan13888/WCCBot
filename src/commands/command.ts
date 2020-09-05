@@ -1,8 +1,6 @@
 import {Message} from 'discord.js';
 
 export class Command {
-  aliases: string[];
-
   needsPermit(): boolean {
     return false;
   }
@@ -14,7 +12,7 @@ export class Command {
 
   // Returning FALSE means that the command errored out
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  exec(msg: Message, args: string[]): boolean {
+  async exec(msg: Message, args: string[]): Promise<boolean> {
     // Command not found...
     return false;
   }
