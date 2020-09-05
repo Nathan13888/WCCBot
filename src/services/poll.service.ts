@@ -1,8 +1,8 @@
 import {Message, MessageEmbed} from 'discord.js';
 import {Bot} from '../bot';
 import {Utils} from '../utils/utils';
-import {CommandService} from './command.service';
 import {Logger} from '../utils/logger';
+import {Prompt} from './prompt.service';
 
 export namespace PollService {
     // creates a poll in the announcements channel
@@ -13,9 +13,9 @@ export namespace PollService {
       } else { // channel == undefined
         channel = process.env.POLL;
       }
-      const title: string = await CommandService.Prompt.input(
+      const title: string = await Prompt.input(
         'Enter title.', msg.channel, msg.author, 240000, cleanup);
-      const desc: string = await CommandService.Prompt.input(
+      const desc: string = await Prompt.input(
         'Enter description.', msg.channel, msg.author, 240000, cleanup);
       const embed = createPoll(msg, title, desc, false);
       msg.reply('This is how it will look like.').then((msg) => {
@@ -24,7 +24,7 @@ export namespace PollService {
       msg.channel.send(embed).then((msg)=>{
         msg.delete({timeout: 20000});
       });
-      const confirm = await CommandService.promptConfirm(
+      const confirm = await Prompt.confirm(
         'this poll message', msg.channel, msg.author, cleanup);
       if (confirm) {
         Utils.getTextChannel(channel).send(embed).then((msg)=> {
