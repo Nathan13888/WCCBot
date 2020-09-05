@@ -64,7 +64,7 @@ export namespace CommandService {
     });
 
     // COMMANDS
-    commands.push(new Test());
+    // TODO: Aliases (view different aliases of command)
     commands.push(new Events());
     commands.push(new Invite());
     commands.push(new Jerome());
@@ -72,6 +72,7 @@ export namespace CommandService {
     commands.push(new RandomOpening());
     commands.push(new RandomPuzzle());
     commands.push(new Status());
+    commands.push(new Test());
     commands.push(new Uptime());
     commands.push(new Version());
     commands.push(new Help()); // Keep this in between
