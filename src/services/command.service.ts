@@ -25,7 +25,7 @@ import {React} from '../commands/mod/react';
 import {Remind} from '../commands/mod/remind';
 import {Restart} from '../commands/mod/restart';
 export namespace CommandService {
-  function hasPermit(id: string): boolean {
+  export function hasPermit(id: string): boolean {
     const permit: Bot.Permit = Bot.getPermit();
     return permit.permitted.includes(id);
   }
