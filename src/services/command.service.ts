@@ -106,7 +106,7 @@ export namespace CommandService {
       // TODO: command mapping using HashMap, etc
       // TODO: macro alias detection (all-caps)
       if (com.getAliases().includes(cmd)) {
-        if (com.needsPermit() && hasPermit(msg.author.id)) {
+        if (com.needsPermit() && !hasPermit(msg.author.id)) {
           Logger.log('Permission denied from ID: ' + msg.author.id);
           break;
         }
