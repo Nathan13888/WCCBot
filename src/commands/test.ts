@@ -39,7 +39,7 @@ export class Test extends Command {
         const custom = await Prompt.input(
           'Enter a list of emojis to react with.', msg.channel,
           msg.author, 30000);
-        PollService.react(evt, custom);
+        PollService.react(evt, custom.split(/ +/));
       });
     } else if (args[0]=='dm') {
       Utils.sendDM('This is a test DM', msg.author);

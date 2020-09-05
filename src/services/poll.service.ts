@@ -62,14 +62,13 @@ export namespace PollService {
       return embed;
     }
     // TODO: fix emoji lookup
-    export function react(msg: Message, custom?: string): void {
+    export function react(msg: Message, custom?: string[]): void {
       if (!custom) {
         msg.react('🔥');
         msg.react('👍');
         msg.react('👎');
       } else {
-        const args: string[] = custom.split(/ +/);
-        for (const x of args) {
+        for (const x of custom) {
           Logger.log(x);
           const emoji = Utils.findEmoji(x);
           // if (!emoji) {
