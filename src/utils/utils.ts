@@ -267,6 +267,7 @@ export namespace Utils {
   export function getVersion(): string {
     return `${version} (${process.env.NODE_ENV})`;
   }
+  // TODO: move Counter to separate class
   export namespace Counter {
     interface Result {
       status: number,
@@ -291,7 +292,11 @@ export namespace Utils {
       // Logger.log(`Total Commands Processed: ${getAlltime()}`);
     }
     export function addStarts(): void {
-      countapi.hit(namespace, 'starts');
+      if (Bot.isProd) {
+        countapi.hit(namespace, 'starts');
+      } else {
+        Logger.log('NOT COUNTING RESTART! (in dev mode)');
+      }
     }
     export function addProcessed(): void {
       commands++;
