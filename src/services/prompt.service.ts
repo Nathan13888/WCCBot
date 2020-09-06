@@ -11,8 +11,8 @@ export namespace Prompt {
   export async function confirm(msg: string,
     channel: TextChannel | DMChannel | NewsChannel,
     user: User, cleanup: boolean = false): Promise<boolean> {
-    const res = await input('Please confirm ' + msg.toLowerCase() +
-    ' (yes/no)', channel, user, 30000, cleanup);
+    const res = await input(`${msg} (yes/no)`, channel, user, 30000, cleanup);
+    // TODO: custom response
     return (res && res.toLowerCase() === 'yes' ? true : false);
   }
 
