@@ -82,7 +82,7 @@ export namespace PollService {
         if (channel == process.env.POLL) {
           // TODO: auto detect channel name based on ID
           Utils.getTextChannel(process.env.ANN)
-            .send('A new poll has been posted at #polls.');
+            .send(`A new poll has been posted at <#${process.env.POLL}>.`);
         }
       }
 
