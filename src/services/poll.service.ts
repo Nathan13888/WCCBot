@@ -110,9 +110,6 @@ export namespace PollService {
         for (const f of fields) {
           embed.addField(DICT[++cnt], f);
         }
-      } else {
-        msg.reply('no list');
-        msg.reply(fields[0]);
       }
       if (post) {
         Utils.getTextChannel(process.env.POLL).send(embed).then((msg)=> {
