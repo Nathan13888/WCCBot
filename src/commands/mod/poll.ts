@@ -9,7 +9,7 @@ export class Poll extends Command {
   }
 
   getAliases(): string[] {
-    return ['poll', 'polls'];
+    return ['poll', 'polls', 'P'];
   }
 
   async exec(msg: Message, args: string[]): Promise<boolean> {
@@ -32,6 +32,8 @@ export class Poll extends Command {
         }
       }
       PollService.createPollPrompt(msg, cleanup, channel);
+    } else {
+      return false;
     }
 
     return true;
