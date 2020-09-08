@@ -15,6 +15,7 @@ export class React extends Command {
   async exec(msg: Message, args: string[]): Promise<boolean> {
     // TODO: custom emoji selector
     if (args.length >= 2) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const id = args[0];
       if (args[1]=='dandancool') { // DANDANCOOL
         const id = Config.Channels.announcements;
