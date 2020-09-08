@@ -29,33 +29,33 @@ export namespace PollService {
       }
       // TODO: add ESCAPE MESSAGE (exit form after detecting)
       const title: string = await Prompt.input(
-          'Enter **title**.', msg.channel, msg.author, 240000, cleanup);
+        'Enter **title**.', msg.channel, msg.author, 240000, cleanup);
       const desc: string = await Prompt.input(
-          'Enter **description**.', msg.channel, msg.author, 240000, cleanup);
+        'Enter **description**.', msg.channel, msg.author, 240000, cleanup);
 
       const makeList = await Prompt.confirm(
-          'Would you like to **add a list**?',
-          msg.channel, msg.author, cleanup);
+        'Would you like to **add a list**?',
+        msg.channel, msg.author, cleanup);
       const list: Array<string> = [];
       // TODO: edit list feature
       if (makeList) {
         msg.reply(
-            'Enter the individual options... (max=10,`STOP` to continue).')
-            .then((msg) => {
-              if (cleanup) msg.delete({timeout: 1000});
-            });
+          'Enter the individual options... (max=10,`STOP` to continue).')
+          .then((msg) => {
+            if (cleanup) msg.delete({timeout: 1000});
+          });
         let res: string;
         while ((res = await Prompt.input(
-            `List: enter **item ${list.length + 1}**.`,
-            msg.channel, msg.author, 240000, cleanup))
-            .toLowerCase() != 'stop' &&
+          `List: enter **item ${list.length + 1}**.`,
+          msg.channel, msg.author, 240000, cleanup))
+          .toLowerCase() != 'stop' &&
         list.length < DICT.length - 1/* items < emojis */) {
           list.push(res);
         }
         msg.reply('Stopping...')
-            .then((msg) => {
-              if (cleanup) msg.delete({timeout: 1000});
-            });
+          .then((msg) => {
+            if (cleanup) msg.delete({timeout: 1000});
+          });
       }
       const count: number = list.length;
 
@@ -68,7 +68,7 @@ export namespace PollService {
       });
       // TODO: notify which channel the poll will be posted at
       const confirm = await Prompt.confirm(
-          'Please confirm this poll message.', msg.channel, msg.author, cleanup);
+        'Please confirm this poll message.', msg.channel, msg.author, cleanup);
       if (confirm) {
         Utils.getTextChannel(channel).send(embed).then((msg) => {
           // TODO: improve code quality, shorten to the same react function
@@ -82,7 +82,7 @@ export namespace PollService {
         if (channel == process.env.POLL) {
           // TODO: auto detect channel name based on ID
           Utils.getTextChannel(process.env.ANN)
-              .send(`A new poll has been posted at <#${process.env.POLL}>.`);
+            .send(`A new poll has been posted at <#${process.env.POLL}>.`);
         }
       }
 
@@ -105,7 +105,9 @@ export namespace PollService {
       ];
       const messageid: String = await Prompt.input(
         'Enter Message ID', msg.channel, msg.author, 240000, cleanup);
-
+      const mod: String = await Prompt.input(
+          'Which option do you want to modify'
+      )
       return;
     }
 
