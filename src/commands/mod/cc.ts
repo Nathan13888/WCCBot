@@ -16,9 +16,7 @@ export class CommandChannels extends Command {
   async exec(msg: Message, args: string[]): Promise<boolean> {
     if (args[0] == 'add') {
       CommandService.commandChannels.push(msg.channel.id);
-      // TODO: fix this weird thing as well
-      msg.reply('This channel has been added to the list of ' +
-        'channels accepting commands.');
+      msg.reply('This channel is now accepting commands.');
     } else if (args[0] == 'reset') {
       if (CommandService.commandChannels.includes(msg.channel.id)) {
         msg.reply('Reseting list of Command Channels');

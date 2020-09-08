@@ -28,7 +28,7 @@ export class React extends Command {
             }
             Utils.getTextChannel(id).send('Did it work?');
           });
-      } else { // TODO: fix message not found
+      } else {
         msg.reply('Message not found...');
       }
     }

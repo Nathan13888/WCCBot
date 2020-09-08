@@ -7,7 +7,6 @@ import {
 } from 'discord.js';
 
 export namespace Prompt {
-  // TODO: prompt confirmation
   export async function confirm(msg: string,
     channel: TextChannel | DMChannel | NewsChannel,
     user: User, cleanup: boolean = false): Promise<boolean> {
@@ -16,7 +15,6 @@ export namespace Prompt {
     return (res && res.toLowerCase() === 'yes' ? true : false);
   }
 
-  // TODO: auto timeout message
   export async function input(
     question: StringResolvable | MessageOptions
       | (MessageOptions & { split?: false })
@@ -42,7 +40,7 @@ export namespace Prompt {
         });
       }) .catch(() => {
         channel.send('You did not enter any input!').then((msg) => {
-          if (cleanup) msg.delete({timeout: 1000});
+          if (cleanup) msg.delete({timeout: 10000});
         });
       });
       if (cleanup) evt.delete({timeout: 1000});

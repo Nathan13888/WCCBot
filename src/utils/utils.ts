@@ -175,7 +175,7 @@ export namespace Utils {
     return Bot.api.guilds.cache.get(guild);
   }
   // Sends message to channel
-  // TODO: make `cb` parameter strict
+  // TODO: use promise instead
   export function sendMessage(msg: string, id: string, cb: Function): void {
     const chan = getTextChannel(id);
     chan.send(msg).then((msg) => cb(msg));
