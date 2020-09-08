@@ -32,8 +32,7 @@ export class Poll extends Command {
         }
       }
       PollService.createPollPrompt(msg, cleanup, channel);
-    } else {
-      return false;
+      return true;
     }
     if (args[0]=='edit') {
       const cleanup: boolean = (args[1]=='cleanup');
@@ -54,8 +53,9 @@ export class Poll extends Command {
         }
       }
       PollService.editPoll(msg, cleanup, channel);
+      return true;
     }
-    return true;
+    return false;
   }
 
   getHelp(): string {
