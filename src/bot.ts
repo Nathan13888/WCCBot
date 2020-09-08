@@ -12,13 +12,6 @@ export namespace Bot {
 
   // set name
   const NAME = (Config.isProd ?'𝖂𝕮𝕮𝕭':'𝖂𝕮𝕮𝕭 𝕯𝕰𝖁');
-  // set prefix
-  export let PREFIX: string;
-  if (Config.isProd) {
-    PREFIX = '::';
-  } else {
-    PREFIX = '""';
-  }
   export const useDB = (Config.DB.USEDB == 'true');
   export const primaryColour = '#00FA9A'; // chess green
 
@@ -53,7 +46,7 @@ export namespace Bot {
       await api.user.setUsername(NAME);
       await api.user.setAFK(false);
       await api.user.setActivity(
-        `${Bot.PREFIX}help | v${Config.getVersion()}`, {type: 'PLAYING'});
+        `${Config.PREFIX}help | v${Config.getVersion()}`, {type: 'PLAYING'});
       await CommandService.registerCommands();
     });
 

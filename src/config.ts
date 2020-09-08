@@ -5,7 +5,18 @@ export namespace Config {
 
   const ENV = process.env;
 
+  // set prefix
+  export let PREFIX: string;
+
   export function init(): void {
+    const envPrefix = ENV.PREFIX; // prefix override
+    if (envPrefix) {
+      PREFIX = envPrefix;
+    } else if (Config.isProd) {
+      PREFIX = '::';
+    } else {
+      PREFIX = '""';
+    }
     // TODO: improve fetching mechanism
     fetch(ENV.PERMIT, {method: 'Get'}).then((res: any) => res.json())
       .then((json: Permit) => {

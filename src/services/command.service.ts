@@ -42,7 +42,7 @@ export namespace CommandService {
       if (!Config.isProd && !hasPermit(msg.author.id)) return; // dev bot
       if (!msg.guild || !(msg.channel instanceof TextChannel)) {
         msg.reply('Commands are only allowed in server Text Channels');
-      } else if (msg.content.substring(0, 2) === Bot.PREFIX) {
+      } else if (msg.content.substring(0, 2) === Config.PREFIX) {
         if (msg.guild.id===Config.GUILD) {
           if (commandChannels.includes(msg.channel.id) ||
             hasPermit(msg.author.id)) {
