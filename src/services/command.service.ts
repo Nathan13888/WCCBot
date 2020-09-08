@@ -24,6 +24,7 @@ import {Restart} from '../commands/mod/restart';
 import {Unsubcribe} from '../commands/unsub';
 import {Subscribe} from '../commands/sub';
 import {Config} from '../config';
+import {Counter} from './counter.service';
 export namespace CommandService {
   export function hasPermit(id: string): boolean {
     const permit: Config.Permit = Config.getPermit();
@@ -98,7 +99,7 @@ export namespace CommandService {
   async function parseCommand(msg: Message) {
     Logger.log(
       `${msg.author.tag} executed \`${msg.content}\``);
-    Utils.Counter.addProcessed();
+    Counter.addProcessed();
     // TODO: Improve regex to support single and double quotes.
     const args = msg.content.slice(2).split(/ +/);
     const cmd = args.shift().toLowerCase();

@@ -2,10 +2,10 @@ import * as Discord from 'discord.js';
 import * as publicIp from 'public-ip';
 import {CommandService} from './services/command.service';
 import {Logger} from './utils/logger';
-import {Utils} from './utils/utils';
 import {DB} from './services/db.service';
 import {Roles} from './services/roles.service';
 import {Config} from './config';
+import {Counter} from './services/counter.service';
 export namespace Bot {
   export let api: Discord.Client;
   export let announcementChannel: Discord.TextChannel
@@ -52,7 +52,7 @@ export namespace Bot {
         })();
       } else Logger.log('IP logging is disabled.');
       Logger.log(`USEDB=${Config.DB.USEDB}`);
-      Utils.Counter.init();
+      Counter.init();
 
       api.user.setUsername(NAME);
       api.user.setAFK(false);
