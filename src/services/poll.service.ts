@@ -106,8 +106,8 @@ export namespace PollService {
       const messageid: String = await Prompt.input(
         'Enter Message ID', msg.channel, msg.author, 240000, cleanup);
       const mod: String = await Prompt.input(
-          'Which option do you want to modify'
-      )
+        'Which option do you want to modify?',
+        msg.channel, msg.author, 240000, cleanup);
       return;
     }
 
