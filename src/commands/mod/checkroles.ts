@@ -1,6 +1,6 @@
 import {GuildMember, Message} from 'discord.js';
+import {Roles} from '../../services/roles.service';
 import {Logger} from '../../utils/logger';
-import {Utils} from '../../utils/utils';
 import {Command} from '../command';
 
 export class CheckRoles extends Command {
@@ -16,7 +16,7 @@ export class CheckRoles extends Command {
   async exec(msg: Message, args: string[]): Promise<boolean> {
     msg.reply('Checking roles...');
     const changed: Array<GuildMember> =
-              Utils.checkMinRole(msg.guild.id);
+            Roles.checkMin(msg.guild.id);
     changed.forEach((member) => {
       const s = `${member.user.tag} has been given the default role`;
       msg.reply(s);

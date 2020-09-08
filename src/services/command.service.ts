@@ -24,6 +24,8 @@ import {Poll} from '../commands/mod/poll';
 import {React} from '../commands/mod/react';
 import {Remind} from '../commands/mod/remind';
 import {Restart} from '../commands/mod/restart';
+import {Unsubcribe} from '../commands/unsub';
+import {Subscribe} from '../commands/sub';
 export namespace CommandService {
   export function hasPermit(id: string): boolean {
     const permit: Bot.Permit = Bot.getPermit();
@@ -35,6 +37,7 @@ export namespace CommandService {
   export const commandChannels: string[] = [process.env.DEFCC];
   // TODO: move API async message function to bot.ts
   export async function registerCommands() {
+    // TODO: add command cooldown
     Bot.api.on('message', async (msg) => {
       Utils.reactRedditor(msg);
       if (msg.author.bot) return; // bots
@@ -64,6 +67,7 @@ export namespace CommandService {
     });
 
     // COMMANDS
+    // commands.push(new ());
     // TODO: Aliases (view different aliases of command)
     commands.push(new Events());
     commands.push(new Invite());
@@ -72,7 +76,9 @@ export namespace CommandService {
     commands.push(new RandomOpening());
     commands.push(new RandomPuzzle());
     commands.push(new Status());
+    commands.push(new Subscribe());
     commands.push(new Test());
+    commands.push(new Unsubcribe());
     commands.push(new Uptime());
     commands.push(new Version());
     commands.push(new Help()); // Keep this in between

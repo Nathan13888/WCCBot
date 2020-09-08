@@ -32,6 +32,8 @@ export class Poll extends Command {
         }
       }
       PollService.createPollPrompt(msg, cleanup, channel);
+    } if (args[0]=='edit') {
+      // TODO: edit function
     } else {
       return false;
     }

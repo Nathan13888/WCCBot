@@ -5,6 +5,7 @@ import {CommandService} from './services/command.service';
 import {Logger} from './utils/logger';
 import {Utils} from './utils/utils';
 import {DB} from './services/db.service';
+import {Roles} from './services/roles.service';
 export namespace Bot {
   export let api: Discord.Client;
   export let announcementChannel: Discord.TextChannel
@@ -94,9 +95,7 @@ export namespace Bot {
     api.on('guildMemberAdd', (member) => {
       Logger.log(`${member.user.tag} has joined the server`);
       // TODO: guilds filtering
-      if (!member.user.bot) {
-        member.roles.add(process.env.DEFROLE);
-      }
+      Roles.add(member, process.env.DEFROLE);
     });
     api.on('guildMemberRemove', (member) => {
       Logger.log(`${member.user.tag} has left the server`);

@@ -1,5 +1,5 @@
-import {MessageEmbed, TextChannel, GuildMember,
-  Role, Guild, User, MessageAttachment, EmbedFieldData,
+import {MessageEmbed, TextChannel,
+  Guild, User, MessageAttachment, EmbedFieldData,
   Message, NewsChannel} from 'discord.js';
 import {Bot} from '../bot';
 import {Logger} from './logger';
@@ -168,9 +168,6 @@ export namespace Utils {
   export function getGuild(guild: string): Guild {
     return Bot.api.guilds.cache.get(guild);
   }
-  export function getRole(guild: string, roleID: string): Role {
-    return getGuild(guild).roles.cache.get(roleID);
-  }
   // Sends message to channel
   // TODO: make `cb` parameter strict
   export function sendMessage(msg: string, id: string, cb: Function): void {
@@ -189,20 +186,6 @@ export namespace Utils {
     const timeout: number = 5000;
     sendMessage('**TEST**: ' + name + ' Channel', id,
       (msg) => msg.delete({timeout}));
-  }
-  export function checkMinRole(guild: string): Array<GuildMember> {
-    const changed: Array<GuildMember> = [];
-    getGuild(guild).members.cache.forEach((member) => {
-      // filter bots
-      if (!member.user.bot) {
-        if (!member.roles.cache.some((role) => role.id===process.env.DEFROLE)) {
-          const role = getRole(guild, process.env.DEFROLE);
-          member.roles.add(role);
-          changed.push(member);
-        }
-      }
-    });
-    return changed;
   }
   export function getStatusEmbed(): MessageEmbed {
     const embed = new MessageEmbed()
