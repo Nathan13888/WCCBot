@@ -1,6 +1,5 @@
 import {CronJob} from 'cron';
 import {Moment} from 'moment';
-import {Bot} from '../bot';
 import {
   MessageOptions, MessageAdditions, APIMessage,
   StringResolvable,
@@ -9,6 +8,7 @@ import {
 } from 'discord.js';
 import {Logger} from '../utils/logger';
 import {Utils} from '../utils/utils';
+import {Config} from '../config';
 
 export namespace CronService {
   export const TZ = 'America/Toronto';
@@ -44,7 +44,7 @@ export namespace CronService {
       // .setTitle(message)
       .setDescription(message)
       .setFooter(author.tag, author.avatarURL());
-    Bot.reminderChannel.send(reminderEmbed);
+    Utils.getTextChannel(Config.Channels.announcements).send(reminderEmbed);
 
     Logger.log(`Reminder sent by ${author.tag}: ${message}`);
   }

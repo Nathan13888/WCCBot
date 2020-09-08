@@ -1,6 +1,7 @@
 import {Message, MessageEmbed} from 'discord.js';
-import {Bot} from '../../bot';
+import {Config} from '../../config';
 import {Prompt} from '../../services/prompt.service';
+import {Utils} from '../../utils/utils';
 import {Command} from '../command';
 
 export class Announce extends Command {
@@ -44,7 +45,7 @@ export class Announce extends Command {
         'Your announcement has been cancelled.',
       );
     } else {
-      Bot.announcementChannel.send(embed);
+      Utils.getTextChannel(Config.Channels.announcements).send(embed);
     }
 
     return true;
