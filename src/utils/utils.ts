@@ -40,7 +40,7 @@ export namespace Utils {
     const cont = msg.content;
     const contL = cont.toLowerCase();
     // resembles `X in chat`
-    if (cont.length > 80) {
+    if (cont.length > 80 || cont.startsWith(Bot.PREFIX)) {
       return;
     }
     const tokenized: string[] = contL.split(/ +/);
