@@ -9,6 +9,9 @@ import {Counter} from '../services/counter.service';
 // import * as pack from '../../package.json';
 export namespace Utils {
   export function reactRedditor(msg: Message): void {
+    if (!Config.isProd) {
+      return;
+    }
     if (msg.author.id === Config.ID.REDDITOR) {
       const reactions: string[] = [
         '😆',
