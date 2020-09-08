@@ -53,7 +53,7 @@ export namespace Bot {
       await api.user.setUsername(NAME);
       await api.user.setAFK(false);
       await api.user.setActivity(
-          `${Bot.PREFIX}help | v${Config.getVersion()}`, {type: 'PLAYING'});
+        `${Bot.PREFIX}help | v${Config.getVersion()}`, {type: 'PLAYING'});
       await CommandService.registerCommands();
     });
 

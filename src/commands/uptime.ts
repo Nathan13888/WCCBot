@@ -4,7 +4,7 @@ import {Command} from './command';
 
 export class Uptime extends Command {
   getAliases(): string[] {
-    return ['uptime', 'alive'];
+    return ['uptime', 'alive', 'ping', 'pong'];
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

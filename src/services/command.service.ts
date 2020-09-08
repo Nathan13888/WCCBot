@@ -34,7 +34,6 @@ export namespace CommandService {
   export const commands: Array<Command> = [];
 
   export const commandChannels: string[] = [Config.Channels.defCommandChannel];
-  // TODO: move API async message function to bot.ts
   export async function registerCommands() {
     // TODO: add command cooldown
     Bot.api.on('message', async (msg) => {
@@ -67,7 +66,6 @@ export namespace CommandService {
 
     // COMMANDS
     // commands.push(new ());
-    // TODO: Aliases (view different aliases of command)
     commands.push(new Status());
     commands.push(new Version());
     commands.push(new Uptime());
@@ -111,7 +109,6 @@ export namespace CommandService {
       // TODO: command mapping using HashMap, etc
       // TODO: macro alias detection (all-caps)
       if (com.getAliases().includes(cmd)) {
-        // TODO: fix this unsafe check
         if (com.needsPermit() && !hasPermit(msg.author.id)) {
           Logger.log('Permission denied from ID: ' + msg.author.id);
           break;
