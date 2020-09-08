@@ -19,19 +19,19 @@ export class Poll extends Command {
       // if the text channel is not found
       let channel: string;
       if (cleanup) {
-        msg.delete();
+        await msg.delete();
       } else if (args[1]) {
         if (args[1]=='here') {
           channel = msg.channel.id;
-          msg.delete();
+          await msg.delete();
         } else if (Utils.textChannelExists(args[1])) {
           channel = args[1];
-          msg.delete();
+          await msg.delete();
         } else {
-          msg.reply('Text Channel was not found');
+          await msg.reply('Text Channel was not found');
         }
       }
-      PollService.createPollPrompt(msg, cleanup, channel);
+      await PollService.createPollPrompt(msg, cleanup, channel);
       return true;
     }
     if (args[0]=='edit') {
@@ -40,19 +40,19 @@ export class Poll extends Command {
       // if the text channel is not found
       let channel: string;
       if (cleanup) {
-        msg.delete();
+        await msg.delete();
       } else if (args[1]) {
         if (args[1]=='here') {
           channel = msg.channel.id;
-          msg.delete();
+          await msg.delete();
         } else if (Utils.textChannelExists(args[1])) {
           channel = args[1];
-          msg.delete();
+          await msg.delete();
         } else {
-          msg.reply('Text Channel was not found');
+          await msg.reply('Text Channel was not found');
         }
       }
-      PollService.editPoll(msg, cleanup, channel);
+      await PollService.editPoll(msg, cleanup, channel);
       return true;
     }
     return false;

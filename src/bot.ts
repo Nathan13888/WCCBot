@@ -29,32 +29,32 @@ export namespace Bot {
 
     Config.init();
 
-    api.login(discordToken);
+    await api.login(discordToken);
 
     api.on('ready', async () => {
       if (useDB) {
         DB.init();
       }
-      Logger.log('WCC Bot has started!');
-      Logger.log(`Connected as ${api.user.tag}`);
-      Logger.log('Current version: ' + Config.getVersion());
+      await Logger.log('WCC Bot has started!');
+      await Logger.log(`Connected as ${api.user.tag}`);
+      await Logger.log('Current version: ' + Config.getVersion());
 
-      Logger.log('Setting up other config');
+      await Logger.log('Setting up other config');
 
       if (Config.logIP) {
-        Logger.log('IP logging is enabled.');
-        (async () => {
-          Logger.log('Public IP is ' + await publicIp.v4());
+        await Logger.log('IP logging is enabled.');
+        await (async () => {
+          await Logger.log('Public IP is ' + await publicIp.v4());
         })();
-      } else Logger.log('IP logging is disabled.');
-      Logger.log(`USEDB=${Config.DB.USEDB}`);
+      } else await Logger.log('IP logging is disabled.');
+      await Logger.log(`USEDB=${Config.DB.USEDB}`);
       Counter.init();
 
-      api.user.setUsername(NAME);
-      api.user.setAFK(false);
-      api.user.setActivity(
-        `${Bot.PREFIX}help | v${Config.getVersion()}`, {type: 'PLAYING'});
-      CommandService.registerCommands();
+      await api.user.setUsername(NAME);
+      await api.user.setAFK(false);
+      await api.user.setActivity(
+          `${Bot.PREFIX}help | v${Config.getVersion()}`, {type: 'PLAYING'});
+      await CommandService.registerCommands();
     });
 
     api.on('guildMemberAdd', (member) => {

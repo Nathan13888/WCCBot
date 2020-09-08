@@ -1,6 +1,13 @@
-import {MessageEmbed, TextChannel,
-  Guild, User, MessageAttachment, EmbedFieldData,
-  Message, NewsChannel} from 'discord.js';
+import {
+  EmbedFieldData,
+  Guild,
+  Message,
+  MessageAttachment,
+  MessageEmbed,
+  NewsChannel,
+  TextChannel,
+  User,
+} from 'discord.js';
 import {Bot} from '../bot';
 import {Logger} from './logger';
 import {DB} from '../services/db.service';
@@ -115,14 +122,13 @@ export namespace Utils {
     const thumbnail : string = 'https://lichess.org/training/export/gif/thumbnail/' +
    randnum + '.gif';
     const url: string = 'https://lichess.org/training/' + randnum;
-    const embed = new MessageEmbed()
+    return new MessageEmbed()
       .setColor(Bot.primaryColour)
       .setTitle(t)
       .setDescription(url)
       .setImage(thumbnail)
       .setTimestamp()
       .setFooter(Bot.api.user.tag, Bot.api.user.displayAvatarURL());
-    return embed;
   }
   export function postOpening(): void {
     let url = 'https://www.365chess.com/eco/';
@@ -152,11 +158,7 @@ export namespace Utils {
     if (!chan) {
       return false;
     }
-    if (chan.type == 'text') {
-      return true;
-    } else {
-      return false;
-    }
+    return chan.type == 'text';
   }
   export function getTextChannel(id: string): TextChannel | NewsChannel {
     const chan = Bot.api.channels.cache.get(id);
@@ -192,21 +194,21 @@ export namespace Utils {
       (msg) => msg.delete({timeout}));
   }
   export function getStatusEmbed(): MessageEmbed {
-    const embed = new MessageEmbed()
+    return new MessageEmbed()
       .setColor(Bot.primaryColour)
       .setTitle(`${Bot.api.user.tag} Status`)
       .setDescription('Version ' + Config.getVersion())
       .setThumbnail(Bot.api.user.displayAvatarURL())
       .addFields(
-        {name: 'Commands Processed (since start/all time)',
-          value: Counter.getProcessed()+'/'+Counter.getAlltime()},
+        {
+          name: 'Commands Processed (since start/all time)',
+          value: Counter.getProcessed() + '/' + Counter.getAlltime()},
         // {name: '\u200B', value: '\u200B'},
         {name: 'Restarts', value: Counter.getStarts(), inline: true},
         {name: 'Uptime', value: getUptime(), inline: true},
         {name: 'Guilds', value: Bot.api.guilds.cache.size, inline: true})
       .setTimestamp()
       .setFooter(Bot.api.user.tag, Bot.api.user.displayAvatarURL());
-    return embed;
   }
   export async function getEventsEmbed(): Promise<MessageEmbed> {
     let data: EmbedFieldData[];
@@ -219,14 +221,13 @@ export namespace Utils {
         });
       }
     }
-    const embed = new MessageEmbed()
+    return new MessageEmbed()
       .setColor(Bot.primaryColour)
       .setTitle(`Events`)
       .setDescription('Upcoming Events...')
       .addFields(data)
       .setTimestamp()
       .setFooter(Bot.api.user.tag, Bot.api.user.displayAvatarURL());
-    return embed;
   }
   export function getUptime(): string {
     let duration: number = Bot.api.uptime;
