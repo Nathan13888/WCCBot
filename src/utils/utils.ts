@@ -15,6 +15,10 @@ import {Config} from '../config';
 import {Counter} from '../services/counter.service';
 // import * as pack from '../../package.json';
 export namespace Utils {
+  export function delay(ms: number) {
+    return new Promise((res) => setTimeout(res, ms));
+  }
+
   export function reactRedditor(msg: Message): void {
     if (!Config.isProd) {
       return;

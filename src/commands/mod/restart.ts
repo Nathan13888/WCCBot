@@ -1,5 +1,7 @@
 import {Message} from 'discord.js';
+import {Prompt} from '../../services/prompt.service';
 import {Logger} from '../../utils/logger';
+import {Utils} from '../../utils/utils';
 import {Command} from '../command';
 
 export class Restart extends Command {
@@ -13,13 +15,20 @@ export class Restart extends Command {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async exec(msg: Message, args: string[]): Promise<boolean> {
-    // TODO: prompt confirm
-    msg.react('👍');
-    msg.reply('Restarting now...');
-    Logger.log('Shutting down');
-    process.exit();
+    const confirm = await Prompt.confirm(
+      'Are you sure you want to restart the bot?',
+      msg.channel, msg.author);
+    if (confirm) {
+      msg.react('👍');
+      msg.reply('Restarting in 5 seconds...');
+      Logger.log('Shutting down');
+      await Utils.delay(5000);
+      process.exit();
+    } else {
+      msg.reply('Reboot aborted.');
+    }
 
-    // return true;
+    return true;
   }
 
   getHelp(): string {
