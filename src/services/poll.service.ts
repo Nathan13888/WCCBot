@@ -95,9 +95,9 @@ export namespace PollService {
     cleanup: boolean, channel?: string): Promise<MessageEmbed> {
     const messageid: string = await Prompt.input(
       'Enter Message ID', msg.channel, msg.author, 240000, cleanup);
-    const pollmsg = await Utils.getTextChannel(channel).messages
-      .fetch(messageid);
-    const embed = pollmsg.embeds[0];
+    const pollchannel = Utils.getTextChannel(channel);
+    const message = await pollchannel.messages.fetch(messageid);
+    const embed = message.embeds[0];
     await msg.channel.send(embed);
     if (await Prompt.confirm('Is this the correct message?',
       msg.channel, msg.author)) {
@@ -117,8 +117,13 @@ export namespace PollService {
           embed.setDescription(await Prompt.input('Enter new description',
             msg.channel, msg.author));
         } else {
-          embed.addField(DICT[mod], await Prompt.input(
-            'Enter new option for field' + msg, msg.channel, msg.author));
+          embed.fields[Number(mod)-1] = {
+            name: DICT[mod],
+            value: await Prompt.input(
+              'Enter new field description for option ' +
+              mod, msg.channel, msg.author),
+            inline: true,
+          };
         }
         await msg.channel.send(embed);
         lv = await Prompt.confirm('Continue editing?',
@@ -130,7 +135,7 @@ export namespace PollService {
     msg.channel.send(embed);
     if (await Prompt.confirm('Send edited version?',
       msg.channel, msg.author)) {
-      await pollmsg.edit(embed);
+      await message.edit(embed);
       // TODO: Ensure that this actually works once I deploy
     }
     return embed;
