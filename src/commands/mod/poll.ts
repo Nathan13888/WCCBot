@@ -32,13 +32,30 @@ export class Poll extends Command {
         }
       }
       PollService.createPollPrompt(msg, cleanup, channel);
-    } if (args[0]=='edit') {
-      // TODO: edit function
-    } else {
-      return false;
+      return true;
     }
-
-    return true;
+    if (args[0]=='edit') {
+      const cleanup: boolean = (args[1]=='cleanup');
+      // channel is undefined if either args[1] is null or
+      // if the text channel is not found
+      let channel: string;
+      if (cleanup) {
+        msg.delete();
+      } else if (args[1]) {
+        if (args[1]=='here') {
+          channel = msg.channel.id;
+          msg.delete();
+        } else if (Utils.textChannelExists(args[1])) {
+          channel = args[1];
+          msg.delete();
+        } else {
+          msg.reply('Text Channel was not found');
+        }
+      }
+      PollService.editPoll(msg, cleanup, channel);
+      return true;
+    }
+    return false;
   }
 
   getHelp(): string {

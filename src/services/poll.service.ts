@@ -46,10 +46,10 @@ export namespace PollService {
           });
         let res: string;
         while ((res = await Prompt.input(
-          `List: enter **item ${list.length+1}**.`,
+          `List: enter **item ${list.length + 1}**.`,
           msg.channel, msg.author, 240000, cleanup))
-          .toLowerCase()!='stop' &&
-          list.length<DICT.length-1/* items < emojis */) {
+          .toLowerCase() != 'stop' &&
+        list.length < DICT.length - 1/* items < emojis */) {
           list.push(res);
         }
         msg.reply('Stopping...')
@@ -63,18 +63,18 @@ export namespace PollService {
       msg.reply('This is how it will look like.').then((msg) => {
         if (cleanup) msg.delete({timeout: 1000});
       });
-      msg.channel.send(embed).then((msg)=>{
+      msg.channel.send(embed).then((msg) => {
         if (cleanup) msg.delete({timeout: 20000});
       });
       // TODO: notify which channel the poll will be posted at
       const confirm = await Prompt.confirm(
         'Please confirm this poll message.', msg.channel, msg.author, cleanup);
       if (confirm) {
-        Utils.getTextChannel(channel).send(embed).then((msg)=> {
+        Utils.getTextChannel(channel).send(embed).then((msg) => {
           // TODO: improve code quality, shorten to the same react function
           if (makeList) {
             msg.react('🔥');
-            react(msg, DICT.slice(1, count+1));
+            react(msg, DICT.slice(1, count + 1));
           } else {
             react(msg);
           }
@@ -87,6 +87,28 @@ export namespace PollService {
       }
 
       return embed;
+    }
+    export async function editPoll(msg: Message,
+      cleanup: boolean, channel?: string): Promise<MessageEmbed> {
+      const DICT: string[] = [
+        '0️⃣',
+        '1️⃣',
+        '2️⃣',
+        '3️⃣',
+        '4️⃣',
+        '5️⃣',
+        '6️⃣',
+        '7️⃣',
+        '8️⃣',
+        '9️⃣',
+        '🔟',
+      ];
+      const messageid: String = await Prompt.input(
+        'Enter Message ID', msg.channel, msg.author, 240000, cleanup);
+      const mod: String = await Prompt.input(
+          'Which option do you want to modify'
+      )
+      return;
     }
 
     // TODO: keep track of the reactions of the poll
