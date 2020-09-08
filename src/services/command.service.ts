@@ -69,30 +69,30 @@ export namespace CommandService {
     // COMMANDS
     // commands.push(new ());
     // TODO: Aliases (view different aliases of command)
+    commands.push(new Status());
+    commands.push(new Version());
+    commands.push(new Uptime());
+    commands.push(new Members());
     commands.push(new Events());
     commands.push(new Invite());
-    commands.push(new Jerome());
-    commands.push(new Members());
+    // commands.push(new Jerome());
     commands.push(new RandomOpening());
     commands.push(new RandomPuzzle());
-    commands.push(new Status());
     commands.push(new Subscribe());
     commands.push(new Unsubcribe());
-    commands.push(new Uptime());
-    commands.push(new Version());
     commands.push(new Help()); // Keep this in between
-    commands.push(new Announce());
     // TODO: Command Manager (enable/disable commands)
+    commands.push(new Restart());
+    commands.push(new Poll());
     commands.push(new Test());
+    commands.push(new EventCommand()); // to avoid duplicate name
     commands.push(new CommandChannels());
     commands.push(new CheckRoles());
     commands.push(new Clear());
-    commands.push(new EventCommand()); // to avoid duplicate name
     commands.push(new Notifications());
-    commands.push(new Poll());
     commands.push(new React());
-    commands.push(new Remind());
-    commands.push(new Restart());
+    // commands.push(new Remind());
+    // commands.push(new Announce());
     // Mod Commands (do not mix up or else the HELP command WILL break)
   }
 
