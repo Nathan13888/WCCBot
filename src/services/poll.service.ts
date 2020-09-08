@@ -82,7 +82,7 @@ export namespace PollService {
         });
         if (channel == Config.Channels.polls) {
           // TODO: auto detect channel name based on ID
-          Utils.getTextChannel(Config.Channels.announcements)
+          await Utils.getTextChannel(Config.Channels.announcements)
             .send(`A new poll has been posted at <#${Config.Channels.polls}>.`);
         }
       }
@@ -91,13 +91,49 @@ export namespace PollService {
     }
     export async function editPoll(msg: Message,
       cleanup: boolean, channel?: string): Promise<MessageEmbed> {
-      const messageid: String = await Prompt.input(
+      const messageid: string = await Prompt.input(
         'Enter Message ID', msg.channel, msg.author, 240000, cleanup);
-      const mod: String = await Prompt.input(
-        'Which option do you want to modify?',
-        msg.channel, msg.author, 240000, cleanup);
-      return;
+      const pollmsg = await Utils.getTextChannel(channel).messages.
+        fetch(messageid);
+      const embed = pollmsg.embeds[0];
+      await msg.channel.send(embed);
+      if (await Prompt.confirm('Is this the correct message?',
+        msg.channel, msg.author)) {
+        let lv = true;
+        embed
+          .setFooter('Edited by ' + msg.member.displayName,
+            msg.author.displayAvatarURL()).setTimestamp();
+        while (lv) {
+          const mod: string = await Prompt.input(
+            'Which option do you want to modify? (title/desc/option #)',
+            msg.channel, msg.author, 240000, cleanup);
+          if (mod == 'title') {
+            embed.setTitle(await Prompt.input('Enter new title',
+              msg.channel, msg.author));
+          }
+          if (mod == 'desc') {
+            embed.setDescription(await Prompt.input('Enter new description',
+              msg.channel, msg.author));
+          } else {
+            embed.addField(DICT[mod], await Prompt.input(
+              'Enter new option for field' + msg, msg.channel, msg.author));
+          }
+          await msg.channel.send(embed);
+          lv = await Prompt.confirm('Continue editing?',
+            msg.channel, msg.author);
+          // TODO: Add creating and removing options
+          // TODO: Beautify the loop cuz this is spaghetti.
+        }
+      }
+      msg.channel.send(embed);
+      if (await Prompt.confirm('Send edited version?',
+        msg.channel, msg.author)) {
+        await pollmsg.edit(embed);
+        // TODO: Ensure that this actually works once I deploy
+      }
+      return embed;
     }
+
 
     // TODO: keep track of the reactions of the poll
     // TODO: add `cb` Promise to call back with the sent message
