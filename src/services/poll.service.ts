@@ -90,19 +90,6 @@ export namespace PollService {
     }
     export async function editPoll(msg: Message,
       cleanup: boolean, channel?: string): Promise<MessageEmbed> {
-      const DICT: string[] = [
-        '0️⃣',
-        '1️⃣',
-        '2️⃣',
-        '3️⃣',
-        '4️⃣',
-        '5️⃣',
-        '6️⃣',
-        '7️⃣',
-        '8️⃣',
-        '9️⃣',
-        '🔟',
-      ];
       const messageid: String = await Prompt.input(
         'Enter Message ID', msg.channel, msg.author, 240000, cleanup);
       const mod: String = await Prompt.input(
