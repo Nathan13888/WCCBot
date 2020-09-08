@@ -1,10 +1,14 @@
 import {Message} from 'discord.js';
-import {PollService} from '../services/poll.service';
-import {Prompt} from '../services/prompt.service';
-import {Utils} from '../utils/utils';
-import {Command} from './command';
+import {PollService} from '../../services/poll.service';
+import {Prompt} from '../../services/prompt.service';
+import {Utils} from '../../utils/utils';
+import {Command} from '../command';
 
 export class Test extends Command {
+  needsPermit(): boolean {
+    return true;
+  }
+
   getAliases(): string[] {
     return ['test', 'test2', 'test2'];
   }

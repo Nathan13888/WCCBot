@@ -2,7 +2,7 @@ import {Bot} from '../bot';
 import {Logger} from '../utils/logger';
 import {Utils} from '../utils/utils';
 import {Command} from '../commands/command';
-import {Test} from '../commands/test';
+import {Test} from '../commands/mod/test';
 import {Help} from '../commands/help';
 import {Events} from '../commands/events';
 import {Invite} from '../commands/invite';
@@ -77,13 +77,13 @@ export namespace CommandService {
     commands.push(new RandomPuzzle());
     commands.push(new Status());
     commands.push(new Subscribe());
-    commands.push(new Test());
     commands.push(new Unsubcribe());
     commands.push(new Uptime());
     commands.push(new Version());
     commands.push(new Help()); // Keep this in between
     commands.push(new Announce());
     // TODO: Command Manager (enable/disable commands)
+    commands.push(new Test());
     commands.push(new CommandChannels());
     commands.push(new CheckRoles());
     commands.push(new Clear());
