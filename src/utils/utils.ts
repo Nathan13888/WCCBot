@@ -5,10 +5,11 @@ import {Bot} from '../bot';
 import {Logger} from './logger';
 import countapi from 'countapi-js';
 import {DB} from '../services/db.service';
+import {Config} from '../config';
 // import * as pack from '../../package.json';
 export namespace Utils {
   export function reactRedditor(msg: Message): void {
-    if (msg.author.id === process.env.REDDITOR) {
+    if (msg.author.id === Config.ID.REDDITOR) {
       const reactions: string[] = [
         '😆',
         '🤣',
@@ -91,7 +92,7 @@ export namespace Utils {
   export function postPuzzle(test: boolean = false): void {
     const embed = getPuzzle('Daily Puzzle');
     Logger.log('Posting Puzzle');
-    getTextChannel(process.env.PUZZ).send(embed).then((msg)=>{
+    getTextChannel(Config.Channels.puzzles).send(embed).then((msg)=>{
       msg.react('👍');
       msg.react('❓');
       msg.react('👎');
@@ -141,7 +142,7 @@ export namespace Utils {
       )
       .setTimestamp();
 
-    getTextChannel(process.env.OPEN).send(embed);
+    getTextChannel(Config.Channels.puzzles).send(embed);
   }
   export function textChannelExists(id: string): boolean {
     const chan = Bot.api.channels.cache.get(id);
@@ -191,7 +192,7 @@ export namespace Utils {
     const embed = new MessageEmbed()
       .setColor(Bot.primaryColour)
       .setTitle(`${Bot.api.user.tag} Status`)
-      .setDescription('Version ' + getVersion())
+      .setDescription('Version ' + Config.getVersion())
       .setThumbnail(Bot.api.user.displayAvatarURL())
       .addFields(
         {name: 'Commands Processed (since start/all time)',
@@ -245,11 +246,6 @@ export namespace Utils {
     }
     return portions.join(' ');
   }
-  export const inviteLink: string = 'https://discord.gg/tctG7mA';
-  const version = require('../../package.json').version;
-  export function getVersion(): string {
-    return `${version} (${process.env.NODE_ENV})`;
-  }
   // TODO: move Counter to separate class
   export namespace Counter {
     interface Result {
@@ -275,7 +271,7 @@ export namespace Utils {
       // Logger.log(`Total Commands Processed: ${getAlltime()}`);
     }
     export function addStarts(): void {
-      if (Bot.isProd) {
+      if (Config.isProd) {
         countapi.hit(namespace, 'starts');
       } else {
         Logger.log('NOT COUNTING RESTART! (in dev mode)');

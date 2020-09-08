@@ -1,4 +1,5 @@
 import {Message} from 'discord.js';
+import {Config} from '../../config';
 import {PollService} from '../../services/poll.service';
 import {Prompt} from '../../services/prompt.service';
 import {Utils} from '../../utils/utils';
@@ -20,10 +21,10 @@ export class Test extends Command {
       if (args[1]=='list') {
         // await const channels = Bot.api.channels.cache.
       } else {
-        Utils.testChannel(process.env.ANN, 'Announcement');
-        Utils.testChannel(process.env.OPEN, 'Daily Openings');
-        Utils.testChannel(process.env.PUZZ, 'Puzzles');
-        Utils.testChannel(process.env.LOG, 'Logging');
+        Utils.testChannel(Config.Channels.announcements, 'Announcement');
+        Utils.testChannel(Config.Channels.openings, 'Daily Openings');
+        Utils.testChannel(Config.Channels.puzzles, 'Puzzles');
+        Utils.testChannel(Config.Channels.logs, 'Logging');
       }
     } else if (args[0]=='puzzle') {
       if (args[1]=='real') {

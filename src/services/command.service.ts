@@ -23,26 +23,27 @@ import {React} from '../commands/mod/react';
 import {Restart} from '../commands/mod/restart';
 import {Unsubcribe} from '../commands/unsub';
 import {Subscribe} from '../commands/sub';
+import {Config} from '../config';
 export namespace CommandService {
   export function hasPermit(id: string): boolean {
-    const permit: Bot.Permit = Bot.getPermit();
+    const permit: Config.Permit = Config.getPermit();
     return permit.permitted.includes(id);
   }
 
   export const commands: Array<Command> = [];
 
-  export const commandChannels: string[] = [process.env.DEFCC];
+  export const commandChannels: string[] = [Config.Channels.defCommandChannel];
   // TODO: move API async message function to bot.ts
   export async function registerCommands() {
     // TODO: add command cooldown
     Bot.api.on('message', async (msg) => {
       Utils.reactRedditor(msg);
       if (msg.author.bot) return; // bots
-      if (!Bot.isProd && !hasPermit(msg.author.id)) return; // dev bot
+      if (!Config.isProd && !hasPermit(msg.author.id)) return; // dev bot
       if (!msg.guild || !(msg.channel instanceof TextChannel)) {
         msg.reply('Commands are only allowed in server Text Channels');
       } else if (msg.content.substring(0, 2) === Bot.PREFIX) {
-        if (msg.guild.id===process.env.GUILD) {
+        if (msg.guild.id===Config.GUILD) {
           if (commandChannels.includes(msg.channel.id) ||
             hasPermit(msg.author.id)) {
             parseCommand(msg);

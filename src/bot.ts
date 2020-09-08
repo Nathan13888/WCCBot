@@ -1,11 +1,11 @@
 import * as Discord from 'discord.js';
-import * as fetch from 'node-fetch';
 import * as publicIp from 'public-ip';
 import {CommandService} from './services/command.service';
 import {Logger} from './utils/logger';
 import {Utils} from './utils/utils';
 import {DB} from './services/db.service';
 import {Roles} from './services/roles.service';
+import {Config} from './config';
 export namespace Bot {
   export let api: Discord.Client;
   export let announcementChannel: Discord.TextChannel
@@ -14,46 +14,24 @@ export namespace Bot {
     | Discord.DMChannel | Discord.NewsChannel;
   let discordToken: string;
 
-  export const isProd: boolean = process.env.NODE_ENV==='production';
   // set name
-  const NAME = (isProd ?'𝖂𝕮𝕮𝕭':'𝖂𝕮𝕮𝕭 𝕯𝕰𝖁');
+  const NAME = (Config.isProd ?'𝖂𝕮𝕮𝕭':'𝖂𝕮𝕮𝕭 𝕯𝕰𝖁');
   // set prefix
   export let PREFIX: string;
-  if (isProd) {
+  if (Config.isProd) {
     PREFIX = '::';
   } else {
     PREFIX = '""';
   }
-  export const useDB = (process.env.USEDB == 'true');
+  export const useDB = (Config.DB.USEDB == 'true');
   export const primaryColour = '#00FA9A'; // chess green
-
-  // TODO: Move permissions stuff to permit.service.ts
-  export interface Permit {
-    permitted: Array<string>,
-  }
-
-  const defPermit: Permit = {
-    'permitted': [
-      '259464008262746113',
-      '269220748730695681',
-    ],
-  };
-  let permit: Permit = undefined;
-
-  export function getPermit(): Permit {
-    if (permit == undefined) {
-      const message = 'PERMIT IS MISSING ! ! !';
-      Logger.log(message);
-      // throw new Error(message);
-      return defPermit;
-    }
-    return permit;
-  }
 
   export async function start() {
     api = new Discord.Client();
-    if (process.env.DISCORD_TOKEN) discordToken = process.env.DISCORD_TOKEN;
+    if (Config.TOKEN) discordToken = Config.TOKEN;
     else throw new Error('Environment variable "DISCORD_TOKEN" is missing.');
+
+    Config.init();
 
     api.login(discordToken);
 
@@ -63,39 +41,34 @@ export namespace Bot {
       }
       Logger.log('WCC Bot has started!');
       Logger.log(`Connected as ${api.user.tag}`);
-      Logger.log('Current version: ' + Utils.getVersion());
+      Logger.log('Current version: ' + Config.getVersion());
 
       Logger.log('Setting up other config');
 
-      if (process.env.IP == 'true') {
+      if (Config.logIP) {
         Logger.log('IP logging is enabled.');
         (async () => {
           Logger.log('Public IP is ' + await publicIp.v4());
         })();
       } else Logger.log('IP logging is disabled.');
-      Logger.log(`USEDB=${process.env.USEDB}`);
+      Logger.log(`USEDB=${Config.DB.USEDB}`);
       Utils.Counter.init();
 
       api.user.setUsername(NAME);
       api.user.setAFK(false);
       api.user.setActivity(
-        `${Bot.PREFIX}help | v${Utils.getVersion()}`, {type: 'PLAYING'});
+        `${Bot.PREFIX}help | v${Config.getVersion()}`, {type: 'PLAYING'});
       announcementChannel = Bot.api.channels.cache.get(
-        process.env.ANN) as Discord.TextChannel;
+        Config.Channels.announcements) as Discord.TextChannel;
       // TODO: Allow different announcement and reminder channels
       reminderChannel = announcementChannel;
-      // TODO: improve fetching mechanism
-      fetch(process.env.PERMIT, {method: 'Get'}).then((res: any) => res.json())
-        .then((json: Permit) => {
-          permit = json;
-        });
       CommandService.registerCommands();
     });
 
     api.on('guildMemberAdd', (member) => {
       Logger.log(`${member.user.tag} has joined the server`);
       // TODO: guilds filtering
-      Roles.add(member, process.env.DEFROLE);
+      Roles.add(member, Config.ID.DEFROLE);
     });
     api.on('guildMemberRemove', (member) => {
       Logger.log(`${member.user.tag} has left the server`);

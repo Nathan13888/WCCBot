@@ -1,5 +1,5 @@
 import {Message} from 'discord.js';
-import {Utils} from '../utils/utils';
+import {Config} from '../config';
 import {Command} from './command';
 
 export class Invite extends Command {
@@ -9,7 +9,7 @@ export class Invite extends Command {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async exec(msg: Message, args: string[]): Promise<boolean> {
-    msg.reply(Utils.inviteLink);
+    msg.reply(Config.inviteLink);
 
     return true;
   }

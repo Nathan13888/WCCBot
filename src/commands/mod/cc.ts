@@ -1,4 +1,5 @@
 import {Message} from 'discord.js';
+import {Config} from '../../config';
 import {CommandService} from '../../services/command.service';
 import {Command} from '../command';
 
@@ -24,7 +25,7 @@ export class CommandChannels extends Command {
         while (CommandService.commandChannels.length) {
           CommandService.commandChannels.pop();
         }
-        CommandService.commandChannels.push(process.env.DEFCC);
+        CommandService.commandChannels.push(Config.Channels.defCommandChannel);
       }
     } else if (args[0] == 'remove') {
     // TODO: check if ID exists, remove ID from list

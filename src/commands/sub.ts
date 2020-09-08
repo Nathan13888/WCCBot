@@ -1,4 +1,5 @@
 import {Message} from 'discord.js';
+import {Config} from '../config';
 import {Roles} from '../services/roles.service';
 import {Command} from './command';
 
@@ -9,7 +10,7 @@ export class Subscribe extends Command {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async exec(msg: Message, args: string[]): Promise<boolean> {
-    const id = process.env.SUBR;
+    const id = Config.ID.SUB;
     if (Roles.has(msg.member, id)) {
       msg.react('👎');
       msg.reply('You have **already** subscribed.');

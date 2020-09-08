@@ -1,5 +1,5 @@
 import {Message} from 'discord.js';
-import {Utils} from '../utils/utils';
+import {Config} from '../config';
 import {Command} from './command';
 
 export class Version extends Command {
@@ -10,7 +10,7 @@ export class Version extends Command {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async exec(msg: Message, args: string[]): Promise<boolean> {
     msg.channel.send('The current version is ' +
-    Utils.getVersion()).then((msg)=>msg.delete({timeout: 5000}));
+    Config.getVersion()).then((msg)=>msg.delete({timeout: 5000}));
 
     return true;
   }

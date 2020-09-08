@@ -1,4 +1,5 @@
 import {GuildMember, PartialGuildMember, Role} from 'discord.js';
+import {Config} from '../config';
 import {Utils} from '../utils/utils';
 
 export namespace Roles {
@@ -7,8 +8,8 @@ export namespace Roles {
     Utils.getGuild(guild).members.cache.forEach((member) => {
       // filter bots
       if (!member.user.bot) {
-        if (!has(member, process.env.DEFROLE)) {
-          const role = get(guild, process.env.DEFROLE);
+        if (!has(member, Config.ID.DEFROLE)) {
+          const role = get(guild, Config.ID.DEFROLE);
           member.roles.add(role);
           changed.push(member);
         }

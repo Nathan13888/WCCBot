@@ -1,4 +1,5 @@
 import {Message} from 'discord.js';
+import {Config} from '../../config';
 import {Utils} from '../../utils/utils';
 import {Command} from '../command';
 
@@ -17,7 +18,7 @@ export class Notifications extends Command {
       Utils.getGuild(msg.guild.id).members.cache.forEach((member) => {
         if (!member.user.bot) {
           if (!member.roles.cache.some((role) =>
-            role.id===process.env.ICSR)) {
+            role.id===Config.ID.ICS)) {
             const message = 'Hi WCC Discord server member. This is a ' +
               'reminder that you have been given the **IDENTITY CRISIS ' +
               'SUSPECT** role. Please contact **@Andy**, **@Daniel** or ' +

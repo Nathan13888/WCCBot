@@ -1,4 +1,5 @@
 import {Message} from 'discord.js';
+import {Config} from '../../config';
 import {Utils} from '../../utils/utils';
 import {Command} from '../command';
 
@@ -16,14 +17,15 @@ export class React extends Command {
     if (args.length >= 2) {
       const id = args[0];
       if (args[1]=='dandancool') { // DANDANCOOL
-        Utils.getTextChannel(process.env.ANN).messages
+        const id = Config.Channels.announcements;
+        Utils.getTextChannel(id).messages
           .fetch(id).then((message) => {
             message.react('👍');
             const danEmoji = Utils.findEmoji('dandancool');
             if (danEmoji) {
               message.react(danEmoji);
             }
-            Utils.getTextChannel(process.env.ANN).send('Did it work?');
+            Utils.getTextChannel(id).send('Did it work?');
           });
       } else { // TODO: fix message not found
         msg.reply('Message not found...');

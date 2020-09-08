@@ -1,6 +1,7 @@
 import * as Mongoose from 'mongoose';
 import {prop, getModelForClass} from '@typegoose/typegoose';
 import {Logger} from '../utils/logger';
+import {Config} from '../config';
 
 export namespace DB {
   let db: Mongoose.Connection;
@@ -25,7 +26,7 @@ export namespace DB {
     (async () => {
       try {
         Logger.log('Attempting to connect to DB');
-        await Mongoose.connect(process.env.DBURI, {
+        await Mongoose.connect(Config.DB.DBURI, {
           useNewUrlParser: true,
           useFindAndModify: true,
           useUnifiedTopology: true,

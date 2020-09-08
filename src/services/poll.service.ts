@@ -1,5 +1,6 @@
 import {Message, MessageEmbed} from 'discord.js';
 import {Bot} from '../bot';
+import {Config} from '../config';
 import {Utils} from '../utils/utils';
 import {Prompt} from './prompt.service';
 
@@ -25,7 +26,7 @@ export namespace PollService {
       if (channel) {
         cleanup = true;
       } else { // channel == undefined
-        channel = process.env.POLL;
+        channel = Config.Channels.polls;
       }
       // TODO: add ESCAPE MESSAGE (exit form after detecting)
       const title: string = await Prompt.input(
@@ -79,10 +80,10 @@ export namespace PollService {
             react(msg);
           }
         });
-        if (channel == process.env.POLL) {
+        if (channel == Config.Channels.polls) {
           // TODO: auto detect channel name based on ID
-          Utils.getTextChannel(process.env.ANN)
-            .send(`A new poll has been posted at <#${process.env.POLL}>.`);
+          Utils.getTextChannel(Config.Channels.announcements)
+            .send(`A new poll has been posted at <#${Config.Channels.polls}>.`);
         }
       }
 
@@ -121,7 +122,7 @@ export namespace PollService {
         }
       }
       if (post) {
-        Utils.getTextChannel(process.env.POLL).send(embed).then((msg)=> {
+        Utils.getTextChannel(Config.Channels.polls).send(embed).then((msg)=> {
           react(msg);
         });
       }
