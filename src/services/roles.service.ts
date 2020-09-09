@@ -1,11 +1,14 @@
-import {GuildMember, PartialGuildMember, Role} from 'discord.js';
+import {Collection, GuildMember, PartialGuildMember, Role} from 'discord.js';
 import {Config} from '../config';
 import {Utils} from '../utils/utils';
 
 export namespace Roles {
+  export function getMembers(guild: string): Collection<string, GuildMember> {
+    return Utils.getGuild(guild).members.cache;
+  }
   export function checkMin(guild: string): Array<GuildMember> {
     const changed: Array<GuildMember> = [];
-    Utils.getGuild(guild).members.cache.forEach((member) => {
+    getMembers(guild).forEach((member) => {
       // filter bots
       if (!member.user.bot) {
         if (!has(member, Config.ID.DEFROLE)) {
