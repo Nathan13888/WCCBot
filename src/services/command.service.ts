@@ -26,6 +26,7 @@ import {Subscribe} from '../commands/sub';
 import {Config} from '../config';
 import {Counter} from './counter.service';
 import {Lookup} from '../commands/lookup';
+import {Verify} from '../commands/verify';
 export namespace CommandService {
   export function hasPermit(id: string): boolean {
     const permit: Config.Permit = Config.getPermit();
@@ -67,6 +68,7 @@ export namespace CommandService {
 
     // COMMANDS
     // commands.push(new ());
+    commands.push(new Verify());
     commands.push(new Status());
     commands.push(new Version());
     commands.push(new Uptime());

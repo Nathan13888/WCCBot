@@ -70,6 +70,8 @@ export namespace Config {
     export const DEFROLE = ENV.DEFROLE;
     export const ICS = ENV.ICSR;
     export const SUB = ENV.SUBR;
+    export const VER = ENV.VERR;
+    export const KNIGHT = '704343375893233704';
     export const REDDITOR = ENV.REDDITOR;
   }
 
