@@ -26,6 +26,20 @@ export namespace Roles {
   export function has(member: GuildMember | PartialGuildMember,
     id: string): boolean {
     return member.roles.cache.some((role) => role.id===id);
+    // id: string | string[]): boolean {
+    // let search: string[] = [];
+    // if (id instanceof String) {
+    //   search.push((id as string));
+    // } else {
+    //   search = (id as string[]);
+    // }
+    // for (const r of search) {
+    //   if (!member.roles.cache.some((role) => role.id===r)) {
+    //     return false;
+    //   }
+    // }
+
+    // return true;
   }
   export function add(member: GuildMember | PartialGuildMember,
     id: string): boolean {
