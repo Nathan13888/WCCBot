@@ -1,6 +1,6 @@
 {
   "name": "wccbot",
-  "version": "1.10.3",
+  "version": "1.10.4",
   "description": "The official WCC Discord Bot",
   "private": true,
   "license": "APGL-3.0",

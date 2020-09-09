@@ -23,23 +23,26 @@ export class Verify extends Command {
         let cnt0 = 0; // totally people
         let cnt1 = 0; // people given roles
         let cnt2 = 0; // people not given roles
+        let cnt3 = 0; // people already verified
         Roles.getMembers(Config.GUILD).forEach((member) => {
           if (!member.user.bot) {
             cnt0++;
             // if (Roles.has(member,
             //   [Config.ID.DEFROLE, Config.ID.KNIGHT])) {
-            if (Roles.has(member, Config.ID.DEFROLE) &&
-            Roles.has(member, Config.ID.KNIGHT)) {
-              Roles.add(member, Config.ID.VER);
-              cnt1++;
+            if (// Roles.has(member, Config.ID.DEFROLE) &&
+              Roles.has(member, Config.ID.KNIGHT)) {
+              if (!Roles.has(member, Config.ID.VER)) {
+                Roles.add(member, Config.ID.VER);
+                cnt1++;
+              } else cnt3++;
             } else cnt2++;
           } else {
             cntb++;
           }
         });
         msg.reply(
-          `${cntb} Bots. ${cnt0} People. ${cnt1} given roles. ` +
-          `${cnt2} NOT given roles.`);
+          `${cntb} bots. ${cnt0} people. ${cnt1} given roles. ` +
+          `${cnt2} NOT given roles. ${cnt3} ALREADY given roles.`);
       } else {
         return false;
       }
