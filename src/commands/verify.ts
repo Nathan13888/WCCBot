@@ -12,7 +12,11 @@ export class Verify extends Command {
   async exec(msg: Message, args: string[]): Promise<boolean> {
     if (args.length==0) {
       if (Roles.has(msg.member, Config.ID.VER)) {
-        msg.reply('You are **already verified**!');
+        if (Roles.has(msg.member, Config.ID.KNIGHT)) {
+          msg.reply('You are **already verified**!');
+        } else {
+          msg.reply(`You must have the <@&${Config.ID.KNIGHT}> role!`);
+        }
       } else {
         Roles.add(msg.member, Config.ID.VER);
         msg.reply('You have **been verified**!');
