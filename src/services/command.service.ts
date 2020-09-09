@@ -25,6 +25,7 @@ import {Unsubcribe} from '../commands/unsub';
 import {Subscribe} from '../commands/sub';
 import {Config} from '../config';
 import {Counter} from './counter.service';
+import {Lookup} from '../commands/lookup';
 export namespace CommandService {
   export function hasPermit(id: string): boolean {
     const permit: Config.Permit = Config.getPermit();
@@ -77,6 +78,7 @@ export namespace CommandService {
     commands.push(new RandomPuzzle());
     commands.push(new Subscribe());
     commands.push(new Unsubcribe());
+    commands.push(new Lookup());
     commands.push(new Help()); // Keep this in between
     // TODO: Command Manager (enable/disable commands)
     commands.push(new Restart());
@@ -93,6 +95,17 @@ export namespace CommandService {
     // Mod Commands (do not mix up or else the HELP command WILL break)
   }
 
+  export function findCommand(cmd: string): Command {
+    // TODO: command mapping using HashMap, etc
+    // TODO: macro alias detection (all-caps)
+    for (const com of commands) {
+      if (com.getAliases().includes(cmd)) {
+        return com;
+      }
+    }
+    return undefined;
+  }
+
   // TODO: Use reply to make more clear replies to incorrect command usages
   async function parseCommand(msg: Message) {
     Logger.log(
@@ -102,32 +115,21 @@ export namespace CommandService {
     const args = msg.content.slice(2).split(/ +/);
     const cmd = args.shift().toLowerCase();
 
-    // forEach is too much of a bitch
-    // commands.forEach((com) => {
-    let foundCommand = false;
-    for (const com of commands) {
-      // TODO: command mapping using HashMap, etc
-      // TODO: macro alias detection (all-caps)
-      if (com.getAliases().includes(cmd)) {
-        if (com.needsPermit() && !hasPermit(msg.author.id)) {
-          Logger.log('Permission denied from ID: ' + msg.author.id);
-          break;
-        }
+    const com = findCommand(cmd);
+    if (com) {
+      if (com.needsPermit() && !hasPermit(msg.author.id)) {
+        Logger.log('Permission denied from ID: ' + msg.author.id);
+      } else {
         const res: boolean = await com.exec(msg, args);
         if (!res) {
-          // incorrect usage
+        // incorrect usage
           msg.react('❌');
           msg.reply('**Incorrect command usage**');
         }
-        foundCommand = true;
-        // exit after parsing command
-        break;
+        return;
       }
     }
-    // });
-    if (!foundCommand) {
-      msg.react('❌');
-      msg.reply('**Command NOT found**');
-    }
+    msg.react('❌');
+    msg.reply('**Command NOT found**');
   }
 }
