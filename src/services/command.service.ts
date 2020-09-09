@@ -12,7 +12,7 @@ import {RandomPuzzle} from '../commands/randompuzzle';
 import {Status} from '../commands/status';
 import {Uptime} from '../commands/uptime';
 import {Version} from '../commands/version';
-import {Message, TextChannel} from 'discord.js';
+import {Message, MessageEmbed, TextChannel} from 'discord.js';
 import {CommandChannels} from '../commands/mod/cc';
 import {CheckRoles} from '../commands/mod/checkroles';
 import {Clear} from '../commands/mod/clear';
@@ -52,10 +52,14 @@ export namespace CommandService {
           } else {
             // TODO: fix this weird thing
             msg.react('❌');
-            msg.reply('WCCB commands are only allowed at ' +
-              'the relevant bot commands channels. ' +
-              'Please contact <@!259464008262746113> ' +
-              'if you believe this is an error.')
+            const s = 'WCCB commands are only allowed at ' +
+            'the relevant bot commands channels. ' +
+            'Please contact <@!259464008262746113> ' +
+            'if you believe this is an error.';
+            msg.reply(new MessageEmbed()
+              .setColor(Bot.primaryColour)
+              .setTitle('Allowed Command Channels.')
+              .setDescription(s))
               .then((msg)=>{
                 msg.delete({timeout: 5000});
               });
