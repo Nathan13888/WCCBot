@@ -93,6 +93,9 @@ export namespace PollService {
 
   export async function editPoll(msg: Message,
     cleanup: boolean, channel?: string): Promise<MessageEmbed> {
+    if (!channel) {
+      channel = Config.Channels.polls;
+    }
     const messageid: string = await Prompt.input(
       'Enter Message ID', msg.channel, msg.author, 240000, cleanup);
     const pollchannel = Utils.getTextChannel(channel);
@@ -132,7 +135,7 @@ export namespace PollService {
         // TODO: Beautify the loop cuz this is spaghetti.
       }
     }
-    msg.channel.send(embed);
+    await msg.channel.send(embed);
     if (await Prompt.confirm('Send edited version?',
       msg.channel, msg.author)) {
       await message.edit(embed);

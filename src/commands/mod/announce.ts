@@ -3,6 +3,7 @@ import {Config} from '../../config';
 import {Prompt} from '../../services/prompt.service';
 import {Utils} from '../../utils/utils';
 import {Command} from '../command';
+import {Bot} from '../../bot';
 
 export class Announce extends Command {
   needsPermit(): boolean {
@@ -17,35 +18,29 @@ export class Announce extends Command {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async exec(msg: Message, args: string[]): Promise<boolean> {
     const title = await Prompt.input(
-      'Please tell me the title.',
+      'Enter title:',
       msg.channel, msg.author);
-    if (!title) {
-      msg.channel.send('Timed out. Please try again.');
-      return;
-    }
     const message = await Prompt.input(
-      'Please tell me the message.',
-      msg.channel, msg.author, 120000);
-    if (!message) {
-      msg.channel.send('Timed out. Please try again.');
-      return;
-    }
+      'Enter message:',
+      msg.channel, msg.author);
     const embed = new MessageEmbed()
       // .setAuthor()
-      .setColor(0xd62320)
+      .setColor(Bot.primaryColour)
       .setTitle(title)
       .setDescription(message)
-      .setFooter(msg.author.tag, msg.author.avatarURL());
-
-    const confirmation = await Prompt.input(
-      'Please confirm the announcement. (Yes/no)',
-      msg.channel, msg.author, 30000);
-    if (!(confirmation && confirmation.toLowerCase() === 'yes')) {
-      msg.channel.send(
-        'Your announcement has been cancelled.',
-      );
+      .setFooter('Sent by ' + msg.member.displayName, msg.author.avatarURL())
+      .setTimestamp();
+    await msg.channel.send(embed);
+    if (await Prompt.confirm('Do you want to send this message?',
+      msg.channel, msg.author)) {
+      if (await Prompt.confirm('Would you like to mention @SUBSCRIBED',
+        msg.channel, msg.author)) {
+        await Utils.getTextChannel(Config.Channels.announcements).send(
+          '<@&752601060597563503> A new announcement has been posted.');
+      }
+      await Utils.getTextChannel(Config.Channels.announcements).send(embed);
     } else {
-      Utils.getTextChannel(Config.Channels.announcements).send(embed);
+      await msg.channel.send('Announcement not sent.');
     }
 
     return true;

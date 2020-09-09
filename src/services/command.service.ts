@@ -26,6 +26,7 @@ import {Subscribe} from '../commands/sub';
 import {Config} from '../config';
 import {Counter} from './counter.service';
 import {Lookup} from '../commands/lookup';
+import {Announce} from '../commands/mod/announce';
 import {Verify} from '../commands/verify';
 export namespace CommandService {
   export function hasPermit(id: string): boolean {
@@ -97,7 +98,7 @@ export namespace CommandService {
     commands.push(new Notifications());
     commands.push(new React());
     // commands.push(new Remind());
-    // commands.push(new Announce());
+    commands.push(new Announce());
     // Mod Commands (do not mix up or else the HELP command WILL break)
   }
 
