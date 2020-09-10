@@ -3,56 +3,65 @@ import {Config} from '../config';
 import {CommandService} from '../services/command.service';
 import {Roles} from '../services/roles.service';
 import {Command} from './command';
+import {DB} from '../services/db.service';
+
 export class Verify extends Command {
   getAliases(): string[] {
     return ['verify'];
   }
 
   async exec(msg: Message, args: string[]): Promise<boolean> {
-    if (args.length==0) {
-      if (Roles.has(msg.member, Config.ID.VER)) {
-        if (Roles.has(msg.member, Config.ID.KNIGHT)) {
-          msg.reply('You are **already verified**!');
-        } else {
-          msg.reply(`You must have the <@&${Config.ID.KNIGHT}> role!`);
-        }
-      } else {
-        Roles.add(msg.member, Config.ID.VER);
-        msg.reply('You have **been verified**!');
-      }
-    } else if (args.length==1 && CommandService.hasPermit(msg.author.id)) {
-      if (args[0]=='all') {
-        let cntb = 0; // total bots
-        let cnt0 = 0; // totally people
-        let cnt1 = 0; // people given roles
-        let cnt2 = 0; // people not given roles
-        let cnt3 = 0; // people already verified
-        Roles.getMembers(Config.GUILD).forEach((member) => {
-          if (!member.user.bot) {
-            cnt0++;
-            // if (Roles.has(member,
-            //   [Config.ID.DEFROLE, Config.ID.KNIGHT])) {
-            if (// Roles.has(member, Config.ID.DEFROLE) &&
-              Roles.has(member, Config.ID.KNIGHT)) {
-              if (!Roles.has(member, Config.ID.VER)) {
-                Roles.add(member, Config.ID.VER);
-                cnt1++;
-              } else cnt3++;
-            } else cnt2++;
-          } else {
-            cntb++;
-          }
-        });
-        msg.reply(
-          `${cntb} bots. ${cnt0} people. ${cnt1} given roles. ` +
-          `${cnt2} NOT given roles. ${cnt3} ALREADY given roles.`);
-      } else {
-        return false;
-      }
+    if(Roles.has(msg.member, Config.ID.VER))
+    {
+      msg.reply('You are already verified.');
     } else {
-      return false;
+      msg.reply('A DM has been sent to verify your identity, check your DMs');
+      // TODO: WRITE THE ACTUAL DM.
     }
-    return true;
+    // if (args.length==0) {
+    //   if (Roles.has(msg.member, Config.ID.VER)) {
+    //     if (Roles.has(msg.member, Config.ID.KNIGHT)) {
+    //       msg.reply('You are **already verified**!');
+    //     } else {
+    //       msg.reply(`You must have the <@&${Config.ID.KNIGHT}> role!`);
+    //     }
+    //   } else {
+    //     Roles.add(msg.member, Config.ID.VER);
+    //     msg.reply('You have **been verified**!');
+    //   }
+    // } else if (args.length==1 && CommandService.hasPermit(msg.author.id)) {
+    //   if (args[0]=='all') {
+    //     let cntb = 0; // total bots
+    //     let cnt0 = 0; // totally people
+    //     let cnt1 = 0; // people given roles
+    //     let cnt2 = 0; // people not given roles
+    //     let cnt3 = 0; // people already verified
+    //     Roles.getMembers(Config.GUILD).forEach((member) => {
+    //       if (!member.user.bot) {
+    //         cnt0++;
+    //         // if (Roles.has(member,
+    //         //   [Config.ID.DEFROLE, Config.ID.KNIGHT])) {
+    //         if (// Roles.has(member, Config.ID.DEFROLE) &&
+    //           Roles.has(member, Config.ID.KNIGHT)) {
+    //           if (!Roles.has(member, Config.ID.VER)) {
+    //             Roles.add(member, Config.ID.VER);
+    //             cnt1++;
+    //           } else cnt3++;
+    //         } else cnt2++;
+    //       } else {
+    //         cntb++;
+    //       }
+    //     });
+    //     msg.reply(
+    //       `${cntb} bots. ${cnt0} people. ${cnt1} given roles. ` +
+    //       `${cnt2} NOT given roles. ${cnt3} ALREADY given roles.`);
+    //   } else {
+    //     return false;
+    //   }
+    // } else {
+    //   return false;
+    // }
+    // return true;
   }
 
   getHelp(): string {
