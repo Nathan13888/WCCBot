@@ -18,8 +18,23 @@ export namespace DB {
     created: Date; // the time it was created
     @prop({required: true, default: false})
     deleted: boolean;
-  };
+  }
+  export class UserClass {
+    @prop({required: true, trim: true})
+    userid: string;
+    @prop({required: true, trim: true})
+    fullname: string;
+    @prop({required: true, trim: true})
+    grade: string;
+    @prop({required: true, trim: true})
+    SN: string;
+    @prop({required: false, trim: true})
+    lichess: string;
+    @prop({required: false, trim: true})
+    chesscom: string;
+  }
   export const Event = getModelForClass(EventClass);
+  export const User = getModelForClass(UserClass);
   export function init() {
     // connect to MongoDB
     // TODO: log number of events found
@@ -65,6 +80,21 @@ export namespace DB {
     event.save((err, event) => {
       if (err) Logger.err(err);
       Logger.log('[DB] Saved event with _id:' + event._id);
+    });
+  }
+  export function addUser(userid: string, fullname: string, grade: string,
+    SN: string, lichess?: string, chesscom?: string): void {
+    const user = new User({
+      userid: userid,
+      fullname: fullname,
+      grade: grade,
+      SN: SN,
+      lichess: lichess,
+      chesscom: chesscom,
+    } as UserClass);
+    user.save((err, user) => {
+      if (err) Logger.err(err);
+      Logger.log('[DB] Saved user with _id:' + user._id);
     });
   }
   // export function removeEvent(_id: string): void {
