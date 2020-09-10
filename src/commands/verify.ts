@@ -10,9 +10,8 @@ export class Verify extends Command {
   getAliases(): string[] {
     return ['verify'];
   }
-
   async exec(msg: Message, args: string[]): Promise<boolean> {
-    if (!Roles.has(msg.member, Config.ID.VER)) {
+    if (!await Roles.has(msg.member, Config.ID.VER)) {
       msg.reply('A DM has been sent to verify your identity, check your DMs');
       const channel = await msg.author.createDM();
       const fullname = await Prompt.input('Enter full name',
@@ -26,6 +25,8 @@ export class Verify extends Command {
       const chesscom = await Prompt.input('Optional: Enter Chess.com username',
         channel, msg.author, 240000);
       DB.addUser(msg.author.id, fullname, grade, SN, lichess, chesscom);
+      msg.author.send('You have been verified!');
+      Roles.add(msg.member, Config.ID.VER);
       return true;
       // TODO: WRITE THE ACTUAL DM.
     }
