@@ -3,7 +3,6 @@ import {Config} from '../config';
 import {CommandService} from '../services/command.service';
 import {Roles} from '../services/roles.service';
 import {Command} from './command';
-
 export class Verify extends Command {
   getAliases(): string[] {
     return ['verify'];
