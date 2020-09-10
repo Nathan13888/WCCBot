@@ -4,6 +4,7 @@ import {CommandService} from '../services/command.service';
 import {Roles} from '../services/roles.service';
 import {Command} from './command';
 import {DB} from '../services/db.service';
+import {Prompt} from '../services/prompt.service';
 
 export class Verify extends Command {
   getAliases(): string[] {
@@ -11,13 +12,25 @@ export class Verify extends Command {
   }
 
   async exec(msg: Message, args: string[]): Promise<boolean> {
-    if(Roles.has(msg.member, Config.ID.VER))
-    {
-      msg.reply('You are already verified.');
-    } else {
+    if (!Roles.has(msg.member, Config.ID.VER)) {
       msg.reply('A DM has been sent to verify your identity, check your DMs');
+      const channel = await msg.author.createDM();
+      const fullname = await Prompt.input('Enter full name',
+        channel, msg.author, 240000);
+      const grade = await Prompt.input('Enter current grade',
+        channel, msg.author, 240000);
+      const SN = await Prompt.input('Enter student number',
+        channel, msg.author, 240000);
+      const lichess = await Prompt.input(
+        'Optional: Enter LiChess username', channel, msg.author, 240000);
+      const chesscom = await Prompt.input('Optional: Enter Chess.com username',
+        channel, msg.author, 240000);
+      DB.addUser(msg.author.id, fullname, grade, SN, lichess, chesscom);
+      return true;
       // TODO: WRITE THE ACTUAL DM.
     }
+    msg.reply('You are already verified.');
+    return true;
     // if (args.length==0) {
     //   if (Roles.has(msg.member, Config.ID.VER)) {
     //     if (Roles.has(msg.member, Config.ID.KNIGHT)) {

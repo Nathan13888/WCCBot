@@ -1,5 +1,5 @@
 import * as Mongoose from 'mongoose';
-import {prop, getModelForClass} from '@typegoose/typegoose';
+import {prop, getModelForClass, ReturnModelType} from '@typegoose/typegoose';
 import {Logger} from '../utils/logger';
 import {Config} from '../config';
 
@@ -69,6 +69,7 @@ export namespace DB {
     }
     Mongoose.disconnect();
   }
+
   export function addEvent(title: string, desc: string,
     author: string, date: Date): void {
     const event = new Event({
