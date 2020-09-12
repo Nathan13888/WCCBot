@@ -19,6 +19,10 @@ export namespace Utils {
     return new Promise((res) => setTimeout(res, ms));
   }
 
+  export function getDefEmbed(): MessageEmbed {
+    return new MessageEmbed().setColor(Bot.primaryColour);
+  }
+
   export function reactRedditor(msg: Message): void {
     if (!Config.isProd) {
       return;
