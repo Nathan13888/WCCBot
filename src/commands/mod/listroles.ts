@@ -1,8 +1,6 @@
-import {Message, Role} from 'discord.js';
-import {Roles} from '../../services/roles.service';
+import {Message} from 'discord.js';
 import {Utils} from '../../utils/utils';
 import {Command} from '../command';
-import {Logger} from "../../utils/logger";
 
 export class ListRoles extends Command {
   needsPermit(): boolean {
