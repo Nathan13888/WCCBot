@@ -30,8 +30,7 @@ export class Help extends Command {
 
 // TODO: use Default Embed
 function getHelpEmbed(includeMod: boolean): MessageEmbed {
-  const embed = new MessageEmbed()
-    .setColor(Bot.primaryColour)
+  const embed = Utils.getDefEmbed()
     .setTitle(Bot.api.user.username + ' Commands')
     .setDescription('Here\'s a list of the available commands')
     .setThumbnail(Bot.api.user.displayAvatarURL())
