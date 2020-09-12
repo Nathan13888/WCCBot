@@ -130,8 +130,7 @@ export namespace Utils {
     const thumbnail : string = 'https://lichess.org/training/export/gif/thumbnail/' +
    randnum + '.gif';
     const url: string = 'https://lichess.org/training/' + randnum;
-    return new MessageEmbed()
-      .setColor(Bot.primaryColour)
+    return Utils.getDefEmbed()
       .setTitle(t)
       .setDescription(url)
       .setImage(thumbnail)
@@ -146,7 +145,7 @@ export namespace Utils {
     url += code;
     const logo = Bot.api.user.displayAvatarURL();
 
-    const embed = new MessageEmbed().setColor(Bot.primaryColour)
+    const embed = Utils.getDefEmbed()
       .setTitle('Daily Opening')
       .setURL(url)
       .setAuthor('WCCB', logo)
@@ -202,8 +201,7 @@ export namespace Utils {
       (msg) => msg.delete({timeout}));
   }
   export function getStatusEmbed(): MessageEmbed {
-    return new MessageEmbed()
-      .setColor(Bot.primaryColour)
+    return Utils.getDefEmbed()
       .setTitle(`${Bot.api.user.tag} Status`)
       .setDescription('Version ' + Config.getVersion())
       .setThumbnail(Bot.api.user.displayAvatarURL())
@@ -229,8 +227,7 @@ export namespace Utils {
         });
       }
     }
-    return new MessageEmbed()
-      .setColor(Bot.primaryColour)
+    return Utils.getDefEmbed()
       .setTitle(`Events`)
       .setDescription('Upcoming Events...')
       .addFields(data)

@@ -23,9 +23,8 @@ export class Announce extends Command {
     const message = await Prompt.input(
       'Enter message:',
       msg.channel, msg.author);
-    const embed = new MessageEmbed()
-      // .setAuthor()
-      .setColor(Bot.primaryColour)
+    const embed = Utils.getDefEmbed()
+    // .setAuthor()
       .setTitle(title)
       .setDescription(message)
       .setFooter('Sent by ' + msg.member.displayName, msg.author.avatarURL())

@@ -58,8 +58,7 @@ export namespace CommandService {
             'the relevant bot commands channels. ' +
             'Please contact <@!259464008262746113> ' +
             'if you believe this is an error.';
-            msg.reply(new MessageEmbed()
-              .setColor(Bot.primaryColour)
+            msg.reply(Utils.getDefEmbed()
               .setTitle('Allowed Command Channels.')
               .setDescription(s))
               .then((msg)=>{

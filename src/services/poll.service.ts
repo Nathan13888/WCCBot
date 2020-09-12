@@ -152,8 +152,7 @@ export namespace PollService {
     fields?: string[],
   ): MessageEmbed {
     // let image: string;
-    const embed = new MessageEmbed()
-      .setColor(Bot.primaryColour)
+    const embed = Utils.getDefEmbed()
       .setTitle(title)
       .setDescription(desc)
       // .setThumbnail(image)
