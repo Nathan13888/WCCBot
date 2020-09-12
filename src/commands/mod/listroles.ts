@@ -4,7 +4,7 @@ import {Command} from '../command';
 
 export class ListRoles extends Command {
   needsPermit(): boolean {
-    return false;
+    return true;
   }
 
   getAliases(): string[] {
