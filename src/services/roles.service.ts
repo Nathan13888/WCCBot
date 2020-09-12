@@ -3,6 +3,9 @@ import {Config} from '../config';
 import {Utils} from '../utils/utils';
 
 export namespace Roles {
+  export function getRoles(guild: string): Collection<string, Role> {
+    return Utils.getGuild(guild).roles.cache;
+  }
   export function getMembers(guild: string): Collection<string, GuildMember> {
     return Utils.getGuild(guild).members.cache;
   }

@@ -28,6 +28,7 @@ import {Counter} from './counter.service';
 import {Lookup} from '../commands/lookup';
 import {Announce} from '../commands/mod/announce';
 import {Verify} from '../commands/verify';
+import {ListRoles} from '../commands/mod/listroles';
 export namespace CommandService {
   export function hasPermit(id: string): boolean {
     const permit: Config.Permit = Config.getPermit();
@@ -89,6 +90,7 @@ export namespace CommandService {
     commands.push(new Help()); // Keep this in between
     // TODO: Command Manager (enable/disable commands)
     commands.push(new Restart());
+    commands.push(new ListRoles());
     commands.push(new Poll());
     commands.push(new Test());
     commands.push(new EventCommand()); // to avoid duplicate name
