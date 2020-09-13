@@ -8,7 +8,7 @@ export class ListRoles extends Command {
   }
 
   getAliases(): string[] {
-    return ['listroles', 'LR'];
+    return ['listroles', 'lr'];
   }
 
   async exec(msg: Message, args: string[]): Promise<boolean> {
