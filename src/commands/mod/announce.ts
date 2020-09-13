@@ -1,9 +1,8 @@
-import {Message, MessageEmbed} from 'discord.js';
+import {Message} from 'discord.js';
 import {Config} from '../../config';
 import {Prompt} from '../../services/prompt.service';
 import {Utils} from '../../utils/utils';
 import {Command} from '../command';
-import {Bot} from '../../bot';
 
 export class Announce extends Command {
   needsPermit(): boolean {

@@ -1,5 +1,4 @@
 import {Message, MessageEmbed} from 'discord.js';
-import {Bot} from '../bot';
 import {Config} from '../config';
 import {Utils} from '../utils/utils';
 import {Prompt} from './prompt.service';

@@ -12,7 +12,7 @@ import {RandomPuzzle} from '../commands/randompuzzle';
 import {Status} from '../commands/status';
 import {Uptime} from '../commands/uptime';
 import {Version} from '../commands/version';
-import {Message, MessageEmbed, TextChannel} from 'discord.js';
+import {Message, TextChannel} from 'discord.js';
 import {CommandChannels} from '../commands/mod/cc';
 import {CheckRoles} from '../commands/mod/checkroles';
 import {Clear} from '../commands/mod/clear';
