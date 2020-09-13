@@ -35,7 +35,12 @@ export class ListRoles extends Command {
     }
     if (args.length==1) {
       const role = await guild.roles.fetch(args[0].replace(/\D/g, ''));
-      msg.reply('There are '+role.members.size+' members with role '+role.name);
+      const size = role.members.size;
+      const desc = `There ${size>1?'are':'is'} ${size} ` +
+      `${size>1?'members':'member'} with ` +
+      `<@&${role.id}>`;
+      msg.reply(desc);
+      // msg.reply(Utils.getDefEmbed().setTimestamp().setDescription(desc));
       return true;
     }
     return false;
