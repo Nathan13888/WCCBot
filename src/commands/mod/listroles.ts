@@ -12,7 +12,7 @@ export class ListRoles extends Command {
   }
 
   async exec(msg: Message, args: string[]): Promise<boolean> {
-    msg.delete();
+    // msg.delete();
     const guild = msg.guild;
     if (args.length == 0) {
       // const map = new Map<Role, number>();
@@ -39,6 +39,7 @@ export class ListRoles extends Command {
       const desc = `There ${size>1?'are':'is'} ${size} ` +
       `${size>1?'members':'member'} with ` +
       `<@&${role.id}>`;
+      // TODO: escape Role mentioning
       msg.reply(desc);
       // msg.reply(Utils.getDefEmbed().setTimestamp().setDescription(desc));
       return true;
