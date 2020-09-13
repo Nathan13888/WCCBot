@@ -13,8 +13,8 @@ export class ListRoles extends Command {
 
   async exec(msg: Message, args: string[]): Promise<boolean> {
     msg.delete();
+    const guild = msg.guild;
     if (args.length == 0) {
-      const guild = msg.guild;
       // const map = new Map<Role, number>();
       await guild.roles.fetch();
       const roles = guild.roles.cache.sort();
@@ -31,11 +31,14 @@ export class ListRoles extends Command {
         embed.addField(role.name, role.members.size);
       });
       msg.reply(embed);
-    } else {
-      return false;
+      return true;
     }
-
-    return true;
+    if (args.length==1) {
+      const role = await guild.roles.fetch(args[0].replace(/\D/g, ''));
+      msg.reply('There are '+role.members.size+' members with role '+role.name);
+      return true;
+    }
+    return false;
   }
 
   getHelp(): string {
