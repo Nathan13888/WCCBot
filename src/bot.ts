@@ -28,19 +28,19 @@ export namespace Bot {
       if (useDB) {
         DB.init();
       }
-      await Logger.log('WCC Bot has started!');
-      await Logger.log(`Connected as ${api.user.tag}`);
-      await Logger.log('Current version: ' + Config.getVersion());
+      Logger.log('WCC Bot has started!');
+      Logger.log(`Connected as ${api.user.tag}`);
+      Logger.log('Current version: ' + Config.getVersion());
 
-      await Logger.log('Setting up other config');
+      Logger.log('Setting up other config');
 
       if (Config.logIP) {
-        await Logger.log('IP logging is enabled.');
-        await (async () => {
-          await Logger.log('Public IP is ' + await publicIp.v4());
+        Logger.log('IP logging is enabled.');
+        (async () => {
+          Logger.log('Public IP is ' + await publicIp.v4());
         })();
-      } else await Logger.log('IP logging is disabled.');
-      await Logger.log(`USEDB=${Config.DB.USEDB}`);
+      } else Logger.log('IP logging is disabled.');
+      Logger.log(`USEDB=${Config.DB.USEDB}`);
       Counter.init();
 
       await api.user.setUsername(NAME);

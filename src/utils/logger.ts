@@ -17,7 +17,7 @@ export namespace Logger {
     }
     if (Config.DB.USEDB) {
       // eslint-disable-next-line new-cap
-      await DB.DBLog(msg);
+      DB.DBLog(msg);
     }
   }
     export async function err(msg: string) {
