@@ -12,7 +12,7 @@ import {RandomPuzzle} from '../commands/randompuzzle';
 import {Status} from '../commands/status';
 import {Uptime} from '../commands/uptime';
 import {Version} from '../commands/version';
-import {Message, TextChannel} from 'discord.js';
+import {Message} from 'discord.js';
 import {CommandChannels} from '../commands/mod/cc';
 import {CheckRoles} from '../commands/mod/checkroles';
 import {Clear} from '../commands/mod/clear';
@@ -44,9 +44,9 @@ export namespace CommandService {
       Utils.reactRedditor(msg);
       if (msg.author.bot) return; // bots
       if (!Config.isProd && !hasPermit(msg.author.id)) return; // dev bot
-      if (!msg.guild || !(msg.channel instanceof TextChannel)) {
+      /* if (!msg.guild || !(msg.channel instanceof TextChannel)) {
         msg.reply('Commands are only allowed in server Text Channels');
-      } else if (msg.content.substring(0, 2) === Config.PREFIX) {
+      } else */if (msg.content.substring(0, 2) === Config.PREFIX) {
         if (msg.guild.id===Config.GUILD) {
           if (commandChannels.includes(msg.channel.id) ||
             hasPermit(msg.author.id)) {
