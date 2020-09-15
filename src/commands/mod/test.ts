@@ -1,5 +1,6 @@
-import {Message} from 'discord.js';
+import {Message, TextChannel} from 'discord.js';
 import {Config} from '../../config';
+import {Menu} from '../../services/menu.service';
 import {PollService} from '../../services/poll.service';
 import {Prompt} from '../../services/prompt.service';
 import {Utils} from '../../utils/utils';
@@ -48,6 +49,29 @@ export class Test extends Command {
       });
     } else if (args[0]=='dm') {
       Utils.sendDM('This is a test DM', msg.author);
+    } else if (args[0]=='menu') {
+      const menu = new Menu((msg.channel as TextChannel), msg.author.id, 3,
+        (pg) => {
+          const ret = [
+            Utils.getDefEmbed().addFields(
+              {name: 'test', value: 'test'},
+              {name: 'test2', value: 'test'},
+              {name: 'test3', value: 'test'},
+            ),
+            Utils.getDefEmbed().addFields(
+              {name: 'test4', value: 'test'},
+              {name: 'test5', value: 'test'},
+              {name: 'test6', value: 'test'},
+            ),
+            Utils.getDefEmbed().addFields(
+              {name: 'test7', value: 'test'},
+              {name: 'test8', value: 'test'},
+              {name: 'test9', value: 'test'},
+            ),
+          ];
+          return ret[pg];
+        });
+      menu.send();
     }
 
     return true;
