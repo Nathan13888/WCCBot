@@ -29,6 +29,7 @@ import {Lookup} from '../commands/lookup';
 import {Announce} from '../commands/mod/announce';
 import {Verify} from '../commands/verify';
 import {ListRoles} from '../commands/mod/listroles';
+import {Whois} from '../commands/mod/whois';
 export namespace CommandService {
   export function hasPermit(id: string): boolean {
     const permit: Config.Permit = Config.getPermit();
@@ -100,6 +101,7 @@ export namespace CommandService {
     commands.push(new React());
     // commands.push(new Remind());
     commands.push(new Announce());
+    commands.push(new Whois());
     // Mod Commands (do not mix up or else the HELP command WILL break)
   }
 

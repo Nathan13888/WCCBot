@@ -1,5 +1,5 @@
 import Mongoose = require('mongoose');
-import {prop, getModelForClass} from '@typegoose/typegoose';
+import {getModelForClass, prop} from '@typegoose/typegoose';
 import {Logger} from '../utils/logger';
 import {Config} from '../config';
 
@@ -33,10 +33,22 @@ export namespace DB {
     @prop({required: false, trim: true})
     chesscom: string;
   }
+  export class LogClass {
+    @prop({required: true})
+    time: Date;
+    @prop({required: true})
+    contents: string;
+    @prop({required: true})
+    version: string;
+  }
   export const Event = getModelForClass(EventClass);
   export const User = getModelForClass(UserClass, {
     existingMongoose: Mongoose,
     schemaOptions: {collection: 'users'},
+  });
+  export const Log = getModelForClass(LogClass, {
+    existingMongoose: Mongoose,
+    schemaOptions: {collection: 'logs'},
   });
   export function init() {
     // connect to MongoDB
@@ -62,6 +74,17 @@ export namespace DB {
     // db.on('error', (err) => {
     //   Logger.log(err);
     // });
+  }
+  export async function DBLog(contents: string): Promise<boolean> {
+    const log = new Log({
+      time: new Date(),
+      contents: contents,
+      version: Config.getVersion(),
+    } as LogClass);
+    log.save((err) => {
+      if (err) return false;
+    });
+    return true;
   }
   export function getStatus(): string {
     return 'Coming Soon';
@@ -107,6 +130,9 @@ export namespace DB {
   export function addExample(): void {
     addEvent('Example Event', 'This is the description.',
       'somediscordIDhere', new Date(new Date().getTime() + (1000*60*60*24)));
+  }
+  export async function findbyUserID(userid: string): Promise<UserClass> {
+    return await User.findOne({'userid': userid}).exec();
   }
   // TODO: edit --> removes and adds a new version
 }
