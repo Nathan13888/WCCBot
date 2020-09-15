@@ -62,7 +62,7 @@ export namespace DB {
           useUnifiedTopology: true,
           useCreateIndex: true,
           serverSelectionTimeoutMS: 5000,
-          dbName: 'events',
+          dbName: 'WCCBot',
         }).catch((err) => console.log(err.reason));
       } catch (err) {
         Logger.log(err);
