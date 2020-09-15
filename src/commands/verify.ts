@@ -16,19 +16,22 @@ export class Verify extends Command {
       const channel = await msg.author.createDM();
       const fullname = await Prompt.input('Enter full name',
         channel, msg.author, 240000);
+      console.log(fullname);
       const grade = await Prompt.input('Enter current grade',
         channel, msg.author, 240000);
+      console.log(grade);
       const SN = await Prompt.input('Enter student number',
         channel, msg.author, 240000);
+      console.log(SN);
       const lichess = await Prompt.input(
         'Optional: Enter LiChess username', channel, msg.author, 240000);
       const chesscom = await Prompt.input('Optional: Enter Chess.com username',
         channel, msg.author, 240000);
       DB.addUser(msg.author.id, fullname, grade, SN, lichess, chesscom);
       msg.author.send('You have been verified!');
-      Roles.add(msg.member, Config.ID.VER);
+      msg.guild.member(msg.author).roles
+        .add(await msg.guild.roles.fetch(Config.ID.VER));
       return true;
-      // TODO: WRITE THE ACTUAL DM.
     }
     msg.reply('You are already verified.');
     return true;

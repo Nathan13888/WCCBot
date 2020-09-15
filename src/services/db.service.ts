@@ -1,5 +1,5 @@
-import * as Mongoose from 'mongoose';
-import {prop, getModelForClass, ReturnModelType} from '@typegoose/typegoose';
+import Mongoose = require('mongoose');
+import {prop, getModelForClass} from '@typegoose/typegoose';
 import {Logger} from '../utils/logger';
 import {Config} from '../config';
 
@@ -34,7 +34,10 @@ export namespace DB {
     chesscom: string;
   }
   export const Event = getModelForClass(EventClass);
-  export const User = getModelForClass(UserClass);
+  export const User = getModelForClass(UserClass, {
+    existingMongoose: Mongoose,
+    schemaOptions: {collection: 'users'},
+  });
   export function init() {
     // connect to MongoDB
     // TODO: log number of events found
@@ -53,12 +56,12 @@ export namespace DB {
         Logger.log(err);
       }
     })();
-    db.once('open', () => {
-      Logger.log('Connected to MongoDB');
-    });
-    db.on('error', (err) => {
-      Logger.log(err);
-    });
+    // db.once('open', () => {
+    //   Logger.log('Connected to MongoDB');
+    // });
+    // db.on('error', (err) => {
+    //   Logger.log(err);
+    // });
   }
   export function getStatus(): string {
     return 'Coming Soon';
