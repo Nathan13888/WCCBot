@@ -1,5 +1,6 @@
 import {
-  Message, MessageEmbed, ReactionCollector, TextChannel,
+  DMChannel,
+  Message, MessageEmbed, NewsChannel, ReactionCollector, TextChannel,
 } from 'discord.js';
 
 class Page {
@@ -18,7 +19,7 @@ export class Menu {
     stop: '⏹',
   }
 
-  channel: TextChannel;
+  channel: TextChannel | DMChannel | NewsChannel;
   uid: string;
   size: number;
   time: number;
@@ -30,7 +31,7 @@ export class Menu {
   pages: Array<Page> = [];
 
   constructor(
-    channel: TextChannel,
+    channel: TextChannel | DMChannel | NewsChannel,
     uid: string,
     size: number,
     fetcher: (pg: number) => MessageEmbed) {

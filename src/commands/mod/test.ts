@@ -50,7 +50,7 @@ export class Test extends Command {
     } else if (args[0]=='dm') {
       Utils.sendDM('This is a test DM', msg.author);
     } else if (args[0]=='menu') {
-      const menu = new Menu((msg.channel as TextChannel), msg.author.id, 3,
+      const menu = new Menu(msg.channel, msg.author.id, 3,
         (pg) => {
           const ret = [
             Utils.getDefEmbed().addFields(

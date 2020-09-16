@@ -1,4 +1,5 @@
-import {Message} from 'discord.js';
+import {Collection, Message, Role} from 'discord.js';
+import {Menu} from '../../services/menu.service';
 import {Utils} from '../../utils/utils';
 import {Command} from '../command';
 
@@ -17,7 +18,8 @@ export class ListRoles extends Command {
     if (args.length == 0) {
       // const map = new Map<Role, number>();
       await guild.roles.fetch();
-      const roles = guild.roles.cache.sort((a, b) => b.position - a.position);
+      const roles: Role[] = guild.roles.cache
+        .sort((a, b) => b.position - a.position).array();
       // roles.forEach((role) => {
       //   map.set(role, 0);
       // });
@@ -26,25 +28,30 @@ export class ListRoles extends Command {
       //     map.set(r, 1 + map.get(r));
       //   });
       // });
-      const embed = Utils.getDefEmbed().setTitle('List Roles').setTimestamp();
-      let cnt = 0;
-      roles.forEach((role) => {
-        if (embed.fields.length==25) {
-          if (cnt) {
-            msg.channel.send(embed);
-          } else {
-            msg.reply(embed);
+      const LN = 5;
+      const SZ = roles.length;
+      const size = (SZ%LN==0 ? SZ/LN : (SZ-(SZ%LN))/LN+1);
+
+      const embed = Utils.getDefEmbed()
+        .setTitle(`List Roles - ${roles.length} TOTAL`)
+        .setTimestamp();
+      const menu = new Menu(msg.channel, msg.author.id, size, (pg) => {
+        const em = embed;
+
+        const start = pg * LN;
+
+        for (let x = start; x < start + LN; x++) {
+          if (x > SZ - 1) {
+            break;
           }
-          ++cnt;
-          embed.fields = [];
+          const role = roles[x];
+          em.addField(role.name, role.members.size);
         }
-        embed.addField(role.name, role.members.size);
+
+        return em;
       });
-      if (cnt) {
-        msg.channel.send(embed);
-      } else {
-        msg.reply(embed);
-      }
+      menu.send();
+
       return true;
     }
     if (args.length>=1) {
