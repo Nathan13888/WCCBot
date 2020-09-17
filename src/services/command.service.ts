@@ -38,7 +38,12 @@ export namespace CommandService {
 
   export const commands: Array<Command> = [];
 
-  export const commandChannels: string[] = [Config.Channels.defCommandChannel];
+  export const defCommandChannels: string[] = [
+    Config.Channels.defCommandChannel,
+    Config.Channels.verificationChannel,
+  ];
+  // eslint-disable-next-line prefer-const
+  export let commandChannels: string[] = defCommandChannels;
   export async function registerCommands() {
     // TODO: add command cooldown
     Bot.api.on('message', async (msg) => {

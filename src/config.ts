@@ -61,6 +61,7 @@ export namespace Config {
     export const puzzles = ENV.PUZZ;
     export const logs = ENV.LOG;
     export const defCommandChannel = ENV.DEFCC;
+    export const verificationChannel = '755200790033072148';
   }
   export namespace DB {
     export const DBURI = ENV.DBURI;

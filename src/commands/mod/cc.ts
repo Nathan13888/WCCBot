@@ -1,5 +1,4 @@
 import {Message} from 'discord.js';
-import {Config} from '../../config';
 import {CommandService} from '../../services/command.service';
 import {Command} from '../command';
 
@@ -20,10 +19,12 @@ export class CommandChannels extends Command {
     } else if (args[0] == 'reset') {
       if (CommandService.commandChannels.includes(msg.channel.id)) {
         msg.reply('Reseting list of Command Channels');
-        while (CommandService.commandChannels.length) {
-          CommandService.commandChannels.pop();
-        }
-        CommandService.commandChannels.push(Config.Channels.defCommandChannel);
+        // while (CommandService.commandChannels.length) {
+        //   CommandService.commandChannels.pop();
+        // }
+        // CommandService.commandChannels
+        //   .push(Config.Channels.defCommandChannel);
+        CommandService.commandChannels = CommandService.defCommandChannels;
       }
     } else if (args[0] == 'remove') {
     // TODO: check if ID exists, remove ID from list
